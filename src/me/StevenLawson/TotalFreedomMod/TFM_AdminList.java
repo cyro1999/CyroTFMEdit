@@ -345,7 +345,6 @@ public class TFM_AdminList
         return adminList.get(uuid);
     }
 
-    @Deprecated
     public static TFM_Admin getEntry(String name)
     {
         for (UUID uuid : adminList.keySet())
@@ -588,6 +587,65 @@ public class TFM_AdminList
         {
             final TFM_Admin superadmin = adminList.get(uuid);
             superadmin.setActivated(true);
+
+            if (player.isOnline())
+            {
+                superadmin.setLastLogin(new Date());
+
+                if (ip != null && canSuperIp)
+                {
+                    superadmin.addIp(ip);
+                }
+            }
+
+            saveAll();
+            updateIndexLists();
+            return;
+        }
+
+        if (ip == null)
+        {
+            TFM_Log.severe("Could not add superadmin: " + TFM_Util.formatPlayer(player));
+            TFM_Log.severe("Could not retrieve IP!");
+            return;
+        }
+
+        if (!canSuperIp)
+        {
+            TFM_Log.warning("Could not add superadmin: " + TFM_Util.formatPlayer(player));
+            TFM_Log.warning("IP " + ip + " may not be supered.");
+            return;
+        }
+
+        final TFM_Admin superadmin = new TFM_Admin(
+                uuid,
+                player.getName(),
+                new Date(),
+                "",
+                false,
+                false,
+                true);
+        superadmin.addIp(ip);
+
+        adminList.put(uuid, superadmin);
+
+        saveAll();
+        updateIndexLists();
+    }
+    
+    
+    public static void addSeniorAdmin(OfflinePlayer player)
+    {
+        final UUID uuid = TFM_UuidManager.getUniqueId(player);
+        final String ip = TFM_Util.getIp(player);
+        final boolean canSuperIp = !TFM_MainConfig.getList(TFM_ConfigEntry.NOADMIN_IPS).contains(ip);
+
+        if (adminList.containsKey(uuid))
+        {
+            final TFM_Admin superadmin = adminList.get(uuid);
+            superadmin.setActivated(true);
+            superadmin.setTelnetAdmin(true);
+            superadmin.setSeniorAdmin(true);
 
             if (player.isOnline())
             {

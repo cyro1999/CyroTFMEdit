@@ -16,8 +16,8 @@ public class TFM_Admin
     private final UUID uuid;
     private String lastLoginName;
     private final String loginMessage;
-    private final boolean isSeniorAdmin;
-    private final boolean isTelnetAdmin;
+    private boolean isSeniorAdmin;
+    private boolean isTelnetAdmin;
     private final List<String> consoleAliases;
     private final List<String> ips;
     private Date lastLogin;
@@ -135,10 +135,20 @@ public class TFM_Admin
     {
         return isSeniorAdmin;
     }
+    
+    public void setSeniorAdmin(boolean isSenior)
+    {
+        this.isSeniorAdmin = isSenior;
+    }
 
     public boolean isTelnetAdmin()
     {
         return isTelnetAdmin;
+    }
+    
+    public void setTelnetAdmin(boolean isTelnet)
+    {
+        this.isTelnetAdmin = isTelnet;
     }
 
     public List<String> getConsoleAliases()

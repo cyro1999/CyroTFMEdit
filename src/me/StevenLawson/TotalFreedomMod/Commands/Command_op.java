@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -24,7 +26,7 @@ public class Command_op extends TFM_Command {
         }
 
         OfflinePlayer player = null;
-        for (Player onlinePlayer : server.getOnlinePlayers()) {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (args[0].equalsIgnoreCase(onlinePlayer.getName())) {
                 player = onlinePlayer;
             }
@@ -33,7 +35,7 @@ public class Command_op extends TFM_Command {
         // if the player is not online
         if (player == null) {
             if (TFM_AdminList.isSuperAdmin(sender) || senderIsConsole) {
-                player = server.getOfflinePlayer(args[0]);
+                player = TFM_DepreciationAggregator.getOfflinePlayer(Bukkit.getServer(), args[0]);
             } else {
                 playerMsg("That player is not online.");
                 playerMsg("You don't have permissions to OP offline players.", ChatColor.YELLOW);

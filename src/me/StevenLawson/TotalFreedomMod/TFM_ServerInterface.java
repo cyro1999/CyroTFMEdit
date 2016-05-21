@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
 import net.minecraft.server.v1_9_R2.EntityPlayer;
-import net.minecraft.server.v1_9_R2.MinecraftServer;
 import net.minecraft.server.v1_9_R2.PropertyManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -25,23 +24,23 @@ public class TFM_ServerInterface
 
     public static void setOnlineMode(boolean mode)
     {
-        final PropertyManager manager = MinecraftServer.getServer().getPropertyManager();
+        final PropertyManager manager = TFM_DepreciationAggregator.getServer().getPropertyManager();
         manager.setProperty("online-mode", mode);
         manager.savePropertiesFile();
     }
 
     public static int purgeWhitelist()
     {
-        String[] whitelisted = MinecraftServer.getServer().getPlayerList().getWhitelisted();
+        String[] whitelisted = TFM_DepreciationAggregator.getServer().getPlayerList().getWhitelisted();
         int size = whitelisted.length;
-        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players)
+        for (EntityPlayer player : TFM_DepreciationAggregator.getServer().getPlayerList().players)
         {
-            MinecraftServer.getServer().getPlayerList().getWhitelist().remove(player.getProfile());
+            TFM_DepreciationAggregator.getServer().getPlayerList().getWhitelist().remove(player.getProfile());
         }
 
         try
         {
-            MinecraftServer.getServer().getPlayerList().getWhitelist().save();
+            TFM_DepreciationAggregator.getServer().getPlayerList().getWhitelist().save();
         }
         catch (Exception ex)
         {
@@ -53,17 +52,17 @@ public class TFM_ServerInterface
 
     public static boolean isWhitelisted()
     {
-        return MinecraftServer.getServer().getPlayerList().getHasWhitelist();
+        return TFM_DepreciationAggregator.getServer().getPlayerList().getHasWhitelist();
     }
 
     public static List<?> getWhitelisted()
     {
-        return Arrays.asList(MinecraftServer.getServer().getPlayerList().getWhitelisted());
+        return Arrays.asList(TFM_DepreciationAggregator.getServer().getPlayerList().getWhitelisted());
     }
 
     public static String getVersion()
     {
-        return MinecraftServer.getServer().getVersion();
+        return TFM_DepreciationAggregator.getServer().getVersion();
     }
     
     public static void handlePlayerPreLogin(AsyncPlayerPreLoginEvent event)

@@ -2,8 +2,10 @@ package me.StevenLawson.TotalFreedomMod.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -132,6 +134,7 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
      * Returns the default configuration as been stored in the jar-file of the owning plugin.
      * @return The default configuration.
      */
+    @SuppressWarnings("deprecation")
     public YamlConfiguration getDefaultConfig()
     {
         final YamlConfiguration DEFAULT_CONFIG = new YamlConfiguration();
@@ -139,9 +142,9 @@ public class TFM_Config extends YamlConfiguration // BukkitLib @ https://github.
         {
             DEFAULT_CONFIG.load(plugin.getResource(configFile.getName()));
         }
-        catch (Throwable ex)
+        catch (IOException | InvalidConfigurationException ex)
         {
-            plugin.getLogger().severe("Could not load default configuration: " + configFile.getName());
+            plugin.getLogger().log(Level.SEVERE, "Could not load default configuration: {0}", configFile.getName());
             plugin.getLogger().severe(ExceptionUtils.getStackTrace(ex));
             return null;
         }

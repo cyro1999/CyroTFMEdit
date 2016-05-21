@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,7 +37,7 @@ public class Command_mp44 extends TFM_Command
             playerMsg("mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.", ChatColor.GREEN);
             playerMsg("Type /mp44 sling to disable.  -by Madgeek1450", ChatColor.GREEN);
 
-            sender_p.setItemInHand(new ItemStack(Material.SULPHUR, 1));
+            TFM_DepreciationAggregator.setItemInHand(new ItemStack(Material.SULPHUR, 1), sender_p);
         }
         else
         {

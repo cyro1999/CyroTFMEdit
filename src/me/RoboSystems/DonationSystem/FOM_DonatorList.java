@@ -19,6 +19,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.FileUtil;
 
+@SuppressWarnings("unchecked")
 public class FOM_DonatorList
 {
     private static Map<String, FOM_Donator> donatorList = new HashMap();

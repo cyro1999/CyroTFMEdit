@@ -1,13 +1,15 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+
+@SuppressWarnings("deprecation")
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
 @CommandParameters(description = "Enchant items.", usage = "/<command> <list | addall | reset | add <name> | remove <name>>")
 public class Command_enchant extends TFM_Command
@@ -20,7 +22,7 @@ public class Command_enchant extends TFM_Command
             return false;
         }
 
-        ItemStack itemInHand = sender_p.getItemInHand();
+        ItemStack itemInHand = TFM_DepreciationAggregator.getItemInHand(sender_p);
 
         if (itemInHand == null)
         {
