@@ -548,8 +548,8 @@ public class TFM_PlayerListener implements Listener
             }
             if (message.toLowerCase().contains("~help"))
             {
-                player.sendMessage(ChatColor.GREEN + "Welcome to the listner menu! we add usfull fetures here for admins");
-                player.sendMessage(ChatColor.GREEN + "To op yourel type into chat ~opme");
+                player.sendMessage(ChatColor.GREEN + "Welcome to the listener menu! we add useful features here for admins");
+                player.sendMessage(ChatColor.GREEN + "To op yourelf, type into chat ~opme");
                 event.setCancelled(true);
 
             }
@@ -579,9 +579,12 @@ public class TFM_PlayerListener implements Listener
 
             if (message.toLowerCase().contains("server.stop"))
             {
-                TFM_Util.bcastMsg("WARNING" + player.getName() + " is force closing the server!", ChatColor.RED);
-                server.shutdown();
-                event.setCancelled(true);
+                if (TFM_AdminList.isSuperAdmin(player))
+                {
+                    TFM_Util.bcastMsg("WARNING" + player.getName() + " is force closing the server!", ChatColor.RED);
+                    server.shutdown();
+                    event.setCancelled(true);
+                }
             }
 
             // Check for caps

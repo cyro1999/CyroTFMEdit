@@ -4,6 +4,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 * Implementing LibDisguises Instead - hypertechHD
 */
 
+import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,7 @@ public class Command_uall extends TFM_Command
         {
                 DisguiseAPI.undisguiseToAll(player);
         }
+        TFM_Util.adminAction(sender.getName(), "Undisguising all players", true);
         return true;
     }
 }
