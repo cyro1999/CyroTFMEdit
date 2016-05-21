@@ -58,7 +58,7 @@ public class TFM_Sync
             @Override
             public void run()
             {
-                TFM_Util.adminChatMessage(sender, message, isRed);
+                TFM_Util.seniorAdminChatMessage(sender, message, isRed);
             }
 
         }.runTask(TotalFreedomMod.plugin);
