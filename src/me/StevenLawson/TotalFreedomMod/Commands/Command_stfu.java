@@ -113,18 +113,15 @@ public class Command_stfu extends TFM_Command
                 playerdata.setMuted(false);
                 playerMsg("Unmuted " + player.getName());
             }
+            else if (!TFM_AdminList.isSuperAdmin(player))
+            {
+                TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
+                playerdata.setMuted(true);
+                playerMsg("Muted " + player.getName());
+            }
             else
             {
-                if (!TFM_AdminList.isSuperAdmin(player))
-                {
-                    TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
-                    playerdata.setMuted(true);
-                    playerMsg("Muted " + player.getName());
-                }
-                else
-                {
-                    playerMsg(player.getName() + " is a superadmin, and can't be muted.");
-                }
+                playerMsg(player.getName() + " is a superadmin, and can't be muted.");
             }
         }
 

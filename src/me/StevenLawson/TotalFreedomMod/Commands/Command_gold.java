@@ -12,27 +12,29 @@ import com.earth2me.essentials.commands.PlayerNotFoundException;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Superadmin command- Smite the Sky fans", usage = "/<command> <player>")
-public class Command_gold extends TFM_Command{
+public class Command_gold extends TFM_Command
+{
 
-	@Override
-	public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-		 if (args.length == 0)
-	        {
-	            return false;
-	        }
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
+        if (args.length == 0)
+        {
+            return false;
+        }
 
-	        final Player player = getPlayer(args[0]);
+        final Player player = getPlayer(args[0]);
 
-	        if (player == null)
-	        {
-	            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
-	            return true;
-	        }
+        if (player == null)
+        {
+            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            return true;
+        }
         TFM_Util.bcastMsg(player.getName() + " Is a sky fan -_-", ChatColor.RED);
         player.sendMessage(ChatColor.YELLOW + "ITS GOLD NOT BUTTER OR BUDDER");
         player.setOp(false);
         player.setHealth(0);
-		return true;
-	}
+        return true;
+    }
 
 }

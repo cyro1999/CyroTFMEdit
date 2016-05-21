@@ -148,7 +148,6 @@ public class Command_toggle extends TFM_Command
                 }
             }
 
-
             toggle("Explosions are", TFM_ConfigEntry.ALLOW_EXPLOSIONS);
 
             if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
@@ -169,7 +168,6 @@ public class Command_toggle extends TFM_Command
 
             boolean enabled = disguiseCraft.isEnabled();
             TFM_Util.adminAction(sender.getName(), (enabled ? "disa" : "ena") + "bling DisguiseCraft", true);
-
 
             if (enabled)
             {

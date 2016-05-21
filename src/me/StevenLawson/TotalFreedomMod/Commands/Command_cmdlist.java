@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.ChatColor;
@@ -26,11 +27,11 @@ public class Command_cmdlist extends TFM_Command
             {
                 sender.sendMessage(ChatColor.DARK_PURPLE + "Welcome to the Dev hidden place");
                 return true;
-             }
+            }
         }
         List<String> commands = new ArrayList<String>();
 
-        for (Plugin targetPlugin : server.getPluginManager().getPlugins())
+        for (Plugin targetPlugin : Bukkit.getPluginManager().getPlugins())
         {
             try
             {

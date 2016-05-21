@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -10,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@CommandPermissions(level = AdminLevel.SUPER, = source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Give everyone a cookie!", usage = "/<command>")
 public class Command_cookie extends TFM_Command
 {
@@ -27,7 +28,7 @@ public class Command_cookie extends TFM_Command
             output.append(ChatColor.COLOR_CHAR).append(color_code).append(word).append(" ");
         }
 
-        for (Player p : server.getOnlinePlayers())
+        for (Player p : Bukkit.getOnlinePlayers())
         {
             ItemStack heldItem = new ItemStack(Material.COOKIE, 1);
             p.getInventory().setItem(p.getInventory().firstEmpty(), heldItem);

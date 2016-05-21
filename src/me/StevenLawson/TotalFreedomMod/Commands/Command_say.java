@@ -1,7 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,7 @@ public class Command_say extends TFM_Command
             {
                 TFM_Util.bcastMsg("Server is going offline.", ChatColor.GRAY);
 
-                for (Player player : server.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
                     player.kickPlayer("Server is going offline, come back in about 20 seconds.");
                 }

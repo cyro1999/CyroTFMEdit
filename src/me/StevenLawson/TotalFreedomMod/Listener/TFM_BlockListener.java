@@ -75,18 +75,15 @@ public class TFM_BlockListener implements Listener
             {
                 // TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
-            else
+            else if (playerdata.incrementAndGetBlockDestroyCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
             {
-                if (playerdata.incrementAndGetBlockDestroyCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger())
-                {
-                    TFM_Util.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(player, "You are breaking blocks too fast. Nukers are not permitted on this server.");
+                TFM_Util.bcastMsg(player.getName() + " is breaking blocks too fast!", ChatColor.RED);
+                TFM_Util.autoEject(player, "You are breaking blocks too fast. Nukers are not permitted on this server.");
 
-                    playerdata.resetBlockDestroyCount();
+                playerdata.resetBlockDestroyCount();
 
-                    event.setCancelled(true);
-                    return;
-                }
+                event.setCancelled(true);
+                return;
             }
         }
 
@@ -145,18 +142,15 @@ public class TFM_BlockListener implements Listener
             {
                 //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
-            else
+            else if (playerdata.incrementAndGetBlockPlaceCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_PLACE.getInteger())
             {
-                if (playerdata.incrementAndGetBlockPlaceCount() > TFM_ConfigEntry.NUKE_MONITOR_COUNT_PLACE.getInteger())
-                {
-                    TFM_Util.bcastMsg(player.getName() + " is placing blocks too fast!", ChatColor.RED);
-                    TFM_Util.autoEject(player, "You are placing blocks too fast.");
+                TFM_Util.bcastMsg(player.getName() + " is placing blocks too fast!", ChatColor.RED);
+                TFM_Util.autoEject(player, "You are placing blocks too fast.");
 
-                    playerdata.resetBlockPlaceCount();
+                playerdata.resetBlockPlaceCount();
 
-                    event.setCancelled(true);
-                    return;
-                }
+                event.setCancelled(true);
+                return;
             }
         }
 

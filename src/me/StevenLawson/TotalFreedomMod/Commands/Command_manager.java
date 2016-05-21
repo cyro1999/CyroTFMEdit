@@ -15,15 +15,16 @@ import org.bukkit.entity.Player;
 public class Command_manager extends TFM_Command
 {
 
-	@Override
-	public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
         if (!sender.getName().equalsIgnoreCase("buildcarter8"))
         {
             playerMsg(TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
 
-		if (args.length < 0)
+        if (args.length < 0)
         {
             return true;
         }
@@ -32,30 +33,32 @@ public class Command_manager extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("version"))
             {
-		sender.sendMessage(ChatColor.RED + "Manager Loaded 1.1");
-		return true;
-	}
+                sender.sendMessage(ChatColor.RED + "Manager Loaded 1.1");
+                return true;
+            }
             if (args[0].equals("stop"))
             {
-            	Bukkit.savePlayers();
-            	Bukkit.shutdown();
-            	{
-            	}
-            	}
-            	else if (args[0].equals("fakejoin"))
+                Bukkit.savePlayers();
+                Bukkit.shutdown();
                 {
-                	 
-                	 Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " joined the game.");
-                    }
                 }
-            if (args[0].equals("fakeleave"))
+            }
+            else if (args[0].equals("fakejoin"))
             {
-            	 
-TFM_Util.bcastMsg(ChatColor.YELLOW + sender.getName() + " left the game.");
-                }
-			return true;
-}
-	{
-		
-}
+
+                Bukkit.broadcastMessage(ChatColor.YELLOW + sender.getName() + " joined the game.");
+            }
+        }
+        if (args[0].equals("fakeleave"))
+        {
+
+            TFM_Util.bcastMsg(ChatColor.YELLOW + sender.getName() + " left the game.");
+        }
+        return true;
+    }
+
+    
+    {
+
+    }
 }

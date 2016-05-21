@@ -73,17 +73,14 @@ public class Command_adminworld extends TFM_Command
                         playerMsg("Going to the main world.");
                         sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
                     }
+                    else if (TFM_AdminWorld.getInstance().canAccessWorld(sender_p))
+                    {
+                        playerMsg("Going to the AdminWorld.");
+                        TFM_AdminWorld.getInstance().sendToWorld(sender_p);
+                    }
                     else
                     {
-                        if (TFM_AdminWorld.getInstance().canAccessWorld(sender_p))
-                        {
-                            playerMsg("Going to the AdminWorld.");
-                            TFM_AdminWorld.getInstance().sendToWorld(sender_p);
-                        }
-                        else
-                        {
-                            playerMsg("You don't have permission to access the AdminWorld.");
-                        }
+                        playerMsg("You don't have permission to access the AdminWorld.");
                     }
 
                     break;

@@ -74,16 +74,13 @@ public class Command_cage extends TFM_Command
 
                 return true;
             }
-            else
+            else if ("robo".equalsIgnoreCase(args[1]))
             {
-                if ("robo".equalsIgnoreCase(args[1]))
-                {
-                    outerMaterial = Material.SKULL;
-                }
-                else if (Material.matchMaterial(args[1]) != null)
-                {
-                    outerMaterial = Material.matchMaterial(args[1]);
-                }
+                outerMaterial = Material.SKULL;
+            }
+            else if (Material.matchMaterial(args[1]) != null)
+            {
+                outerMaterial = Material.matchMaterial(args[1]);
             }
         }
 

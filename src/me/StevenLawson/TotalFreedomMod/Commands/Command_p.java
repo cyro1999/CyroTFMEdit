@@ -1,8 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import me.StevenLawson.TotalFreedomMod.TFM_Sync;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,12 +26,16 @@ public class Command_p extends TFM_Command
             }
 
             TFM_PlayerData userinfo = TFM_PlayerData.getPlayerData(sender_p);
-            userinfo.setAdminChat(!userinfo.inAdminChat());
-            playerMsg("Toggled Senior Admin Chat " + (userinfo.inAdminChat() ? "on" : "off") + ".");
+            
+            if (userinfo.inAdminChat()) {
+                userinfo.setAdminChat(!userinfo.inAdminChat());
+            }
+            userinfo.setSeniorAdminChat(!userinfo.inSeniorAdminChat());
+            playerMsg("Toggled Senior Admin Chat " + (userinfo.inSeniorAdminChat() ? "on" : "off") + ".");
         }
         else
         {
-            TFM_Util.senioradminChatMessage(sender, StringUtils.join(args, " "), senderIsConsole);
+            TFM_Sync.seniorAdminChatMessage(sender, StringUtils.join(args, " "), senderIsConsole);
         }
 
         return true;

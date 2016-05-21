@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Switch server online-mode on and off.", usage = "/<command> <on | off>")
 public class Command_onlinemode extends TFM_Command
 {
+
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {

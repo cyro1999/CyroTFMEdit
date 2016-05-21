@@ -4,33 +4,42 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.HTTPSession;
 import me.StevenLawson.TotalFreedomMod.HTTPD.NanoHTTPD.Response;
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
-import net.minecraft.util.org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
 public class TFM_HTTPD_Manager
 {
-    @Deprecated
-    public static String MIME_DEFAULT_BINARY = "application/octet-stream";
+    public static String MIME_DEFAULT_BINARY;
     //
-    private static final Pattern EXT_REGEX = Pattern.compile("\\.([^\\.\\s]+)$");
+    private static final Pattern EXT_REGEX;
     //
-    public static final int PORT = TFM_ConfigEntry.HTTPD_PORT.getInteger();
+    public static final int PORT;
     //
-    private final TFM_HTTPD httpd = new TFM_HTTPD(PORT);
+    private static final TFM_HTTPD HTTPD;
 
     private TFM_HTTPD_Manager()
     {
+        throw new AssertionError();
     }
 
-    public void start()
+    static
+    {
+        MIME_DEFAULT_BINARY = "application/octet-stream";
+        EXT_REGEX = Pattern.compile("\\.([^\\.\\s]+)$");
+        PORT = TFM_ConfigEntry.HTTPD_PORT.getInteger();
+        HTTPD = new TFM_HTTPD(PORT);
+    }
+
+    public static void start()
     {
         if (!TFM_ConfigEntry.HTTPD_ENABLED.getBoolean())
         {
@@ -39,11 +48,11 @@ public class TFM_HTTPD_Manager
 
         try
         {
-            httpd.start();
+            HTTPD.start();
 
-            if (httpd.isAlive())
+            if (HTTPD.isAlive())
             {
-                TFM_Log.info("TFM HTTPd started. Listening on port: " + httpd.getListeningPort());
+                TFM_Log.info("TFM HTTPd started. Listening on port: " + HTTPD.getListeningPort());
             }
             else
             {
@@ -56,14 +65,14 @@ public class TFM_HTTPD_Manager
         }
     }
 
-    public void stop()
+    public static void stop()
     {
         if (!TFM_ConfigEntry.HTTPD_ENABLED.getBoolean())
         {
             return;
         }
 
-        httpd.stop();
+        HTTPD.stop();
 
         TFM_Log.info("TFM HTTPd stopped.");
     }
@@ -125,6 +134,14 @@ public class TFM_HTTPD_Manager
             {
                 return new Module_players(session).getResponse();
             }
+        }),
+        LOGS(new ModuleExecutable(false, "logs")
+        {
+            @Override
+            public Response getResponse(HTTPSession session)
+            {
+                return new Module_logs(session).getResponse();
+            }
         });
         //
         private final ModuleExecutable moduleExecutable;
@@ -165,7 +182,11 @@ public class TFM_HTTPD_Manager
                         return getResponse(session);
                     }
                 }
-                catch (Exception ex)
+                catch (InterruptedException ex)
+                {
+                    TFM_Log.severe(ex);
+                }
+                catch (ExecutionException ex)
                 {
                     TFM_Log.severe(ex);
                 }
@@ -266,15 +287,5 @@ public class TFM_HTTPD_Manager
         }
 
         return response;
-    }
-
-    public static TFM_HTTPD_Manager getInstance()
-    {
-        return TFM_HTTPDManagerHolder.INSTANCE;
-    }
-
-    private static class TFM_HTTPDManagerHolder
-    {
-        private static final TFM_HTTPD_Manager INSTANCE = new TFM_HTTPD_Manager();
     }
 }

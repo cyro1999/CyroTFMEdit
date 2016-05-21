@@ -1,4 +1,3 @@
-// 
 package me.StevenLawson.TotalFreedomMod;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -15,9 +14,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_Config;
-import net.minecraft.util.org.apache.commons.io.FileUtils;
-
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -125,7 +123,7 @@ public class TFM_Util
 
     public static UUID getUuid(String offlineplayer)
     {
-        final UUID uuid = TFM_UuidResolver.getUUIDOf(offlineplayer);
+        final UUID uuid = TFM_UuidManager.getUniqueId(offlineplayer);
 
         if (uuid == null)
         {
@@ -190,6 +188,12 @@ public class TFM_Util
     {
         TFM_Util.playerMsg(sender, message, ChatColor.GRAY);
     }
+    
+    public static void setFlying(Player player, boolean flying)
+    {
+        player.setAllowFlight(true);
+        player.setFlying(flying);
+    }
 
     public static void adminAction(String adminName, String action, boolean isRed)
     {
@@ -203,7 +207,7 @@ public class TFM_Util
             return ((Player) player).getAddress().getAddress().getHostAddress().trim();
         }
 
-        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_Util.getUuid(player));
+        final TFM_Player entry = TFM_PlayerList.getEntry(TFM_UuidManager.getUniqueId(player));
 
         if (entry == null)
         {
@@ -312,7 +316,7 @@ public class TFM_Util
             }
         }
     }
-
+    
     public static void generateCube(Location location, int length, Material material)
     {
         final Block center = location.getBlock();
@@ -530,7 +534,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 1 minute.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
                 player.kickPlayer(kickMessage);
 
                 break;
@@ -544,7 +548,7 @@ public class TFM_Util
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned for 3 minutes.");
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", expires, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", expires, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", expires, kickMessage));
                 player.kickPlayer(kickMessage);
                 break;
             }
@@ -554,7 +558,7 @@ public class TFM_Util
 
                 TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName(), "AutoEject", null, kickMessage));
                 TFM_BanManager.addIpBan(new TFM_Ban(ipAddressParts[0] + "." + ipAddressParts[1] + ".*.*", player.getName(), "AutoEject", null, kickMessage));
-                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_Util.getUuid(player), player.getName(), "AutoEject", null, kickMessage));
+                TFM_BanManager.addUuidBan(new TFM_Ban(TFM_UuidManager.getUniqueId(player), player.getName(), "AutoEject", null, kickMessage));
 
                 TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " has been banned.");
 
@@ -695,7 +699,11 @@ public class TFM_Util
                 ois.close();
                 fis.close();
             }
-            catch (Exception ex)
+            catch (IOException ex)
+            {
+                TFM_Log.severe(ex);
+            }
+            catch (ClassNotFoundException ex)
             {
                 TFM_Log.severe(ex);
             }
@@ -946,6 +954,20 @@ public class TFM_Util
             if (TFM_AdminList.isSuperAdmin(player))
             {
                 player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
+            }
+        }
+    }
+    
+    public static void seniorAdminChatMessage(CommandSender sender, String message, boolean senderIsConsole)
+    {
+        String name = sender.getName() + " " + TFM_PlayerRank.fromSender(sender).getPrefix() + ChatColor.WHITE;
+        TFM_Log.info("[SrA Chat] " + name + ": " + message);
+
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            if (TFM_AdminList.isSeniorAdmin(player))
+            {
+                player.sendMessage("[" + ChatColor.LIGHT_PURPLE + "SrA Chat" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
             }
         }
     }

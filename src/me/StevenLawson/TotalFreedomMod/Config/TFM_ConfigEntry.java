@@ -4,7 +4,10 @@ import java.util.List;
 
 public enum TFM_ConfigEntry
 {
-	//
+    FORCE_IP_ENABLED(Boolean.class, "forceip.enabled"),
+    FORCE_IP_PORT(Integer.class, "forceip.port"),
+    FORCE_IP_KICKMSG(String.class, "forceip.kickmsg"),
+    //
     ALLOW_EXPLOSIONS(Boolean.class, "allow.explosions"),
     ALLOW_FIRE_PLACE(Boolean.class, "allow.fire_place"),
     ALLOW_FIRE_SPREAD(Boolean.class, "allow.fire_spread"),
@@ -72,6 +75,7 @@ public enum TFM_ConfigEntry
     BLOCKED_COMMANDS(List.class, "blocked_commands"),
     HOST_SENDER_NAMES(List.class, "host_sender_names"),
     UNBANNABLE_USERNAMES(List.class, "unbannable_usernames"),
+    NOADMIN_IPS(List.class, "noadmin_ips"),
     ADMIN_ONLY_MODE(Boolean.class, "admin_only_mode"),
     AUTO_ENTITY_WIPE(Boolean.class, "auto_wipe"),
     CONSOLE_IS_SENIOR(Boolean.class, "console_is_senior");
@@ -97,51 +101,51 @@ public enum TFM_ConfigEntry
 
     public String getString()
     {
-        return TFM_MainConfig.getInstance().getString(this);
+        return TFM_MainConfig.getString(this);
     }
 
     public String setString(String value)
     {
-        TFM_MainConfig.getInstance().setString(this, value);
+        TFM_MainConfig.setString(this, value);
         return value;
     }
 
     public Double getDouble()
     {
-        return TFM_MainConfig.getInstance().getDouble(this);
+        return TFM_MainConfig.getDouble(this);
     }
 
     public Double setDouble(Double value)
     {
-        TFM_MainConfig.getInstance().setDouble(this, value);
+        TFM_MainConfig.setDouble(this, value);
         return value;
     }
 
     public Boolean getBoolean()
     {
-        return TFM_MainConfig.getInstance().getBoolean(this);
+        return TFM_MainConfig.getBoolean(this);
     }
 
     public Boolean setBoolean(Boolean value)
     {
-        TFM_MainConfig.getInstance().setBoolean(this, value);
+        TFM_MainConfig.setBoolean(this, value);
         return value;
     }
 
     public Integer getInteger()
     {
-        return TFM_MainConfig.getInstance().getInteger(this);
+        return TFM_MainConfig.getInteger(this);
     }
 
     public Integer setInteger(Integer value)
     {
-        TFM_MainConfig.getInstance().setInteger(this, value);
+        TFM_MainConfig.setInteger(this, value);
         return value;
     }
 
     public List<?> getList()
     {
-        return TFM_MainConfig.getInstance().getList(this);
+        return TFM_MainConfig.getList(this);
     }
 
     public static TFM_ConfigEntry findConfigEntry(String name)

@@ -359,10 +359,9 @@ public class Metrics
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
-        int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
+        int playersOnline = Bukkit.getServer().getOnlinePlayers().size();
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
-
         // Construct the post data
         StringBuilder json = new StringBuilder(1024);
         json.append('{');
@@ -464,7 +463,6 @@ public class Metrics
             connection = url.openConnection();
         }
 
-
         byte[] uncompressed = json.toString().getBytes();
         byte[] compressed = gzip(json.toString());
 
@@ -509,10 +507,8 @@ public class Metrics
 
             throw new IOException(response);
         }
-        else
-        {
-            // Is this the first update this hour?
-            if (response.equals("1") || response.contains("This is your first update this hour"))
+        else // Is this the first update this hour?
+         if (response.equals("1") || response.contains("This is your first update this hour"))
             {
                 synchronized (graphs)
                 {
@@ -529,7 +525,6 @@ public class Metrics
                     }
                 }
             }
-        }
     }
 
     /**

@@ -1,7 +1,9 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import java.util.Collection;
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,7 +23,7 @@ public class Command_nicknyan extends TFM_Command
 
         if ("off".equals(args[0]))
         {
-            TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), null);
+            TFM_EssentialsBridge.setNickname(sender.getName(), null);
             playerMsg("Nickname cleared.");
             return true;
         }
@@ -39,7 +41,7 @@ public class Command_nicknyan extends TFM_Command
             return true;
         }
 
-        final Player[] onlinePlayers = server.getOnlinePlayers();
+        final Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         for (final Player player : onlinePlayers)
         {
             if (player == sender_p)
@@ -63,7 +65,7 @@ public class Command_nicknyan extends TFM_Command
 
         newNick.append(ChatColor.WHITE);
 
-        TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), newNick.toString());
+        TFM_EssentialsBridge.setNickname(sender.getName(), newNick.toString());
 
         playerMsg("Your nickname is now: " + newNick.toString());
 

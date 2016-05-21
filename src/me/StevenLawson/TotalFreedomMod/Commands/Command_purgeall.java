@@ -1,9 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import me.StevenLawson.TotalFreedomMod.Bridge.TFM_DisguiseCraftBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.libraryaddict.disguise.DisguiseAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,9 +23,13 @@ public class Command_purgeall extends TFM_Command
         TFM_Util.TFM_EntityWiper.wipeEntities(true, true);
 
         // Undisguise all players
-        TFM_DisguiseCraftBridge.undisguiseAllPlayers();
-
-        for (Player player : server.getOnlinePlayers())
+        // Changed to LibsDisguises by hypertechHD
+        for(Player player : Bukkit.getOnlinePlayers())
+        {
+                DisguiseAPI.undisguiseToAll(player);
+        }
+        
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
 

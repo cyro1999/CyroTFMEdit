@@ -3,12 +3,10 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerRank;
-
-import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.apache.commons.lang.StringUtils;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,11 +33,11 @@ public class Command_list extends TFM_Command
         if (TFM_Util.isFromHostConsole(sender.getName()))
         {
             final List<String> names = new ArrayList<String>();
-            for (Player player : server.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
                 names.add(player.getName());
             }
-            playerMsg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
+            playerMsg("There are " + names.size() + "/" + Bukkit.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
             return true;
         }
 
@@ -48,12 +46,12 @@ public class Command_list extends TFM_Command
         final StringBuilder onlineStats = new StringBuilder();
         final StringBuilder onlineUsers = new StringBuilder();
 
-        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(server.getOnlinePlayers().length);
-        onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(server.getMaxPlayers());
+        onlineStats.append(ChatColor.BLUE).append("There are ").append(ChatColor.RED).append(Bukkit.getOnlinePlayers().size());
+        onlineStats.append(ChatColor.BLUE).append(" out of a maximum ").append(ChatColor.RED).append(Bukkit.getMaxPlayers());
         onlineStats.append(ChatColor.BLUE).append(" players online.");
 
         final List<String> names = new ArrayList<String>();
-        for (Player player : server.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             final boolean userSuperadmin = TFM_AdminList.isSuperAdmin(player);
 

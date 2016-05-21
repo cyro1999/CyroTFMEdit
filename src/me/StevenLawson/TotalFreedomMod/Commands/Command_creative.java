@@ -54,7 +54,6 @@ public class Command_creative extends TFM_Command
                 return true;
             }
 
-
             player = getPlayer(args[0]);
 
             if (player == null)

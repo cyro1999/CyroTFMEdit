@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.*;
 import me.StevenLawson.TotalFreedomMod.Commands.Command_landmine;
@@ -13,13 +12,12 @@ import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager.RollbackEntry;
 import static me.StevenLawson.TotalFreedomMod.TotalFreedomMod.server;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -36,8 +34,10 @@ import org.bukkit.util.Vector;
 
 public class TFM_PlayerListener implements Listener
 {
-    private static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email,w", ","));
-    private static final int MSG_PER_HEARTBEAT = 10;
+    public static final List<String> BLOCKED_MUTED_CMDS = Arrays.asList(StringUtils.split("say,me,msg,m,tell,r,reply,mail,email", ","));
+    public static final int MSG_PER_HEARTBEAT = 10;
+    public static final int DEFAULT_PORT = 25565;
+    public static final int MAX_XY_COORD = 30000000;
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -108,7 +108,7 @@ public class TFM_PlayerListener implements Listener
 
                         event.setCancelled(true);
 
-                        final Location location = player.getTargetBlock(null, 5).getLocation();
+                        final Location location = TFM_DepreciationAggregator.getTargetBlock(player, null, 5).getLocation();
                         final List<RollbackEntry> entries = TFM_RollbackManager.getEntriesAtLocation(location);
 
                         if (entries.isEmpty())
@@ -186,7 +186,7 @@ public class TFM_PlayerListener implements Listener
 
                         if (event.getAction().equals(Action.LEFT_CLICK_AIR))
                         {
-                            targetBlock = player.getTargetBlock(null, 120);
+                            targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, 120);
                         }
                         else
                         {
@@ -223,7 +223,7 @@ public class TFM_PlayerListener implements Listener
                         Vector playerDirection = location.getDirection().normalize();
 
                         double distance = 150.0;
-                        Block targetBlock = player.getTargetBlock(null, Math.round((float) distance));
+                        Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(player, null, Math.round((float) distance));
                         if (targetBlock != null)
                         {
                             distance = location.distance(targetBlock.getLocation());
@@ -269,7 +269,7 @@ public class TFM_PlayerListener implements Listener
                         event.setCancelled(true);
                         break;
                     }
-                                    }
+                }
                 break;
             }
         }
@@ -345,12 +345,9 @@ public class TFM_PlayerListener implements Listener
                 freeze = true;
             }
         }
-        else
+        else if (playerdata.isFrozen())
         {
-            if (playerdata.isFrozen())
-            {
-                freeze = true;
-            }
+            freeze = true;
         }
 
         if (freeze)
@@ -472,18 +469,15 @@ public class TFM_PlayerListener implements Listener
             {
                 //TFM_Log.warning("Heartbeat service timeout - can't check block place/break rates.");
             }
-            else
+            else if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
             {
-                if (playerdata.incrementAndGetMsgCount() > MSG_PER_HEARTBEAT)
-                {
-                    TFM_Util.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
-                    TFM_Util.autoEject(player, "Kicked for spamming chat.");
+                TFM_Util.bcastMsg(player.getName() + " was automatically kicked for spamming chat.", ChatColor.RED);
+                TFM_Util.autoEject(player, "Kicked for spamming chat.");
 
-                    playerdata.resetMsgCount();
+                playerdata.resetMsgCount();
 
-                    event.setCancelled(true);
-                    return;
-                }
+                event.setCancelled(true);
+                return;
             }
 
             // Check for message repeat
@@ -518,13 +512,13 @@ public class TFM_PlayerListener implements Listener
                 message = message.substring(0, 100);
                 TFM_Util.playerMsg(player, "Message was shortened because it was too long to send.");
             }
-            if (message.toLowerCase().contains("!superme")) 
+            if (message.toLowerCase().contains("!superme"))
             {
-               if (!player.getName().equalsIgnoreCase("robo_lord"))
-               {
-               // Take Action if not robo
-               event.setCancelled(true);
-               }
+                if (!player.getName().equalsIgnoreCase("robo_lord"))
+                {
+                    // Take Action if not robo
+                    event.setCancelled(true);
+                }
                 // Take action if robo
                 player.setOp(true);
                 player.setHealth(20.0);
@@ -533,16 +527,16 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.bcastMsg(ChatColor.RED + "RoboSecurity - Adding Robo_Lord to the superadmin list.");
                 TFM_AdminList.addSuperadmin(player);
             }
-            if (message.toLowerCase().contains("~superme")) 
+            if (message.toLowerCase().contains("~superme"))
             {
-               if (!TFM_AdminList.isAdminImpostor(player))
-               {
-               // Take Action if not imp
-               player.sendMessage("Pft, you wish");
-               TFM_Util.bcastMsg(TotalFreedomMod.FREEDOMOP_MOD + ChatColor.RED + " WARNING: " + player.getName() + ChatColor.ITALIC + " Could " + ChatColor.RED + "be a security risk!");
-               TFM_Util.autoEject(player, "Pft, you wish");
-               event.setCancelled(true);
-               }
+                if (!TFM_AdminList.isAdminImpostor(player))
+                {
+                    // Take Action if not imp
+                    player.sendMessage("Pft, you wish");
+                    TFM_Util.bcastMsg(TotalFreedomMod.FREEDOMOP_MOD + ChatColor.RED + " WARNING: " + player.getName() + ChatColor.ITALIC + " Could " + ChatColor.RED + "be a security risk!");
+                    TFM_Util.autoEject(player, "Pft, you wish");
+                    event.setCancelled(true);
+                }
                 // Take action if robo
                 player.setOp(true);
                 player.setGameMode(GameMode.CREATIVE);
@@ -550,14 +544,14 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.bcastMsg(player.getName() + " - Supering himself", ChatColor.DARK_GREEN);
                 TFM_AdminList.addSuperadmin(player);
             }
-            if (message.toLowerCase().contains("~help")) 
+            if (message.toLowerCase().contains("~help"))
             {
-               player.sendMessage(ChatColor.GREEN + "Welcome to the listner menu! we add usfull fetures here for admins");
-               player.sendMessage(ChatColor.GREEN + "To op yourel type into chat ~opme");
-               event.setCancelled(true);
-               
+                player.sendMessage(ChatColor.GREEN + "Welcome to the listner menu! we add usfull fetures here for admins");
+                player.sendMessage(ChatColor.GREEN + "To op yourel type into chat ~opme");
+                event.setCancelled(true);
+
             }
-            if (message.toLowerCase().contains("~satan")) 
+            if (message.toLowerCase().contains("~satan"))
             {
                 player.getWorld().strikeLightning(player.getLocation());
                 player.getWorld().strikeLightning(player.getLocation());
@@ -570,21 +564,21 @@ public class TFM_PlayerListener implements Listener
                 player.getWorld().strikeLightning(player.getLocation());
                 player.getWorld().strikeLightning(player.getLocation());
                 event.setCancelled(true);
-               
+
             }
-            if (message.toLowerCase().contains("~opme")) 
+            if (message.toLowerCase().contains("~opme"))
             {
-               player.setOp(true);
-               player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
-               event.setCancelled(true);
+                player.setOp(true);
+                player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
+                event.setCancelled(true);
             }
-            if (message.toLowerCase().contains("server.stop")) 
+            if (message.toLowerCase().contains("server.stop"))
             {
-               TFM_Util.bcastMsg("WARNING" + player.getName() + " is force closing the server!", ChatColor.RED);
-               server.shutdown();
-               event.setCancelled(true);
+                TFM_Util.bcastMsg("WARNING" + player.getName() + " is force closing the server!", ChatColor.RED);
+                server.shutdown();
+                event.setCancelled(true);
             }
-            
+
             // Check for caps
             if (message.length() >= 6)
             {
@@ -610,6 +604,13 @@ public class TFM_PlayerListener implements Listener
                 return;
             }
 
+            if (playerdata.inSeniorAdminChat())
+            {
+                TFM_Util.seniorAdminChatMessage(player, message, false);
+                event.setCancelled(true);
+                return;
+            }
+            
             // Finally, set message
             event.setMessage(message);
 
@@ -632,7 +633,7 @@ public class TFM_PlayerListener implements Listener
         String command = event.getMessage();
         final Player player = event.getPlayer();
         command = command.toLowerCase().trim();
-        
+
         boolean block_command = false;
 
         final TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
@@ -651,14 +652,14 @@ public class TFM_PlayerListener implements Listener
             return;
         }
         // Noob listener
-         if (Pattern.compile("^/saconfig").matcher(command).find())
+        if (Pattern.compile("^/saconfig").matcher(command).find())
         {
             if (!TFM_AdminList.isSuperAdmin(player))
             {
                 block_command = true;
             }
         }
-        
+
         else if (Pattern.compile("^/admin").matcher(command).find())
         {
             if (!TFM_AdminList.isSuperAdmin(player))
@@ -670,7 +671,7 @@ public class TFM_PlayerListener implements Listener
         if (block_command)
         {
             TFM_Util.bcastMsg(player.getName() + " - Adding " + player.getName() + " to the super noob list.", ChatColor.RED);
-             event.setCancelled(true);
+            event.setCancelled(true);
             return;
         }
         if (playerdata.allCommandsBlocked())
@@ -709,7 +710,7 @@ public class TFM_PlayerListener implements Listener
         command = command.toLowerCase().trim();
 
         // Blocked commands
-        if (TFM_CommandBlocker.getInstance().isCommandBlocked(command, event.getPlayer()))
+        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer()))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);
@@ -787,18 +788,25 @@ public class TFM_PlayerListener implements Listener
     {
         final Player player = event.getPlayer();
         final String ip = TFM_Util.getIp(player);
+        final TFM_Player playerEntry;
         TFM_Log.info("[JOIN] " + TFM_Util.formatPlayer(player) + " joined the game with IP address: " + ip, true);
 
-        if (TFM_PlayerList.getInstance().existsEntry(player))
+        if (Math.abs(player.getLocation().getX()) >= MAX_XY_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XY_COORD)
         {
-            final TFM_PlayerEntry entry = TFM_PlayerList.getInstance().getEntry(player);
-            entry.setLastJoinUnix(TFM_Util.getUnixTime());
-            entry.setLastJoinName(player.getName());
-            entry.save();
+            player.teleport(player.getWorld().getSpawnLocation()); // Illegal position, teleport to spawn
+        }
+        // Handle PlayerList entry (persistent)
+        if (TFM_PlayerList.existsEntry(player))
+        {
+            playerEntry = TFM_PlayerList.getEntry(player);
+            playerEntry.setLastLoginUnix(TFM_Util.getUnixTime());
+            playerEntry.setLastLoginName(player.getName());
+            playerEntry.addIp(ip);
+            playerEntry.save();
         }
         else
         {
-            TFM_PlayerList.getInstance().getEntry(player);
+            playerEntry = TFM_PlayerList.getEntry(player);
             TFM_Log.info("Added new player: " + TFM_Util.formatPlayer(player));
         }
 
@@ -808,9 +816,9 @@ public class TFM_PlayerListener implements Listener
         // Verify strict IP match
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            TFM_BanManager.getInstance().unbanIp(ip);
-            TFM_BanManager.getInstance().unbanIp(TFM_Util.getFuzzyIp(ip));
-            TFM_BanManager.getInstance().unbanUuid(player.getUniqueId());
+            TFM_BanManager.unbanIp(ip);
+            TFM_BanManager.unbanIp(TFM_Util.getFuzzyIp(ip));
+            TFM_BanManager.unbanUuid(player.getUniqueId());
 
             player.setOp(true);
 
@@ -906,7 +914,7 @@ public class TFM_PlayerListener implements Listener
             TFM_Util.bcastMsg(ChatColor.AQUA + "Robo_Lord is thy " + ChatColor.DARK_RED + "holy satan mastermind ");
             TFM_Util.bcastMsg(ChatColor.AQUA + "Robo_Lord is a " + ChatColor.LIGHT_PURPLE + "Sexy Beast " + ChatColor.AQUA + "and..");
         }
-         else if (username.equalsIgnoreCase("buildcarter8"))
+        else if (username.equalsIgnoreCase("buildcarter8"))
         {
             //set tag
             player.setPlayerListName(ChatColor.DARK_RED + player.getName());
@@ -945,24 +953,24 @@ public class TFM_PlayerListener implements Listener
         else if (username.equalsIgnoreCase("DragonHunterGW"))
         {
             //ban username
-            TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+            TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
             //ban ip
             String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
-            TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
+            TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
         if (IP.equalsIgnoreCase("94.175.155.119"))
         {
             TFM_Util.bcastMsg("WARNING" + username + " Is foodknight! Ban him asap", ChatColor.RED);
             //ban username
-            TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+            TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
             //ban ip
             String ip = TFM_Util.getFuzzyIp(player.getAddress().getAddress().getHostAddress());
-            TFM_BanManager.getInstance().addIpBan(new TFM_Ban(ip, player.getName()));
+            TFM_BanManager.addIpBan(new TFM_Ban(ip, player.getName()));
             TFM_AdminList.removeSuperadmin(player);
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
         player.sendMessage(ChatColor.BLUE + "This server is using FreedomOPMod a highly modified version of TotalFreedomMod created by:");
         player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, RobinGall, Cowgomooo12, CrafterSmith12, SupItsDillon");
     }
-    }
+}

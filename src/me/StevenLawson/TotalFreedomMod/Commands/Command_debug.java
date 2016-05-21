@@ -1,8 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.lang.reflect.Field;
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -72,28 +72,25 @@ public class Command_debug extends TFM_Command
                         throw new Exception("Unknown primitive field type.");
                     }
                 }
+                else if (type.isAssignableFrom(Integer.class))
+                {
+                    newValue = new Integer(newValueString);
+                }
+                else if (type.isAssignableFrom(Double.class))
+                {
+                    newValue = new Double(newValueString);
+                }
+                else if (type.isAssignableFrom(Boolean.class))
+                {
+                    newValue = Boolean.valueOf(newValueString);
+                }
+                else if (type.isAssignableFrom(String.class))
+                {
+                    newValue = newValueString;
+                }
                 else
                 {
-                    if (type.isAssignableFrom(Integer.class))
-                    {
-                        newValue = new Integer(newValueString);
-                    }
-                    else if (type.isAssignableFrom(Double.class))
-                    {
-                        newValue = new Double(newValueString);
-                    }
-                    else if (type.isAssignableFrom(Boolean.class))
-                    {
-                        newValue = Boolean.valueOf(newValueString);
-                    }
-                    else if (type.isAssignableFrom(String.class))
-                    {
-                        newValue = newValueString;
-                    }
-                    else
-                    {
-                        throw new Exception("Unknown complex field type.");
-                    }
+                    throw new Exception("Unknown complex field type.");
                 }
 
                 field.setAccessible(true);

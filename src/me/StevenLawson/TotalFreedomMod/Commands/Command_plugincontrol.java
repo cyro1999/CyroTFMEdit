@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,7 @@ public class Command_plugincontrol extends TFM_Command
             return false;
         }
 
-        final PluginManager pm = server.getPluginManager();
+        final PluginManager pm = Bukkit.getPluginManager();
 
         if (args.length == 1)
         {
@@ -126,7 +127,7 @@ public class Command_plugincontrol extends TFM_Command
 
     public Plugin getPlugin(String name)
     {
-        for (Plugin serverPlugin : server.getPluginManager().getPlugins())
+        for (Plugin serverPlugin : Bukkit.getPluginManager().getPlugins())
         {
             if (serverPlugin.getName().equalsIgnoreCase(name))
             {
@@ -136,7 +137,7 @@ public class Command_plugincontrol extends TFM_Command
 
         if (name.length() >= 3)
         {
-            for (Plugin serverPlugin : server.getPluginManager().getPlugins())
+            for (Plugin serverPlugin : Bukkit.getPluginManager().getPlugins())
             {
                 if (serverPlugin.getName().toLowerCase().contains(name.toLowerCase()))
                 {

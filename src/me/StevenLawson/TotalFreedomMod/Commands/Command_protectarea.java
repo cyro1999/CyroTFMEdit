@@ -2,8 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,9 +21,12 @@ public class Command_protectarea extends TFM_Command
             playerMsg("Protected areas are currently disabled in the TotalFreedomMod configuration.");
             return true;
         }
+        
+        if (args.length == 0) {
+            return false;
+        }
 
-        if (args.length == 1)
-        {
+        else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list"))
             {
                 playerMsg("Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));

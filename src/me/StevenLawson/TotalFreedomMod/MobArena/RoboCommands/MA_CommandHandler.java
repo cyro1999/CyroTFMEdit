@@ -1,9 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.MobArena.RoboCommands;
 
-import me.StevenLawson.TotalFreedomMod.Commands.TFM_Command;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,7 +40,6 @@ public class MA_CommandHandler
                     StringUtils.join(args, " ")), true);
         }
 
-
         final MA_Command dispatcher;
         try
         {
@@ -52,11 +50,27 @@ public class MA_CommandHandler
                     cmd.getName().toLowerCase())).newInstance();
             dispatcher.setup(TotalFreedomMod.plugin, sender, dispatcher.getClass());
         }
-        catch (Exception ex)
+        catch (ClassNotFoundException ex)
         {
             TFM_Log.severe("Could not load command: " + cmd.getName());
             TFM_Log.severe(ex);
 
+            sender.sendMessage(ChatColor.RED + "Command Error! Could not load command: " + cmd.getName());
+            return true;
+        }
+        catch (InstantiationException ex)
+        {
+            TFM_Log.severe("Could not load command: " + cmd.getName());
+            TFM_Log.severe(ex);
+            
+            sender.sendMessage(ChatColor.RED + "Command Error! Could not load command: " + cmd.getName());
+            return true;
+        }
+        catch (IllegalAccessException ex)
+        {
+            TFM_Log.severe("Could not load command: " + cmd.getName());
+            TFM_Log.severe(ex);
+            
             sender.sendMessage(ChatColor.RED + "Command Error! Could not load command: " + cmd.getName());
             return true;
         }

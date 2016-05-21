@@ -1,12 +1,10 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import me.StevenLawson.TotalFreedomMod.TFM_ServerInterface;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +25,7 @@ public class Command_tfbanlist extends TFM_Command
                     try
                     {
                         TFM_Util.adminAction(sender.getName(), "Purging the ban list", true);
-                        TFM_BanManager.getInstance().purgeUuidBans();
+                        TFM_BanManager.purgeUuidBans();
                         sender.sendMessage(ChatColor.GRAY + "Ban list has been purged.");
                     }
                     catch (Exception ex)
@@ -44,7 +42,7 @@ public class Command_tfbanlist extends TFM_Command
             }
         }
 
-        playerMsg(TFM_BanManager.getInstance().getUuidBanList().size() + " UUID bans total");
+        playerMsg(TFM_BanManager.getUuidBanList().size() + " UUID bans total");
 
         return true;
     }

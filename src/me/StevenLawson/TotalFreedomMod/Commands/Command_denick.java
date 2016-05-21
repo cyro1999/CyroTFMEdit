@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,9 +16,9 @@ public class Command_denick extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "Removing all nicknames", false);
 
-        for (Player player : server.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
-            TFM_EssentialsBridge.getInstance().setNickname(player.getName(), null);
+            TFM_EssentialsBridge.setNickname(player.getName(), null);
         }
 
         return true;

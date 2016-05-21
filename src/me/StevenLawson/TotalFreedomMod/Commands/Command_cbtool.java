@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -29,7 +31,7 @@ public class Command_cbtool extends TFM_Command
 
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player)
         {
-            Block targetBlock = sender_p.getTargetBlock(null, 100);
+            Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(sender_p, null, 100);
             playerMsg("Your target block: " + targetBlock.getLocation().toString());
             return true;
         }
@@ -45,7 +47,7 @@ public class Command_cbtool extends TFM_Command
             }
             matcher.appendTail(generatedCommand);
 
-            if (TFM_CommandBlocker.getInstance().isCommandBlocked(commandLabel, sender))
+            if (TFM_CommandBlocker.isCommandBlocked(commandLabel, sender))
             {
                 return true;
             }
@@ -55,7 +57,7 @@ public class Command_cbtool extends TFM_Command
         catch (SubCommandFailureException ex)
         {
         }
-        catch (Exception ex)
+        catch (CommandException ex)
         {
             TFM_Log.severe(ex);
         }

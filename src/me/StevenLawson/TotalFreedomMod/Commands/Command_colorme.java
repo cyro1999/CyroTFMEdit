@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -49,7 +49,7 @@ public class Command_colorme extends TFM_Command
 
         final String newNick = color + ChatColor.stripColor(sender_p.getDisplayName()).trim() + ChatColor.WHITE;
 
-        TFM_EssentialsBridge.getInstance().setNickname(sender.getName(), newNick);
+        TFM_EssentialsBridge.setNickname(sender.getName(), newNick);
 
         playerMsg("Your nickname is now: " + newNick);
 

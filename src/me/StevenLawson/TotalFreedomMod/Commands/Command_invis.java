@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class Command_invis extends TFM_Command
         List<String> players = new ArrayList<String>();
         int smites = 0;
 
-        for (Player player : server.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             if (player.hasPotionEffect(PotionEffectType.INVISIBILITY))
             {
@@ -61,7 +62,6 @@ public class Command_invis extends TFM_Command
         {
             TFM_Util.playerMsg(sender, "Invisble players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
-
 
         return true;
     }

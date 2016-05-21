@@ -10,10 +10,11 @@ import org.bukkit.entity.Player;
 public class Command_donate extends TFM_Command
 {
 
-	@Override
-	public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
+    @Override
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
+    {
         sender.sendMessage(ChatColor.RED + "Command not ready yet wait for a dev to come up for an idea");
-		return true;
-	}
+        return true;
+    }
 
 }

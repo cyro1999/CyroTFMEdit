@@ -42,7 +42,6 @@ public class Command_rank extends TFM_Command
             return true;
         }
 
-
         playerMsg(player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage(), ChatColor.AQUA);
 
         return true;

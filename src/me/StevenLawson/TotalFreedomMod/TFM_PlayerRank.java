@@ -11,7 +11,7 @@ public enum TFM_PlayerRank
     EXECUTIVE("an " + ChatColor.GRAY + "Executive", ChatColor.GRAY + "[Executive]"),
     WEB("the " + ChatColor.YELLOW + "Chief Web Developer!", ChatColor.YELLOW + "[Chief Web Developer]"),
     CDEV("the " + ChatColor.DARK_PURPLE + "Chief Developer!", ChatColor.DARK_PURPLE + "[Chief Developer]"),
-    SECURITY("the chief of " + ChatColor.GRAY + "Security", ChatColor.RED+ "[Chief of Security]"),
+    SECURITY("the chief of " + ChatColor.GRAY + "Security", ChatColor.RED + "[Chief of Security]"),
     SYS("a " + ChatColor.DARK_RED + "System Admin", ChatColor.DARK_RED + "[Sys-Admin]"),
     DEVELOPER("a " + ChatColor.DARK_PURPLE + "Developer", ChatColor.DARK_PURPLE + "[Dev]"),
     IMPOSTOR("an " + ChatColor.YELLOW + ChatColor.UNDERLINE + "Impostor", ChatColor.YELLOW.toString() + ChatColor.UNDERLINE + "[IMP]"),
@@ -85,25 +85,20 @@ public enum TFM_PlayerRank
         {
             return SYS;
         }
-//        // He's executive assistant to Paldiu
-//        // Paldiu doesn't update FOPM anymore, and quit is placed as Honary now.   
-//        if (sender.getName().equalsIgnoreCase("jamelb"))
-//        {
-//            return EXECUTIVE;
-        }
         if (sender.getName().equals("SupItsDillon"))
         {
             return SECURITY;
         }
+
         if (sender.getName().equals("aggelosQQ"))
         {
             return EXECUTIVE;
         }
+
         if (DEVELOPERS.contains(sender.getName()))
         {
             return DEVELOPER;
         }
-
 
         final TFM_Admin entry = TFM_AdminList.getEntry((Player) sender);
 
@@ -129,17 +124,14 @@ public enum TFM_PlayerRank
                 rank = SUPER;
             }
         }
+
+        else if (sender.isOp())
+        {
+            rank = OP;
+        }
         else
         {
-            if (sender.isOp())
-            {
-                rank = OP;
-            }
-            else
-            {
-                rank = NON_OP;
-            }
-
+            rank = NON_OP;
         }
         return rank;
     }

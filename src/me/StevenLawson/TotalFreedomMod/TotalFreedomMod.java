@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -33,9 +32,11 @@ public class TotalFreedomMod extends JavaPlugin
 {
     public static final long HEARTBEAT_RATE = 5L; // Seconds
     public static final long SERVICE_CHECKER_RATE = 120L;
+    public static final int MAX_USERNAME_LENGTH = 20;
     //
-    public static final String SUPERADMIN_FILE = "superadmin.yml";
-    public static final String PERMBAN_FILE = "permban.yml";
+    public static final String CONFIG_FILENAME = "config.yml";
+    public static final String SUPERADMIN_FILENAME = "superadmin.yml";
+    public static final String PERMBAN_FILENAME = "permban.yml";
     public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
     //
@@ -48,14 +49,14 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
-    public static final String PASSWORD_VERIFY = "FreedomOPVerify2014";
+    public static final String PASSWORD_VERIFY = "FreedomOPVerify2016";
     public static final String YOU_ARE_NOT_IMPOSTER = "You are not an imposter or you are not an admin.";
     public static final String INCORRECT_PSW = "That password is incorrect.";
     public static final String FREEDOMOP_MOD = ChatColor.GRAY + "[" + ChatColor.RED + "FreedomOpMod" + ChatColor.GRAY + "]";
     //
     public static String buildNumber = "0";
     public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
-    public static String buildCreator = "buildcarter8";
+    public static String buildCreator = "hypertechHD";
     //
     public static Server server;
     public static TotalFreedomMod plugin;
@@ -97,19 +98,19 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("This might result in unexpected behaviour!");
         }
         // Admin list
-        TFM_Util.createBackups(SUPERADMIN_FILE);
+        TFM_Util.createBackups(SUPERADMIN_FILENAME);
         TFM_AdminList.load();
 
         // Permban list
-        TFM_Util.createBackups(PERMBAN_FILE);
+        TFM_Util.createBackups(PERMBAN_FILENAME);
         TFM_PermbanList.load();
-        
+
         // Load Donators
         FOM_DonatorList.loadDonatorList();
-        
+
         // Playerlist and bans
-        TFM_PlayerList.getInstance().load();
-        TFM_BanManager.getInstance().load();
+        TFM_PlayerList.load();
+        TFM_BanManager.load();
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
@@ -178,7 +179,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
 
         TFM_ServiceChecker.getInstance().start();
-        TFM_HTTPD_Manager.getInstance().start();
+        TFM_HTTPD_Manager.start();
 
         TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
 
@@ -188,8 +189,8 @@ public class TotalFreedomMod extends JavaPlugin
             @Override
             public void run()
             {
-                TFM_CommandLoader.getInstance().scan();
-                TFM_CommandBlocker.getInstance().load();
+                TFM_CommandLoader.scan();
+                TFM_CommandBlocker.load();
             }
         }.runTaskLater(plugin, 20L);
     }
@@ -197,10 +198,10 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onDisable()
     {
-        server.getScheduler().cancelTasks(plugin);
+        Bukkit.getScheduler().cancelTasks(plugin);
 
-        TFM_HTTPD_Manager.getInstance().stop();
-        TFM_BanManager.getInstance().save();
+        TFM_HTTPD_Manager.stop();
+        TFM_BanManager.save();
 
         TFM_Log.info("Plugin disabled");
     }

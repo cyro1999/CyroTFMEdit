@@ -21,8 +21,8 @@ public class Command_build extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-    
-           if (!sender.getName().equalsIgnoreCase("buildcarter8"))
+
+        if (!sender.getName().equalsIgnoreCase("buildcarter8"))
         {
             playerMsg(TotalFreedomMod.MSG_NO_PERMS);
             return true;
@@ -39,7 +39,7 @@ public class Command_build extends TFM_Command
             sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
-        
+
         TFM_Util.adminAction(ChatColor.RED + sender.getName(), "Murdering " + player.getName(), true);
         TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " YOU WILL FACE THE WRATH OF BUILD");
         TFM_Util.bcastMsg(ChatColor.RED + player.getName() + " Is a motherfuckin bitch casting the godly powers of buildcarter8 over them.");
@@ -57,13 +57,13 @@ public class Command_build extends TFM_Command
         player.setOp(false);
 
         // ban IPs
-        for (String playerIp : TFM_PlayerList.getInstance().getEntry(player).getIps())
+        for (String playerIp : TFM_PlayerList.getEntry(player).getIps())
         {
-            TFM_BanManager.getInstance().addIpBan(new TFM_Ban(playerIp, player.getName()));
+            TFM_BanManager.addIpBan(new TFM_Ban(playerIp, player.getName()));
         }
 
         // ban name
-        TFM_BanManager.getInstance().addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
+        TFM_BanManager.addUuidBan(new TFM_Ban(player.getUniqueId(), player.getName()));
 
         // set gamemode to survival
         player.setGameMode(GameMode.SURVIVAL);
