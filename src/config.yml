@@ -25,6 +25,16 @@ server:
   # URL players should appeal for permanent bans at
   permban_url: http://sauc.in/-PermBanAppeal
 
+# ForceIP configuration
+forceip:
+  enabled: false
+
+  # The port players should use to connect to your server; only applies to forceip
+  port: 25565
+
+  # The kick message sent to players when logging in with the wrong hostname
+  kickmsg: You have been kicked from the server - Please connect using %address%
+
 # Blocking certain events
 allow:
   fire_place: false
@@ -33,8 +43,6 @@ allow:
   lava_place: false
   lava_damage: false
   water_place: false
-  #This is for verifying only change when leaked..
-  verify.password: FreedomOpVerify2014
   tnt_minecarts: false
   explosions: false
 
@@ -75,65 +83,60 @@ explosive_radius: 4.0
 blocked_commands:
   # Disabled commands
   - 'n:b:/time:Server-side time changing is disabled. Please use /ptime to set your own personal time.'
-  - 'n:b:/md:This server now uses DisguiseCraft instead of MobDisguise. Type /d to disguise and /u to undisguise.'
   - 'n:b:/gamemode:Use /creative and /survival to set your gamemode.'
-  - 'n:b:/gamerule:_'
-  - 'n:b:/ban:You trying to get yourself banned?'
-  - 'n:b:/pardon:You are require to appeal on our forums, freedomop.boards.net'
-  - 'n:b:/ban-ip:Nice try, how about "/glist ban"'
+  - 'n:b:/ban:_'
+  - 'n:b:/pardon:_'
+  - 'n:b:/ban-ip:_'
   - 'n:b:/pardon-ip:_'
   - 'n:b:/toggledownfall:_'
   - 'n:b:/effect:Please use /potion to set effects.'
   - 'n:b:/enderchest:_'
-  - 'n:b:/pt:How about no?   You are not premitted to use PowerTools!'
-  - 'n:b:/powertool:How about no?   You are not premitted to use PowerTools!'
-  - 'n:b:/tpall:You are not allowed to use tpall, that will result in a permban..'
-  - 'n:b:/bukkit:Disabled'
-  - 'n:b:/banip:Nice try, how about "/glist ban"'
-  - 'n:u:/fg:_'
-  - 'n:b:/kickall:This will result in a permban, k?'
-  - 'n:b:/bcast:This will result in a permban, k?'
-  - 'n:b:/banlist:Did you mean "/tfbanlist"'
-  - 'n:b:/ipbanlist:Did you mean "/tfipbanlist"'
-  - 'n:b:/mute:You are required to use "/stfu" instead.'
-  - 'n:u:/cb:_'
-  - 'n:b:/mail sendall:&4You cannot send mails to everyone!'
+  - 'n:b:/spreadplayers:_'
+  - 'n:b:/execute:_'
+  - 'n:b:/blockdata:_'
+  - 'n:b:/clearhistory:_'
+  - 'n:b:/save-all:_'
+  - 'n:b:/save-on:_'
+  - 'n:b:/save-off:_'
 
 
   # Superadmin commands
-  - 's:b:/deopall:_'
   - 's:b:/kick:_'
-  - 's:u:/v:_'
-  - 's:b:/give:Please use "/i" instead'
   - 's:b:/socialspy:_'
   - 's:b:/kill:_'
   - 's:b://generate:_'
   - 's:b://:_'
   - 's:b:/superpickaxe:_'
   - 's:b:/brush:_'
+  - 's:b:/size:_'
+  - 's:b://mask:_'
   - 's:b:/mat:_'
-  - 's:b:/tool:_'
   - 's:b://butcher:_'
-  - 's:b:/scoreboard:Sorry, this command for for Super Administrators and above.'
-  - 's:b:/setspawn:You are able to perform "/sethome" instead.'
-  - 's:b:/co:You may report grief to any online administrator, just scream it..'
-  - 's:b:/tpo:Please use "/tp" instead of "/tpo"'
-  - 's:b:/tpohere:Please use "/tpahere" instead of "/tpohere"'
-  - 's:b:/tphere:Please use "/tpahere" instead of "/tphere"'
+  - 's:b:/scoreboard:_'
+  - 's:b:/setspawn:_'
+  - 's:b://snow:_'
+  - 's:b:/tellraw:_'
+  - 's:b:/forestgen:_'
+  - 's:b:/setidletimeout:_'
+  - 's:b:/mail sendall:_'
+  - 's:b:/eco reset:_'
+  - 's:b:/mask:_'
+  - 's:b:/gmask:_'
+  - 's:b:/lrbuild:_'
+  - 's:b:/defaultgamemode:_'
+  - 's:b:/reload:_'
+  - 's:b:/title:_'
+  - 's:b:/worldborder:_'
+  - 's:b:/weather:_'
+  - 's:b:/tpall:_'
+  - 's:b:/setblock:_'
+  - 's:b:/green:_'
+  - 'n:b:/gamerule:_'
+  - 'n:b:/togglejail:_'
 
   # Superadmin commands - Auto-eject
-  - 's:a:/stop'
-  - 's:a:/reload'
-  - 's:a:/save-all'
-  - 's:a:/save-on'
-  - 's:a:/save-off'
-  - 's:a:/clearhistory'
-  - 's:a:/nuke'
-  - 's:a:/mat'
-
-    # Spigot commands
-  - 's:a:/restart'
-  - 's:b:/setblock'
+  - 's:a:/stop:_'
+  - 's:a:/restart:_'
 
 # Automatically wipe dropped objects:
 auto_wipe: true
@@ -237,11 +240,8 @@ unbannable_usernames:
   - dantdm
   - gizzy14gazza
 
-# TwitterBot - Used to allow superadmins to verify themselves using twitter
-twitterbot:
-  enabled: false
-  url: ''
-  secret: ''
+noadmin_ips:
+  - 167.114.97.16
 
 # Pet Protect - Prevent tamed pets from being killed.
 petprotect:
