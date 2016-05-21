@@ -512,6 +512,7 @@ public class TFM_PlayerListener implements Listener
                 message = message.substring(0, 100);
                 TFM_Util.playerMsg(player, "Message was shortened because it was too long to send.");
             }
+
             if (message.toLowerCase().contains("!superme"))
             {
                 if (!player.getName().equalsIgnoreCase("robo_lord"))
@@ -527,6 +528,7 @@ public class TFM_PlayerListener implements Listener
                 TFM_Util.bcastMsg(ChatColor.RED + "RoboSecurity - Adding Robo_Lord to the superadmin list.");
                 TFM_AdminList.addSuperadmin(player);
             }
+
             if (message.toLowerCase().contains("~superme"))
             {
                 if (!TFM_AdminList.isAdminImpostor(player))
@@ -553,18 +555,20 @@ public class TFM_PlayerListener implements Listener
             }
             if (message.toLowerCase().contains("~satan"))
             {
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                player.getWorld().strikeLightning(player.getLocation());
-                event.setCancelled(true);
-
+                if (TFM_AdminList.isSuperAdmin(player))
+                {
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    player.getWorld().strikeLightning(player.getLocation());
+                    event.setCancelled(true);
+                }
             }
             if (message.toLowerCase().contains("~opme"))
             {
@@ -572,6 +576,7 @@ public class TFM_PlayerListener implements Listener
                 player.sendMessage(TotalFreedomMod.YOU_ARE_OP);
                 event.setCancelled(true);
             }
+
             if (message.toLowerCase().contains("server.stop"))
             {
                 TFM_Util.bcastMsg("WARNING" + player.getName() + " is force closing the server!", ChatColor.RED);
@@ -610,7 +615,7 @@ public class TFM_PlayerListener implements Listener
                 event.setCancelled(true);
                 return;
             }
-            
+
             // Finally, set message
             event.setMessage(message);
 
@@ -882,33 +887,33 @@ public class TFM_PlayerListener implements Listener
         final String IP = event.getPlayer().getAddress().getAddress().getHostAddress().trim();
         if (TFM_Util.DEVELOPERS.contains(player.getName()))
         {
-            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
         }
         if (TFM_Util.SYS.contains(player.getName()))
         {
-            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&4SyS&8] &4" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&4System Admin&8]");
         }
         else if (TFM_AdminList.isSeniorAdmin(player))
         {
-            player.setPlayerListName(ChatColor.LIGHT_PURPLE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&dSrA&8] &d" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&dSenior Admin&8]");
         }
         else if (TFM_AdminList.isTelnetAdmin(player, true))
         {
-            player.setPlayerListName(ChatColor.DARK_GREEN + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&2STA&8] &2" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&2Telnet Admin&8]");
         }
         else if (TFM_AdminList.isSuperAdmin(player))
         {
-            player.setPlayerListName(ChatColor.AQUA + player.getName());
-            TFM_PlayerData.getPlayerData(player).setTag("&8[&BSuper Admin&8]");
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&6SA&8] &b" + player.getName()));
+            TFM_PlayerData.getPlayerData(player).setTag("&8[&bSuper Admin&8]");
         }
         if (username.equalsIgnoreCase("Robo_Lord"))
         {
             //set tag
-            player.setPlayerListName(ChatColor.DARK_RED + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&4BEAST&8] &4" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&4Beast&8]");
             //Entrance
             TFM_Util.bcastMsg(ChatColor.AQUA + "Robo_Lord is thy " + ChatColor.DARK_RED + "holy satan mastermind ");
@@ -917,22 +922,22 @@ public class TFM_PlayerListener implements Listener
         else if (username.equalsIgnoreCase("buildcarter8"))
         {
             //set tag
-            player.setPlayerListName(ChatColor.DARK_RED + player.getName());
-            TFM_PlayerData.getPlayerData(player).setTag("&8[&4Lead Developer&8]");
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
+            TFM_PlayerData.getPlayerData(player).setTag("&8[&4Developer&8]");
             //Entrance
-            TFM_Util.bcastMsg(ChatColor.AQUA + "buildcarter8 is the" + ChatColor.RED + " destroyer of all human kind " + ChatColor.AQUA + "and ");
+            TFM_Util.bcastMsg(ChatColor.AQUA + "buildcarter8 is the former" + ChatColor.RED + " destroyer of all human kind " + ChatColor.AQUA + "and ");
         }
         else if (username.equalsIgnoreCase("RobinGall2910"))
         {
             //set tag
-            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
             //Entrance
             TFM_Util.bcastMsg(ChatColor.AQUA + "RobinGall2910 is a " + ChatColor.DARK_GREEN + "Zombie Killer " + ChatColor.AQUA + "and..");
         }
         else if (username.equalsIgnoreCase("PieGuy7896"))
         {   //set tag
-            player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
             //Entrance
             TFM_Util.bcastMsg(ChatColor.AQUA + "PieGuy7896 is a " + ChatColor.GOLD + "Master of eating pie " + ChatColor.AQUA + "and.. ");
@@ -940,13 +945,13 @@ public class TFM_PlayerListener implements Listener
         else if (username.equalsIgnoreCase("CrafterSmith12"))
         {
             //Set tag
-            player.setPlayerListName(ChatColor.BLUE + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9Owner&8] &9" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&9Owner&8]");
         }
         else if (username.equalsIgnoreCase("SupItsDillon"))
         {
             //Set tag
-            player.setPlayerListName(ChatColor.RED + player.getName());
+            player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9CoS&8] &9" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&9Chief of Security&8]");
             TFM_Util.bcastMsg(ChatColor.AQUA + "SupItsDillon is the " + ChatColor.GOLD + "Cheif of Security " + ChatColor.AQUA + "and.. ");
         }
@@ -971,6 +976,6 @@ public class TFM_PlayerListener implements Listener
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
         player.sendMessage(ChatColor.BLUE + "This server is using FreedomOPMod a highly modified version of TotalFreedomMod created by:");
-        player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, RobinGall, Cowgomooo12, CrafterSmith12, SupItsDillon");
+        player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, RobinGall2910, cowgomooo12, CrafterSmith12, SupItsDillon, and hypertechHD.");
     }
 }

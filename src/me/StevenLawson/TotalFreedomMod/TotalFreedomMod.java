@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import me.RoboSystems.DonationSystem.FOM_DonatorList;
+import me.RoboSystems.DonationSystem.FOM_DonatorWorld;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -15,6 +16,7 @@ import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
 import me.StevenLawson.TotalFreedomMod.Listener.*;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
+import me.StevenLawson.TotalFreedomMod.World.TFM_PvpWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -49,9 +51,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CAKE_LYRICS = "But there's no sense crying over every mistake. You just keep on trying till you run out of cake.";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
-    public static final String PASSWORD_VERIFY = "FreedomOPVerify2016";
     public static final String YOU_ARE_NOT_IMPOSTER = "You are not an imposter or you are not an admin.";
-    public static final String INCORRECT_PSW = "That password is incorrect.";
     public static final String FREEDOMOP_MOD = ChatColor.GRAY + "[" + ChatColor.RED + "FreedomOpMod" + ChatColor.GRAY + "]";
     //
     public static String buildNumber = "0";
@@ -114,7 +114,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         TFM_Util.deleteFolder(new File("./_deleteme"));
 
-        final PluginManager pm = server.getPluginManager();
+        final PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new TFM_EntityListener(), plugin);
         pm.registerEvents(new TFM_BlockListener(), plugin);
         pm.registerEvents(new TFM_PlayerListener(), plugin);
@@ -136,6 +136,22 @@ public class TotalFreedomMod extends JavaPlugin
         catch (Exception ex)
         {
         }
+        
+        try
+        {
+            FOM_DonatorWorld.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
+        }
+        
+        try
+        {
+            TFM_PvpWorld.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
+        }
 
         // Initialize game rules
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !TFM_ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
@@ -149,7 +165,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
-            for (World world : server.getWorlds())
+            for (World world : Bukkit.getWorlds())
             {
                 world.setThundering(false);
                 world.setStorm(false);
