@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,21 +24,21 @@ public class Command_lockup extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Locking up all players", true);
 
-                for (Player player : server.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
                     startLockup(player);
                 }
-                playerMsg("Locked up all players.");
+                sender.sendMessage(ChatColor.RED + "Locked up all players.");
             }
             else if (args[0].equalsIgnoreCase("purge"))
             {
                 TFM_Util.adminAction(sender.getName(), "Unlocking all players", true);
-                for (Player player : server.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
                     cancelLockup(player);
                 }
 
-                playerMsg("Unlocked all players.");
+                sender.sendMessage(ChatColor.GREEN + "Unlocked all players.");
             }
             else
             {
@@ -57,7 +59,7 @@ public class Command_lockup extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Locking up " + player.getName(), true);
                 startLockup(player);
-                playerMsg("Locked up " + player.getName() + ".");
+                sender.sendMessage(ChatColor.GREEN + "Locked up " + player.getName() + ".");
             }
             else if ("off".equals(args[1]))
             {
@@ -71,7 +73,7 @@ public class Command_lockup extends TFM_Command
 
                 TFM_Util.adminAction(sender.getName(), "Unlocking " + player.getName(), true);
                 cancelLockup(player);
-                playerMsg("Unlocked " + player.getName() + ".");
+                sender.sendMessage(ChatColor.GREEN + "Unlocked " + player.getName() + ".");
             }
             else
             {

@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class Command_setspawnworld extends TFM_Command
         Location pos = sender_p.getLocation();
         sender_p.getWorld().setSpawnLocation(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
-        playerMsg("Spawn location for this world set to: " + TFM_Util.formatLocation(sender_p.getWorld().getSpawnLocation()));
+        sender.sendMessage(ChatColor.GRAY + "Spawn location for this world set to: " + TFM_Util.formatLocation(sender_p.getWorld().getSpawnLocation()));
 
         if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean() && TFM_ConfigEntry.PROTECTAREA_SPAWNPOINTS.getBoolean())
         {

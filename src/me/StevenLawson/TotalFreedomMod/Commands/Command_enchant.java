@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -26,7 +27,7 @@ public class Command_enchant extends TFM_Command
 
         if (itemInHand == null)
         {
-            playerMsg("You are holding an invalid item.");
+            sender.sendMessage(ChatColor.RED + "You are holding an invalid item.");
             return true;
         }
 
@@ -46,11 +47,11 @@ public class Command_enchant extends TFM_Command
 
             if (has_enchantments)
             {
-                playerMsg(possible_ench.toString());
+                sender.sendMessage(ChatColor.GREEN + possible_ench.toString());
             }
             else
             {
-                playerMsg("The held item has no enchantments.");
+                sender.sendMessage(ChatColor.RED + "The held item has no enchantments.");
             }
         }
         else if (args[0].equalsIgnoreCase("addall"))
@@ -70,7 +71,7 @@ public class Command_enchant extends TFM_Command
                 }
             }
 
-            playerMsg("Added all possible enchantments for this item.");
+            sender.sendMessage(ChatColor.GREEN + "Added all possible enchantments for this item.");
         }
         else if (args[0].equalsIgnoreCase("reset"))
         {
@@ -79,7 +80,7 @@ public class Command_enchant extends TFM_Command
                 itemInHand.removeEnchantment(ench);
             }
 
-            playerMsg("Removed all enchantments.");
+            sender.sendMessage(ChatColor.GREEN + "Removed all enchantments.");
         }
         else
         {
@@ -100,7 +101,7 @@ public class Command_enchant extends TFM_Command
 
             if (ench == null)
             {
-                playerMsg(args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
+                sender.sendMessage(ChatColor.RED + args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
                 return true;
             }
 
@@ -110,18 +111,18 @@ public class Command_enchant extends TFM_Command
                 {
                     itemInHand.addEnchantment(ench, ench.getMaxLevel());
 
-                    playerMsg("Added enchantment: " + ench.getName());
+                    sender.sendMessage(ChatColor.GREEN + "Added enchantment: " + ench.getName());
                 }
                 else
                 {
-                    playerMsg("Can't use this enchantment on held item.");
+                    sender.sendMessage(ChatColor.RED + "Can't use this enchantment on held item.");
                 }
             }
             else if (args[0].equals("remove"))
             {
                 itemInHand.removeEnchantment(ench);
 
-                playerMsg("Removed enchantment: " + ench.getName());
+                sender.sendMessage(ChatColor.GREEN + "Removed enchantment: " + ench.getName());
             }
         }
 

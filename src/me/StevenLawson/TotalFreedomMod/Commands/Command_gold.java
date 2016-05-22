@@ -2,13 +2,10 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.earth2me.essentials.commands.PlayerNotFoundException;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Superadmin command- Smite the Sky fans", usage = "/<command> <player>")
@@ -27,7 +24,7 @@ public class Command_gold extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
         TFM_Util.bcastMsg(player.getName() + " Is a sky fan -_-", ChatColor.RED);

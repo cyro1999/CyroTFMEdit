@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.World.TFM_PvpWorld;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class Command_pvpworld extends TFM_Command
         }
         else
         {
-            playerMsg("The world is currently disabled.");
+            sender.sendMessage(ChatColor.GRAY + "The world is currently disabled.");
         }
         return true;
     }

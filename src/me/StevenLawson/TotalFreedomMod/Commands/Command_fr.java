@@ -41,7 +41,7 @@ public class Command_fr extends TFM_Command
                     }
                 }.runTaskLater(plugin, 20L * 60L * 5L);
 
-                playerMsg("Players are now frozen.");
+                sender.sendMessage(ChatColor.GRAY + "Players are now frozen.");
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     if (!TFM_AdminList.isSuperAdmin(player))
@@ -58,7 +58,7 @@ public class Command_fr extends TFM_Command
                 {
                     TotalFreedomMod.freezePurgeTask.cancel();
                 }
-                playerMsg("Players are now free to move.");
+                sender.sendMessage(ChatColor.GRAY + "Players are now free to move.");
             }
         }
         else if (args[0].toLowerCase().equals("purge"))
@@ -83,15 +83,15 @@ public class Command_fr extends TFM_Command
 
             if (player == null)
             {
-                playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
                 return true;
             }
 
             TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
             playerdata.setFrozen(!playerdata.isFrozen());
 
-            playerMsg(player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
-            playerMsg(player, "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
+            sender.sendMessage(ChatColor.GREEN + player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+            player.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
         }
 
         return true;

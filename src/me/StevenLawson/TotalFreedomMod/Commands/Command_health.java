@@ -25,10 +25,10 @@ public class Command_health extends TFM_Command
         Runtime runtime = Runtime.getRuntime();
         long usedMem = runtime.totalMemory() - runtime.freeMemory();
 
-        playerMsg("Reserved Memory: " + (double) runtime.totalMemory() / (double) BYTES_PER_MB + "mb");
-        playerMsg("Used Memory: " + new DecimalFormat("#").format((double) usedMem / (double) BYTES_PER_MB) + "mb (" + new DecimalFormat("#").format(((double) usedMem / (double) runtime.totalMemory()) * 100.0) + "%)");
-        playerMsg("Max Memory: " + (double) runtime.maxMemory() / (double) BYTES_PER_MB + "mb");
-        playerMsg("Calculating ticks per second, please wait...");
+        sender.sendMessage(ChatColor.GRAY + "Reserved Memory: " + (double) runtime.totalMemory() / (double) BYTES_PER_MB + "mb");
+        sender.sendMessage(ChatColor.GRAY + "Used Memory: " + new DecimalFormat("#").format((double) usedMem / (double) BYTES_PER_MB) + "mb (" + new DecimalFormat("#").format(((double) usedMem / (double) runtime.totalMemory()) * 100.0) + "%)");
+        sender.sendMessage(ChatColor.GRAY + "Max Memory: " + (double) runtime.maxMemory() / (double) BYTES_PER_MB + "mb");
+        sender.sendMessage(ChatColor.GRAY + "Calculating ticks per second, please wait...");
 
         new BukkitRunnable()
         {
@@ -47,11 +47,11 @@ public class Command_health extends TFM_Command
                         @Override
                         public void run()
                         {
-                            playerMsg("Ticks per second: " + (TPS_RANGE.containsDouble(ticksPerSecond) ? ChatColor.GREEN : ChatColor.RED) + ticksPerSecond);
+                            sender.sendMessage(ChatColor.GRAY + "Ticks per second: " + (TPS_RANGE.containsDouble(ticksPerSecond) ? ChatColor.GREEN : ChatColor.RED) + ticksPerSecond);
                         }
                     }.runTask(plugin);
                 }
-                catch (Exception ex)
+                catch (InterruptedException | IllegalArgumentException | IllegalStateException ex)
                 {
                     TFM_Log.severe(ex);
                 }

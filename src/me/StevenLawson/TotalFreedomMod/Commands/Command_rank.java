@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerRank;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,9 +17,9 @@ public class Command_rank extends TFM_Command
     {
         if (senderIsConsole && args.length < 1)
         {
-            for (Player player : server.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
-                playerMsg(player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage());
+                sender.sendMessage(ChatColor.GRAY + player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage());
             }
             return true;
         }
@@ -30,7 +31,7 @@ public class Command_rank extends TFM_Command
 
         if (args.length == 0)
         {
-            playerMsg(sender.getName() + " is " + TFM_PlayerRank.fromSender(sender).getLoginMessage(), ChatColor.AQUA);
+            sender.sendMessage(ChatColor.AQUA + sender.getName() + " is " + TFM_PlayerRank.fromSender(sender).getLoginMessage());
             return true;
         }
 
@@ -42,7 +43,7 @@ public class Command_rank extends TFM_Command
             return true;
         }
 
-        playerMsg(player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage(), ChatColor.AQUA);
+        sender.sendMessage(ChatColor.AQUA + player.getName() + " is " + TFM_PlayerRank.fromSender(player).getLoginMessage());
 
         return true;
     }

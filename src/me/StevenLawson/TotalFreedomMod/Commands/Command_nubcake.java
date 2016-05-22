@@ -25,7 +25,7 @@ public class Command_nubcake extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
         TFM_Util.bcastMsg(player.getName() + " Is a nubcake", ChatColor.RED);

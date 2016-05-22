@@ -4,6 +4,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +34,7 @@ public class Command_halt extends TFM_Command
                     counter++;
                 }
             }
-            playerMsg("Halted " + counter + " players.");
+            sender.sendMessage(ChatColor.GREEN + "Halted " + counter + " players.");
             return true;
         }
 
@@ -40,7 +42,7 @@ public class Command_halt extends TFM_Command
         {
             TFM_Util.adminAction(sender.getName(), "Unhalting all players.", true);
             int counter = 0;
-            for (Player player : server.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
                 TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(player);
                 if (TFM_PlayerData.getPlayerData(player).isHalted())
@@ -49,7 +51,7 @@ public class Command_halt extends TFM_Command
                     counter++;
                 }
             }
-            playerMsg("Unhalted " + counter + " players.");
+            sender.sendMessage(ChatColor.GREEN + "Unhalted " + counter + " players.");
             return true;
         }
 
@@ -64,15 +66,15 @@ public class Command_halt extends TFM_Command
                 {
                     if (count == 0)
                     {
-                        playerMsg(sender, "Halted players:");
+                        sender.sendMessage(ChatColor.RED + "Halted players:");
                     }
-                    playerMsg("- " + hp.getName());
+                    sender.sendMessage(ChatColor.RED + "- " + hp.getName());
                     count++;
                 }
             }
             if (count == 0)
             {
-                playerMsg("There are currently no halted players.");
+                sender.sendMessage(ChatColor.GREEN + "There are currently no halted players.");
             }
             return true;
         }

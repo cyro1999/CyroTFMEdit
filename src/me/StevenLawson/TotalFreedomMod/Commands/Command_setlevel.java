@@ -34,13 +34,13 @@ public class Command_setlevel extends TFM_Command
         }
         catch (NumberFormatException ex)
         {
-            playerMsg("Invalid level.", ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + "Invalid level.");
             return true;
         }
 
         sender_p.setLevel(new_level);
 
-        playerMsg("You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
+        sender.sendMessage(ChatColor.AQUA + "You have been set to level " + Integer.toString(new_level));
 
         return true;
     }

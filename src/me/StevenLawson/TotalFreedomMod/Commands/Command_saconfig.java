@@ -2,11 +2,13 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Admin;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Convert;
 import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -27,12 +29,12 @@ public class Command_saconfig extends TFM_Command
         }
         catch (final PermissionsException ex)
         {
-            playerMsg(ex.getMessage());
+            sender.sendMessage(ChatColor.GRAY + ex.getMessage());
             return true;
         }
         catch (final FormatException ex)
         {
-            playerMsg(ex.getMessage());
+            sender.sendMessage(ChatColor.GRAY + ex.getMessage());
             return false;
         }
 
@@ -40,7 +42,7 @@ public class Command_saconfig extends TFM_Command
         {
             case LIST:
             {
-                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "), ChatColor.GOLD);
+                sender.sendMessage(ChatColor.GOLD + "Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "));
 
                 break;
             }
@@ -48,7 +50,7 @@ public class Command_saconfig extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Cleaning superadmin list", true);
                 TFM_AdminList.cleanSuperadminList(true);
-                playerMsg("Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "), ChatColor.YELLOW);
+                sender.sendMessage(ChatColor.YELLOW + "Superadmins: " + StringUtils.join(TFM_AdminList.getSuperNames(), ", "));
 
                 break;
             }
@@ -58,7 +60,7 @@ public class Command_saconfig extends TFM_Command
 
                 if (admin == null)
                 {
-                    playerMsg("Could not find your admin entry! Please notify a developer.", ChatColor.RED);
+                    sender.sendMessage(ChatColor.RED + "Could not find your admin entry! Please notify a developer.");
                     return true;
                 }
 
@@ -74,18 +76,18 @@ public class Command_saconfig extends TFM_Command
 
                     TFM_AdminList.saveAll();
 
-                    playerMsg(counter + " IPs removed.");
-                    playerMsg(admin.getIps().get(0) + " is now your only IP address");
+                    sender.sendMessage(ChatColor.GRAY + TFM_Convert.toString(counter) + " IPs removed.");
+                    sender.sendMessage(ChatColor.GRAY + admin.getIps().get(0) + " is now your only IP address");
                 }
                 else
                 {
                     if (!admin.getIps().contains(args[1]))
                     {
-                        playerMsg("That IP is not registered to you.");
+                        sender.sendMessage(ChatColor.GRAY + "That IP is not registered to you.");
                     }
                     else if (ip.equals(args[1]))
                     {
-                        playerMsg("You cannot remove your current IP.");
+                        sender.sendMessage(ChatColor.GRAY + "You cannot remove your current IP.");
                     }
                     else
                     {
@@ -95,8 +97,8 @@ public class Command_saconfig extends TFM_Command
 
                         TFM_AdminList.saveAll();
 
-                        playerMsg("Removed IP " + args[1]);
-                        playerMsg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
+                        sender.sendMessage(ChatColor.GRAY + "Removed IP " + args[1]);
+                        sender.sendMessage(ChatColor.GRAY + "Current IPs: " + StringUtils.join(admin.getIps(), ", "));
                     }
                 }
 
@@ -117,11 +119,11 @@ public class Command_saconfig extends TFM_Command
 
                 if (superadmin == null)
                 {
-                    playerMsg("Superadmin not found: " + args[1]);
+                    sender.sendMessage(ChatColor.GRAY + "Superadmin not found: " + args[1]);
                 }
                 else
                 {
-                    playerMsg(superadmin.toString());
+                    sender.sendMessage(ChatColor.GRAY + superadmin.toString());
                 }
 
                 break;
@@ -136,11 +138,11 @@ public class Command_saconfig extends TFM_Command
 
                     if (superadmin == null)
                     {
-                        playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                        sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
                         return true;
                     }
 
-                    player = TFM_DepreciationAggregator.getOfflinePlayer(server, superadmin.getLastLoginName());
+                    player = TFM_DepreciationAggregator.getOfflinePlayer(Bukkit.getServer(), superadmin.getLastLoginName());
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Adding " + player.getName() + " to the superadmin list", true);
@@ -153,7 +155,8 @@ public class Command_saconfig extends TFM_Command
                     if (playerdata.isFrozen())
                     {
                         playerdata.setFrozen(false);
-                        playerMsg(player.getPlayer(), "You have been unfrozen.");
+                        Player unfrozeplayer = player.getPlayer();
+                        unfrozeplayer.sendMessage(ChatColor.GRAY + "You have been unfrozen.");
                     }
                 }
 
@@ -172,7 +175,7 @@ public class Command_saconfig extends TFM_Command
 
                 if (!TFM_AdminList.getLowercaseSuperNames().contains(targetName.toLowerCase()))
                 {
-                    playerMsg("Superadmin not found: " + targetName);
+                    sender.sendMessage(ChatColor.RED + "Superadmin not found: " + targetName);
                     return true;
                 }
 

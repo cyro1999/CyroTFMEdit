@@ -24,7 +24,7 @@ public class Command_colorme extends TFM_Command
 
         if ("list".equalsIgnoreCase(args[0]))
         {
-            playerMsg("Colors: " + StringUtils.join(TFM_Util.CHAT_COLOR_NAMES.keySet(), ", "));
+            sender.sendMessage(ChatColor.GRAY + "Colors: " + StringUtils.join(TFM_Util.CHAT_COLOR_NAMES.keySet(), ", "));
             return true;
         }
 
@@ -43,7 +43,7 @@ public class Command_colorme extends TFM_Command
 
         if (color == null)
         {
-            playerMsg("Invalid color: " + needle + " - Use \"/colorme list\" to list colors.");
+            sender.sendMessage(ChatColor.RED + "Invalid color: " + needle + " - Use \"/colorme list\" to list colors.");
             return true;
         }
 
@@ -51,7 +51,7 @@ public class Command_colorme extends TFM_Command
 
         TFM_EssentialsBridge.setNickname(sender.getName(), newNick);
 
-        playerMsg("Your nickname is now: " + newNick);
+        sender.sendMessage(ChatColor.GRAY + "Your nickname is now: " + ChatColor.RESET + newNick);
 
         return true;
     }

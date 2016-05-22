@@ -4,6 +4,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public class Command_blockcmd extends TFM_Command
                     playerdata.setCommandsBlocked(false);
                 }
             }
-            playerMsg("Unblocked commands for " + counter + " players.");
+            sender.sendMessage(ChatColor.GREEN + "Unblocked commands for " + counter + " players.");
             return true;
         }
 
@@ -41,13 +42,13 @@ public class Command_blockcmd extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 
         if (TFM_AdminList.isSuperAdmin(player))
         {
-            playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            sender.sendMessage(ChatColor.RED + player.getName() + " is a Super Admin, and cannot have their commands blocked.");
             return true;
         }
 
@@ -56,7 +57,7 @@ public class Command_blockcmd extends TFM_Command
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
         TFM_Util.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
-        playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
+        sender.sendMessage(ChatColor.GREEN + (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
 
         return true;
     }

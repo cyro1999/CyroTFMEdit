@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class Command_deopall extends TFM_Command
     {
         TFM_Util.adminAction(sender.getName(), "De-opping all players on the server", true);
 
-        for (Player player : server.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             player.setOp(false);
             player.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);

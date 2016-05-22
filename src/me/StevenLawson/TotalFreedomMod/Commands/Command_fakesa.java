@@ -27,16 +27,16 @@ public class Command_fakesa extends TFM_Command
 
             if (player == null)
             {
-                playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
 
                 if (args[0].equalsIgnoreCase("add"))
                 {
-                    TFM_Util.bcastMsg(sender.getName() + " - Adding " + player.getName() + " to the superadmin list.", ChatColor.RED);
+                    TFM_Util.bcastMsg(sender.getName() + " - Adding " + player + " to the superadmin list.", ChatColor.RED);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("remove"))
                 {
-                    TFM_Util.bcastMsg(sender.getName() + " - Removing " + player.getName() + " from the superadmin list.");
+                    TFM_Util.bcastMsg(sender.getName() + " - Removing " + player + " from the superadmin list.");
                     return true;
                 }
                 return true;

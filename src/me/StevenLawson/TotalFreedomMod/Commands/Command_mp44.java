@@ -19,7 +19,7 @@ public class Command_mp44 extends TFM_Command
     {
         if (!TFM_ConfigEntry.MP44_ENABLED.getBoolean())
         {
-            playerMsg("The mp44 is currently disabled.", ChatColor.GREEN);
+            sender.sendMessage(ChatColor.GREEN + "The mp44 is currently disabled.");
             return true;
         }
 
@@ -34,8 +34,8 @@ public class Command_mp44 extends TFM_Command
         {
             playerdata.armMP44();
 
-            playerMsg("mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.", ChatColor.GREEN);
-            playerMsg("Type /mp44 sling to disable.  -by Madgeek1450", ChatColor.GREEN);
+            sender.sendMessage(ChatColor.GREEN + "mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.");
+            sender.sendMessage(ChatColor.GREEN + "Type /mp44 sling to disable.  -by Madgeek1450");
 
             TFM_DepreciationAggregator.setItemInHand(new ItemStack(Material.SULPHUR, 1), sender_p);
         }

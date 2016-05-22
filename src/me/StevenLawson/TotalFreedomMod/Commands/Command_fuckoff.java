@@ -12,6 +12,10 @@ public class Command_fuckoff extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
+        if (args.length == 0)
+        {
+            return false;
+        }
         if (args.length < 1)
         {
             return false;
@@ -46,7 +50,7 @@ public class Command_fuckoff extends TFM_Command
             TotalFreedomMod.fuckoffEnabledFor.put(sender_p, new Double(fuckoff_range));
         }
 
-        playerMsg("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
+        sender.sendMessage("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
 
         return true;
     }

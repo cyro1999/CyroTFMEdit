@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -31,7 +32,7 @@ public class Command_setlever extends TFM_Command
         }
         catch (NumberFormatException ex)
         {
-            playerMsg("Invalid coordinates.");
+            sender.sendMessage(ChatColor.RED + "Invalid coordinates.");
             return true;
         }
 
@@ -49,7 +50,7 @@ public class Command_setlever extends TFM_Command
 
         if (world == null)
         {
-            playerMsg("Invalid world name.");
+            sender.sendMessage(ChatColor.RED + "Invalid world name.");
             return true;
         }
 
@@ -68,7 +69,7 @@ public class Command_setlever extends TFM_Command
         }
         else
         {
-            playerMsg("Target block " + targetBlock + "  is not a lever.");
+            sender.sendMessage(ChatColor.RED + "Target block " + targetBlock + "  is not a lever.");
             return true;
         }
 

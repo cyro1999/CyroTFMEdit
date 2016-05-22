@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,11 +25,11 @@ public class Command_findip extends TFM_Command
         if (player == null)
         {
 
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 
-        playerMsg("Player IPs: " + StringUtils.join(TFM_PlayerList.getEntry(player).getIps(), ", "));
+        sender.sendMessage(ChatColor.GRAY + "Player IPs: " + StringUtils.join(TFM_PlayerList.getEntry(player).getIps(), ", "));
 
         return true;
     }

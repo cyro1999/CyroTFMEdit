@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,10 +24,10 @@ public class Command_ops extends TFM_Command
 
         if (args[0].equals("count"))
         {
-            int totalOps = server.getOperators().size();
+            int totalOps = Bukkit.getServer().getOperators().size();
             int onlineOps = 0;
 
-            for (Player player : server.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
                 if (player.isOp())
                 {
@@ -33,9 +35,9 @@ public class Command_ops extends TFM_Command
                 }
             }
 
-            playerMsg("Online OPs: " + onlineOps);
-            playerMsg("Offline OPs: " + (totalOps - onlineOps));
-            playerMsg("Total OPs: " + totalOps);
+            sender.sendMessage(ChatColor.GRAY + "Online OPs: " + onlineOps);
+            sender.sendMessage(ChatColor.GRAY + "Offline OPs: " + (totalOps - onlineOps));
+            sender.sendMessage(ChatColor.GRAY + "Total OPs: " + totalOps);
 
             return true;
         }
@@ -44,18 +46,19 @@ public class Command_ops extends TFM_Command
         {
             if (!TFM_AdminList.isSuperAdmin(sender))
             {
-                playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
 
             TFM_Util.adminAction(sender.getName(), "Purging all operators", true);
 
-            for (OfflinePlayer player : server.getOperators())
+            for (OfflinePlayer player : Bukkit.getServer().getOperators())
             {
                 player.setOp(false);
                 if (player.isOnline())
                 {
-                    playerMsg((Player) player, TotalFreedomMod.YOU_ARE_NOT_OP);
+                    Player myplay = (Player) player;
+                    myplay.sendMessage(TotalFreedomMod.YOU_ARE_NOT_OP);
                 }
             }
             return true;

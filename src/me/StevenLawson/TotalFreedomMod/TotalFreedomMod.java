@@ -3,7 +3,6 @@ package me.StevenLawson.TotalFreedomMod;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -39,7 +38,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String CONFIG_FILENAME = "config.yml";
     public static final String SUPERADMIN_FILENAME = "superadmin.yml";
     public static final String PERMBAN_FILENAME = "permban.yml";
-    public static final String PROTECTED_AREA_FILE = "protectedareas.dat";
+    public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILE = "savedflags.dat";
     //
     public static final String MSG_NO_PERMS = ChatColor.BLUE + "You do not have permission to use this command.";
@@ -54,9 +53,7 @@ public class TotalFreedomMod extends JavaPlugin
     public static final String YOU_ARE_NOT_IMPOSTER = "You are not an imposter or you are not an admin.";
     public static final String FREEDOMOP_MOD = ChatColor.GRAY + "[" + ChatColor.RED + "FreedomOpMod" + ChatColor.GRAY + "]";
     //
-    public static String buildNumber = "0";
-    public static String buildDate = TotalFreedomMod.buildDate = TFM_Util.dateToString(new Date());
-    public static String buildCreator = "hypertechHD";
+    public static final BuildProperties build = new BuildProperties();
     //
     public static Server server;
     public static TotalFreedomMod plugin;
@@ -80,16 +77,19 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_Log.setPluginLogger(plugin.getLogger());
         TFM_Log.setServerLogger(server.getLogger());
 
-        setAppProperties();
+        build.load();
     }
 
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Made by Madgeek1450 and DarthSalamon Edited By Buildcarter8");
-        TFM_Log.info("Compiled " + buildDate + " by " + buildCreator);
-
-        TFM_Util.deleteCoreDumps();
+        TFM_Log.info("Made by Madgeek1450 and Prozza");
+        TFM_Log.info("Edited By Buildcarter8");
+        TFM_Log.info("Version " + build.formattedVersion());
+        TFM_Log.info("Compiled " + build.date + " by " + build.builder);
+        
+        final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
+        timer.start();
 
         if (!TFM_ServerInterface.COMPILE_NMS_VERSION.equals(TFM_Util.getNmsVersion()))
         {
@@ -97,24 +97,24 @@ public class TotalFreedomMod extends JavaPlugin
                     + "version " + TFM_Util.getNmsVersion() + "!");
             TFM_Log.warning("This might result in unexpected behaviour!");
         }
-        // Admin list
-        TFM_Util.createBackups(SUPERADMIN_FILENAME);
-        TFM_AdminList.load();
-
-        // Permban list
+        
+        TFM_Util.deleteCoreDumps();
+        TFM_Util.deleteFolder(new File("./_deleteme"));
+        
+        TFM_Util.createBackups(CONFIG_FILENAME, true);
         TFM_Util.createBackups(PERMBAN_FILENAME);
+        TFM_Util.createBackups(SUPERADMIN_FILENAME);
+
+
+        TFM_UuidManager.load();
+        TFM_AdminList.load();
         TFM_PermbanList.load();
-
-        // Load Donators
         FOM_DonatorList.loadDonatorList();
-
-        // Playerlist and bans
         TFM_PlayerList.load();
         TFM_BanManager.load();
+        TFM_ProtectedArea.load();
 
-        TFM_Util.deleteFolder(new File("./_deleteme"));
-
-        final PluginManager pm = Bukkit.getPluginManager();
+        final PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new TFM_EntityListener(), plugin);
         pm.registerEvents(new TFM_BlockListener(), plugin);
         pm.registerEvents(new TFM_PlayerListener(), plugin);
@@ -165,7 +165,7 @@ public class TotalFreedomMod extends JavaPlugin
 
         if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
-            for (World world : Bukkit.getWorlds())
+            for (World world : Bukkit.getServer().getWorlds())
             {
                 world.setThundering(false);
                 world.setStorm(false);
@@ -174,14 +174,16 @@ public class TotalFreedomMod extends JavaPlugin
             }
         }
 
-        if (TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
-        {
-            TFM_ProtectedArea.loadProtectedAreas();
-            TFM_ProtectedArea.autoAddSpawnpoints();
-        }
-
         // Heartbeat
         new TFM_Heartbeat(plugin).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
+
+        TFM_ServiceChecker.getInstance().start();
+        TFM_HTTPD_Manager.start();
+        TFM_CommandBlocker.load();
+        
+        timer.update();
+
+        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
 
         // metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
@@ -193,20 +195,16 @@ public class TotalFreedomMod extends JavaPlugin
         {
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
-
-        TFM_ServiceChecker.getInstance().start();
-        TFM_HTTPD_Manager.start();
-
-        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
-
-        // Delayed Start:
+        
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
                 TFM_CommandLoader.scan();
-                TFM_CommandBlocker.load();
+
+                // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
+                TFM_ProtectedArea.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 20L);
     }
@@ -217,6 +215,7 @@ public class TotalFreedomMod extends JavaPlugin
         Bukkit.getScheduler().cancelTasks(plugin);
 
         TFM_HTTPD_Manager.stop();
+        TFM_UuidManager.close();
         TFM_BanManager.save();
 
         TFM_Log.info("Plugin disabled");
@@ -228,25 +227,37 @@ public class TotalFreedomMod extends JavaPlugin
         return TFM_CommandHandler.handleCommand(sender, cmd, commandLabel, args);
     }
 
-    private static void setAppProperties()
-    {
-        try
-        {
-            final InputStream in = plugin.getResource("appinfo.properties");
-            Properties props = new Properties();
+    public static class BuildProperties {
+        public String builder;
+        public String number;
+        public String head;
+        public String date;
 
-            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
-            props.load(in);
-            in.close();
+        public void load() {
+            try
+            {
+                final InputStream in = plugin.getResource("build.properties");
 
-            TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
-            TotalFreedomMod.buildDate = props.getProperty("program.builddate");
-            TotalFreedomMod.buildCreator = props.getProperty("program.buildcreator");
+                final Properties props = new Properties();
+                props.load(in);
+                in.close();
+
+                builder = props.getProperty("program.builder", "unknown");
+                number = props.getProperty("program.buildnumber", "1");
+                head = props.getProperty("program.buildhead", "unknown");
+                date = props.getProperty("program.builddate", "unknown");
+
+            }
+            catch (Exception ex)
+            {
+                TFM_Log.severe("Could not load build properties! Did you compile with Netbeans/ANT?");
+                TFM_Log.severe(ex);
+            }
         }
-        catch (Exception ex)
-        {
-            TFM_Log.severe("Could not load App properties!");
-            TFM_Log.severe(ex);
+
+        public String formattedVersion() {
+            return pluginVersion + "." + number + " (" + head + ")";
         }
     }
+
 }

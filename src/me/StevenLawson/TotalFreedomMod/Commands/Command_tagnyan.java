@@ -30,7 +30,7 @@ public class Command_tagnyan extends TFM_Command
         final TFM_PlayerData data = TFM_PlayerData.getPlayerData(sender_p);
         data.setTag(tag.toString());
 
-        playerMsg("Set tag to " + tag);
+        sender.sendMessage("Set tag to " + tag);
 
         return true;
     }

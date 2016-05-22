@@ -76,12 +76,10 @@ public abstract class MA_Command {
             if (source == SourceType.ONLY_IN_GAME) {
                 return false;
             }
-
-            if (level == AdminLevel.SENIOR && !isSenior) {
+            else if (level == AdminLevel.SENIOR && !isSenior) {
                 return false;
             }
-
-            if (blockHostConsole && TFM_Util.isFromHostConsole(commandSender.getName())) {
+            else if (blockHostConsole && TFM_Util.isFromHostConsole(commandSender.getName())) {
                 return false;
             }
 
@@ -98,8 +96,7 @@ public abstract class MA_Command {
             if (!isSenior) {
                 return false;
             }
-
-            if (!TFM_PlayerData.getPlayerData(senderPlayer).isSuperadminIdVerified()) {
+            else if (!TFM_PlayerData.getPlayerData(senderPlayer).isSuperadminIdVerified()) {
                 return false;
             }
 
@@ -109,8 +106,7 @@ public abstract class MA_Command {
         if (level == AdminLevel.SUPER && !isSuper) {
             return false;
         }
-
-        if (level == AdminLevel.OP && !senderPlayer.isOp()) {
+        else if (level == AdminLevel.OP && !senderPlayer.isOp()) {
             return false;
         }
         return true;

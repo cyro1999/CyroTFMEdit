@@ -21,7 +21,7 @@ public class Command_potato extends TFM_Command
     {
         if (!sender.getName().equalsIgnoreCase("SupItsDillon") || (!sender.getName().equalsIgnoreCase("cowgomooo12")))
         {
-            playerMsg("Only those with ultimate potato powers may use this command!", ChatColor.GRAY);
+            sender.sendMessage(ChatColor.GRAY + "Only those with ultimate potato powers may use this command!");
             return true;
         }
 

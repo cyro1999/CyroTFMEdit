@@ -14,14 +14,14 @@ public class Command_services extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        playerMsg("Mojang Services" + ChatColor.WHITE + ":", ChatColor.BLUE);
+        sender.sendMessage(ChatColor.BLUE + "Mojang Services" + ChatColor.WHITE + ":");
 
         for (ServiceStatus service : TFM_ServiceChecker.getInstance().getAllStatuses())
         {
-            playerMsg(service.getFormattedStatus());
+            sender.sendMessage(service.getFormattedStatus());
         }
-        playerMsg("Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getVersion(), ChatColor.DARK_PURPLE);
-        playerMsg("Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getLastCheck(), ChatColor.DARK_PURPLE);
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getVersion());
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getLastCheck());
 
         return true;
     }

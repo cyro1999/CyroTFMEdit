@@ -4,6 +4,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_BanManager;
+import me.StevenLawson.TotalFreedomMod.TFM_Convert;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,12 +39,12 @@ public class Command_tfipbanlist extends TFM_Command
                 }
                 else
                 {
-                    playerMsg("You do not have permission to purge the IP ban list, you may only view it.");
+                    sender.sendMessage(ChatColor.RED + "You do not have permission to purge the IP ban list, you may only view it.");
                 }
             }
         }
 
-        playerMsg(TFM_BanManager.getIpBanList().size() + " IPbans total");
+        sender.sendMessage(ChatColor.GRAY + TFM_Convert.toString(TFM_BanManager.getIpBanList().size()) + " IPbans total");
 
         return true;
     }

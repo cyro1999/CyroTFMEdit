@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -33,7 +33,7 @@ public class Command_trail extends TFM_Command
         {
             trailPlayers.remove(sender_p);
 
-            playerMsg("Trail disabled.");
+            sender.sendMessage(ChatColor.GRAY + "Trail disabled.");
         }
         else
         {
@@ -42,7 +42,7 @@ public class Command_trail extends TFM_Command
                 trailPlayers.add(sender_p);
             }
 
-            playerMsg("Trail enabled. Use \"/trail off\" to disable.");
+            sender.sendMessage(ChatColor.GRAY + "Trail enabled. Use \"/trail off\" to disable.");
         }
 
         if (!trailPlayers.isEmpty())

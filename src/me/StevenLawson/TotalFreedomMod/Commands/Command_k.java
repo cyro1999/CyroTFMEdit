@@ -25,7 +25,7 @@ public class Command_k extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
         player.sendMessage(ChatColor.RED + "No One gives a damn what you say bitch!");

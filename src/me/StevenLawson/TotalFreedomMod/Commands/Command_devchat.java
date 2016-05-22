@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,12 +18,12 @@ public class Command_devchat extends TFM_Command
     {
         if (!TFM_Util.DEVELOPERS.contains(sender.getName()))
         {
-            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
         if (args.length == 1)
         {
-            for (final Player player : server.getOnlinePlayers())
+            for (final Player player : Bukkit.getOnlinePlayers())
             {
                 if (!TFM_Util.DEVELOPERS.contains(sender.getName()))
                 {

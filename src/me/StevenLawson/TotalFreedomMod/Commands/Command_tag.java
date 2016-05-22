@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
+import me.StevenLawson.TotalFreedomMod.TFM_Convert;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +30,7 @@ public class Command_tag extends TFM_Command {
         if (args.length == 1) {
             if ("clearall".equals(args[0])) {
                 if (!TFM_AdminList.isSuperAdmin(sender)) {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -44,23 +45,23 @@ public class Command_tag extends TFM_Command {
                     }
                 }
 
-                playerMsg(count + " tag(s) removed.");
+                sender.sendMessage(ChatColor.GREEN + TFM_Convert.toString(count) + " tag(s) removed.");
                 return true;
             }
 
             if (senderIsConsole) {
-                playerMsg("Only in-game players can set tags. Use \"/tag clearall\" to reset all tags.");
+                sender.sendMessage(ChatColor.RED + "Only in-game players can set tags. Use \"/tag clearall\" to reset all tags.");
                 return true;
             }
 
             if ("off".equals(args[0])) {
                 TFM_PlayerData.getPlayerData(sender_p).setTag(null);
-                playerMsg("Your tag has been removed.");
+                sender.sendMessage(ChatColor.RED + "Your tag has been removed.");
                 return true;
             }
 
             if (ChatColor.stripColor(TFM_Util.colorize(args[0])).length() > 20) {
-                playerMsg("That tag is too long [Max = 20 characters, not including color codes].");
+                sender.sendMessage(ChatColor.RED + "That tag is too long [Max = 20 characters, not including color codes].");
                 return true;
             }
 
@@ -70,19 +71,19 @@ public class Command_tag extends TFM_Command {
         if (args.length == 2) {
             if ("clear".equals(args[0])) {
                 if (!TFM_AdminList.isSuperAdmin(sender)) {
-                    playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+                    sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
                     return true;
                 }
 
                 final Player player = getPlayer(args[1]);
 
                 if (player == null) {
-                    playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                    sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
                     return true;
                 }
 
                 TFM_PlayerData.getPlayerData(player).setTag(null);
-                playerMsg("Removed " + player.getName() + "'s tag.");
+                sender.sendMessage(ChatColor.GREEN + "Removed " + player.getName() + "'s tag.");
                 return true;
             }
         }
@@ -97,9 +98,9 @@ public class Command_tag extends TFM_Command {
                     }
 
                     if (word.contains(String.valueOf(ChatColor.COLOR_CHAR))) {
-                        playerMsg("That tag contains a forbidden color-code.");
+                        sender.sendMessage(ChatColor.RED + "That tag contains a forbidden color-code.");
                     } else {
-                        playerMsg("That tag contains a forbidden word.");
+                        sender.sendMessage(ChatColor.RED + "That tag contains a forbidden word.");
                     }
                     return true;
                 }
@@ -107,7 +108,7 @@ public class Command_tag extends TFM_Command {
             }
 
             TFM_PlayerData.getPlayerData(sender_p).setTag(TFM_Util.colorize(tag));
-            playerMsg("Tag set to " + TFM_Util.colorize(tag));
+            sender.sendMessage(ChatColor.GOLD + "Tag set to " + ChatColor.RESET + TFM_Util.colorize(tag));
 
             return true;
         }

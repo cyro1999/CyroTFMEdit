@@ -8,6 +8,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -28,13 +29,13 @@ public class Command_gtfo extends TFM_Command
         }
         if (args.length == 1)
         {
-            playerMsg("To may admins not using ban reasons so i decided to make them default ;)!", ChatColor.DARK_AQUA);
+            sender.sendMessage(ChatColor.DARK_AQUA + "To may admins not using ban reasons so i decided to make them default ;)!");
             return true;
         }
-        Player selected = this.server.getPlayer(args[0]);
+        Player selected = Bukkit.getServer().getPlayer(args[0]);
         if (selected.getName().equalsIgnoreCase("Robo_Lord") || selected.getName().equalsIgnoreCase("PutYourNameHere"))
         {
-            playerMsg("OOOOOOOOOOOOOOOOOOOOOOOOO SNAP");
+            sender.sendMessage(ChatColor.GRAY + "OOOOOOOOOOOOOOOOOOOOOOOOO SNAP");
             return true;
         }
 
@@ -42,7 +43,7 @@ public class Command_gtfo extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND, ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 

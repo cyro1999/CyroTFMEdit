@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -65,14 +66,14 @@ public class Command_moblimiter extends TFM_Command
         {
             sender.sendMessage("Moblimiter enabled. Maximum mobcount set to: " + TFM_ConfigEntry.MOB_LIMITER_MAX.getInteger() + ".");
 
-            playerMsg("Dragon: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg("Giant: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg("Slime: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg("Ghast: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean() ? "disabled" : "enabled") + ".");
+            sender.sendMessage(ChatColor.GRAY + "Dragon: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean() ? "disabled" : "enabled") + ".");
+            sender.sendMessage(ChatColor.GRAY + "Giant: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean() ? "disabled" : "enabled") + ".");
+            sender.sendMessage(ChatColor.GRAY + "Slime: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean() ? "disabled" : "enabled") + ".");
+            sender.sendMessage(ChatColor.GRAY + "Ghast: " + (TFM_ConfigEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean() ? "disabled" : "enabled") + ".");
         }
         else
         {
-            playerMsg("Moblimiter is disabled. No mob restrictions are in effect.");
+            sender.sendMessage(ChatColor.RED + "Moblimiter is disabled. No mob restrictions are in effect.");
         }
 
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !TFM_ConfigEntry.MOB_LIMITER_ENABLED.getBoolean());

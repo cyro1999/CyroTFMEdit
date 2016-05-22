@@ -21,11 +21,11 @@ public class Command_landmine extends TFM_Command
     {
         if (!TFM_ConfigEntry.LANDMINES_ENABLED.getBoolean())
         {
-            playerMsg("The landmine is currently disabled.", ChatColor.GREEN);
+            sender.sendMessage(ChatColor.GREEN + "The landmine is currently disabled.");
         }
         else if (!TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
         {
-            playerMsg("Explosions are currently disabled.", ChatColor.GREEN);
+            sender.sendMessage(ChatColor.GREEN + "Explosions are currently disabled.");
         }
         else if (sender.isOp())
         {
@@ -45,7 +45,7 @@ public class Command_landmine extends TFM_Command
             landmine.setType(Material.TNT);
             TFM_LandmineData.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
 
-            playerMsg("Landmine planted. Radius: " + radius + " blocks.", ChatColor.GREEN);
+            sender.sendMessage(ChatColor.GREEN + "Landmine planted. Radius: " + radius + " blocks.");
         }
 
         return true;

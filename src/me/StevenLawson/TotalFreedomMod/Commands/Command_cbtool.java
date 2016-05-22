@@ -9,6 +9,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -32,7 +33,7 @@ public class Command_cbtool extends TFM_Command
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player)
         {
             Block targetBlock = TFM_DepreciationAggregator.getTargetBlock(sender_p, null, 100);
-            playerMsg("Your target block: " + targetBlock.getLocation().toString());
+            sender.sendMessage(ChatColor.GREEN + "Your target block: " + targetBlock.getLocation().toString());
             return true;
         }
 
@@ -52,7 +53,7 @@ public class Command_cbtool extends TFM_Command
                 return true;
             }
 
-            server.dispatchCommand(sender, generatedCommand.toString());
+            Bukkit.dispatchCommand(sender, generatedCommand.toString());
         }
         catch (SubCommandFailureException ex)
         {

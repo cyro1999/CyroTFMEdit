@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -27,14 +28,14 @@ public class Command_status extends TFM_Command
     @Override
     public boolean run(final CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        playerMsg("For information about TotalFreedomMod, try /tfm", ChatColor.GREEN); // Temporary
+        sender.sendMessage(ChatColor.GREEN + "For information about TotalFreedomMod, try /tfm"); // Temporary
 
-        playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.YELLOW);
-        playerMsg("Loaded worlds:", ChatColor.BLUE);
+        sender.sendMessage(ChatColor.YELLOW + "Server is currently running with 'online-mode=" + (Bukkit.getServer().getOnlineMode() ? "true" : "false") + "'.");
+        sender.sendMessage(ChatColor.BLUE + "Loaded worlds:");
         int i = 0;
-        for (World world : server.getWorlds())
+        for (World world : Bukkit.getServer().getWorlds())
         {
-            playerMsg(String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
+            sender.sendMessage(ChatColor.BLUE + String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()));
         }
 
         return true;

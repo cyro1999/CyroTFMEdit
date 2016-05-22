@@ -3,6 +3,8 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +41,7 @@ public class Command_adventure extends TFM_Command
                     return true;
                 }
 
-                for (Player targetPlayer : server.getOnlinePlayers())
+                for (Player targetPlayer : Bukkit.getOnlinePlayers())
                 {
                     targetPlayer.setGameMode(GameMode.ADVENTURE);
                 }
@@ -50,7 +52,7 @@ public class Command_adventure extends TFM_Command
 
             if (!(senderIsConsole || TFM_AdminList.isSuperAdmin(sender)))
             {
-                playerMsg("Only superadmins can change other user's gamemode.");
+                sender.sendMessage(ChatColor.RED + "Only superadmins can change other user's gamemode.");
                 return true;
             }
 
@@ -64,8 +66,8 @@ public class Command_adventure extends TFM_Command
 
         }
 
-        playerMsg("Setting " + player.getName() + " to game mode 'Adventure'.");
-        playerMsg(player, sender.getName() + " set your game mode to 'Adventure'.");
+        sender.sendMessage(ChatColor.GRAY + "Setting " + player.getName() + " to game mode 'Adventure'.");
+        player.sendMessage(ChatColor.RED + sender.getName() + " set your game mode to 'Adventure'.");
         player.setGameMode(GameMode.CREATIVE);
 
         return true;

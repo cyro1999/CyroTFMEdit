@@ -763,26 +763,14 @@ public class TFM_Util
 
     public static void createBackups(String file)
     {
+        createBackups(file, false);
+    }
+    
+    public static void createBackups(String file, boolean onlyWeekly)
+    {
         final String save = file.split("\\.")[0];
-        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup.yml", false);
+        final TFM_Config config = new TFM_Config(TotalFreedomMod.plugin, "backup/backup.yml", false);
         config.load();
-
-        // Daily
-        if (!config.isInt(save + ".daily"))
-        {
-            performBackup(file, "daily");
-            config.set(save + ".daily", TFM_Util.getUnixTime());
-        }
-        else
-        {
-            int lastBackupDaily = config.getInt(save + ".daily");
-
-            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
-            {
-                performBackup(file, "daily");
-                config.set(save + ".daily", TFM_Util.getUnixTime());
-            }
-        }
 
         // Weekly
         if (!config.isInt(save + ".weekly"))
@@ -798,6 +786,29 @@ public class TFM_Util
             {
                 performBackup(file, "weekly");
                 config.set(save + ".weekly", TFM_Util.getUnixTime());
+            }
+        }
+
+        if (onlyWeekly)
+        {
+            config.save();
+            return;
+        }
+
+        // Daily
+        if (!config.isInt(save + ".daily"))
+        {
+            performBackup(file, "daily");
+            config.set(save + ".daily", TFM_Util.getUnixTime());
+        }
+        else
+        {
+            int lastBackupDaily = config.getInt(save + ".daily");
+
+            if (lastBackupDaily + 3600 * 24 < TFM_Util.getUnixTime())
+            {
+                performBackup(file, "daily");
+                config.set(save + ".daily", TFM_Util.getUnixTime());
             }
         }
 
@@ -1116,5 +1127,35 @@ public class TFM_Util
     public static enum EjectMethod
     {
         STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
+    }
+    
+    public static class MethodTimer
+    {
+        private long lastStart;
+        private long total = 0;
+
+        public MethodTimer()
+        {
+        }
+
+        public void start()
+        {
+            this.lastStart = System.currentTimeMillis();
+        }
+
+        public void update()
+        {
+            this.total += (System.currentTimeMillis() - this.lastStart);
+        }
+
+        public long getTotal()
+        {
+            return this.total;
+        }
+
+        public void printTotalToLog(String timerName)
+        {
+            TFM_Log.info("DEBUG: " + timerName + " used " + this.getTotal() + " ms.");
+        }
     }
 }

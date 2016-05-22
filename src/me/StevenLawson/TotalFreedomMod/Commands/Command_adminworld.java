@@ -4,6 +4,8 @@ import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -70,17 +72,17 @@ public class Command_adminworld extends TFM_Command
 
                     if (adminWorld == null || sender_p.getWorld() == adminWorld)
                     {
-                        playerMsg("Going to the main world.");
-                        sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
+                        sender.sendMessage(ChatColor.GRAY + "Going to the main world.");
+                        sender_p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
                     }
                     else if (TFM_AdminWorld.getInstance().canAccessWorld(sender_p))
                     {
-                        playerMsg("Going to the AdminWorld.");
+                        sender.sendMessage(ChatColor.GRAY + "Going to the AdminWorld.");
                         TFM_AdminWorld.getInstance().sendToWorld(sender_p);
                     }
                     else
                     {
-                        playerMsg("You don't have permission to access the AdminWorld.");
+                        sender.sendMessage(ChatColor.RED + "You don't have permission to access the AdminWorld.");
                     }
 
                     break;
@@ -91,7 +93,7 @@ public class Command_adminworld extends TFM_Command
                     {
                         if ("list".equalsIgnoreCase(args[1]))
                         {
-                            playerMsg("AdminWorld guest list: " + TFM_AdminWorld.getInstance().guestListToString());
+                            sender.sendMessage("AdminWorld guest list: " + TFM_AdminWorld.getInstance().guestListToString());
                         }
                         else if ("purge".equalsIgnoreCase(args[1]))
                         {
@@ -124,7 +126,7 @@ public class Command_adminworld extends TFM_Command
                             }
                             else
                             {
-                                playerMsg("Could not add player to guest list.");
+                                sender.sendMessage(ChatColor.RED + "Could not add player to guest list!");
                             }
                         }
                         else if ("remove".equals(args[1]))
@@ -136,7 +138,7 @@ public class Command_adminworld extends TFM_Command
                             }
                             else
                             {
-                                playerMsg("Can't find guest entry for: " + args[2]);
+                                sender.sendMessage(ChatColor.RED + "Can't find guest entry for: " + args[2]);
                             }
                         }
                         else
@@ -157,11 +159,11 @@ public class Command_adminworld extends TFM_Command
                         if (timeOfDay != null)
                         {
                             TFM_AdminWorld.getInstance().setTimeOfDay(timeOfDay);
-                            playerMsg("AdminWorld time set to: " + timeOfDay.name());
+                            sender.sendMessage(ChatColor.GRAY + "AdminWorld time set to: " + timeOfDay.name());
                         }
                         else
                         {
-                            playerMsg("Invalid time of day. Can be: sunrise, noon, sunset, midnight");
+                            sender.sendMessage(ChatColor.RED + "Invalid time of day. Can be: sunrise, noon, sunset, midnight");
                         }
                     }
                     else
@@ -181,11 +183,11 @@ public class Command_adminworld extends TFM_Command
                         if (weatherMode != null)
                         {
                             TFM_AdminWorld.getInstance().setWeatherMode(weatherMode);
-                            playerMsg("AdminWorld weather set to: " + weatherMode.name());
+                            sender.sendMessage(ChatColor.GRAY + "AdminWorld weather set to: " + weatherMode.name());
                         }
                         else
                         {
-                            playerMsg("Invalid weather mode. Can be: off, rain, storm");
+                            sender.sendMessage(ChatColor.RED + "Invalid weather mode. Can be: off, rain, storm");
                         }
                     }
                     else

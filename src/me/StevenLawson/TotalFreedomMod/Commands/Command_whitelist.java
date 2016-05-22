@@ -6,6 +6,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ public class Command_whitelist extends TFM_Command {
 
         // list
         if (args[0].equalsIgnoreCase("list")) {
-            playerMsg("Whitelisted players: " + TFM_Util.playerListToNames(server.getWhitelistedPlayers()));
+            sender.sendMessage(ChatColor.GRAY + "Whitelisted players: " + TFM_Util.playerListToNames(Bukkit.getServer().getWhitelistedPlayers()));
             return true;
         }
 
@@ -33,7 +34,7 @@ public class Command_whitelist extends TFM_Command {
             int offlineWPs = 0;
             int totalWPs = 0;
 
-            for (OfflinePlayer player : server.getWhitelistedPlayers()) {
+            for (OfflinePlayer player : Bukkit.getServer().getWhitelistedPlayers()) {
                 if (player.isOnline()) {
                     onlineWPs++;
                 } else {
@@ -42,9 +43,9 @@ public class Command_whitelist extends TFM_Command {
                 totalWPs++;
             }
 
-            playerMsg("Online whitelisted players: " + onlineWPs);
-            playerMsg("Offline whitelisted players: " + offlineWPs);
-            playerMsg("Total whitelisted players: " + totalWPs);
+            sender.sendMessage(ChatColor.GRAY + "Online whitelisted players: " + onlineWPs);
+            sender.sendMessage(ChatColor.GRAY + "Offline whitelisted players: " + offlineWPs);
+            sender.sendMessage(ChatColor.GRAY + "Total whitelisted players: " + totalWPs);
 
             return true;
         }
@@ -107,7 +108,7 @@ public class Command_whitelist extends TFM_Command {
                 player.setWhitelisted(false);
                 return true;
             } else {
-                playerMsg("That player is not whitelisted");
+                sender.sendMessage(ChatColor.RED + "That player is not whitelisted");
                 return true;
             }
 
@@ -117,14 +118,14 @@ public class Command_whitelist extends TFM_Command {
         if (args[0].equalsIgnoreCase("addall")) {
             TFM_Util.adminAction(sender.getName(), "Adding all online players to the whitelist.", false);
             int counter = 0;
-            for (Player player : server.getOnlinePlayers()) {
+            for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                 if (!player.isWhitelisted()) {
                     player.setWhitelisted(true);
                     counter++;
                 }
             }
 
-            playerMsg("Whitelisted " + counter + " players.");
+            sender.sendMessage(ChatColor.GRAY + "Whitelisted " + counter + " players.");
             return true;
         }
 
@@ -137,7 +138,7 @@ public class Command_whitelist extends TFM_Command {
         //purge
         if (args[0].equalsIgnoreCase("purge")) {
             TFM_Util.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-            playerMsg("Removed " + TFM_ServerInterface.purgeWhitelist() + " players from the whitelist.");
+            sender.sendMessage(ChatColor.GRAY + "Removed " + TFM_ServerInterface.purgeWhitelist() + " players from the whitelist.");
 
             return true;
         }

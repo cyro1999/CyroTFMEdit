@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,8 +16,7 @@ public class Command_cmdspy extends TFM_Command
 
         TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(sender_p);
         playerdata.setCommandSpy(!playerdata.cmdspyEnabled());
-        playerMsg("CommandSpy " + (playerdata.cmdspyEnabled() ? "enabled." : "disabled."));
-
+        sender.sendMessage(ChatColor.GRAY + "CommandSpy " + (playerdata.cmdspyEnabled() ? "enabled." : "disabled."));
         return true;
     }
 }

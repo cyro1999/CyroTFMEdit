@@ -23,9 +23,9 @@ public class Command_jumppads extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("info"))
             {
-                playerMsg("Jumppads: " + (TFM_Jumppads.getInstance().getMode().isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Sideways: " + (TFM_Jumppads.getInstance().getMode() == TFM_Jumppads.JumpPadMode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Strength: " + (TFM_Jumppads.getInstance().getStrength() * 10 - 1), ChatColor.BLUE);
+                sender.sendMessage(ChatColor.BLUE + "Jumppads: " + (TFM_Jumppads.getInstance().getMode().isOn() ? "Enabled" : "Disabled"));
+                sender.sendMessage(ChatColor.BLUE + "Sideways: " + (TFM_Jumppads.getInstance().getMode() == TFM_Jumppads.JumpPadMode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"));
+                sender.sendMessage(ChatColor.BLUE + "Strength: " + (TFM_Jumppads.getInstance().getStrength() * 10 - 1));
                 return true;
             }
 
@@ -44,7 +44,7 @@ public class Command_jumppads extends TFM_Command
         {
             if (TFM_Jumppads.getInstance().getMode() == TFM_Jumppads.JumpPadMode.OFF)
             {
-                playerMsg("Jumppads are currently disabled, please enable them before changing jumppads settings.");
+                sender.sendMessage(ChatColor.RED + "Jumppads are currently disabled, please enable them before changing jumppads settings.");
                 return true;
             }
 
@@ -70,13 +70,13 @@ public class Command_jumppads extends TFM_Command
                 }
                 catch (NumberFormatException ex)
                 {
-                    playerMsg("Invalid Strength");
+                    sender.sendMessage(ChatColor.RED + "Invalid Strength");
                     return true;
                 }
 
                 if (strength > 10 || strength < 1)
                 {
-                    playerMsg("Invalid Strength: The strength may be 1 through 10.");
+                    sender.sendMessage(ChatColor.RED + "Invalid Strength: The strength may be 1 through 10.");
                     return true;
                 }
 

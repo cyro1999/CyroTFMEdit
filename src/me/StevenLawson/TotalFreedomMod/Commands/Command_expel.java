@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -75,11 +76,11 @@ public class Command_expel extends TFM_Command
 
         if (pushedPlayers.isEmpty())
         {
-            playerMsg("No players pushed.");
+            sender.sendMessage(ChatColor.GRAY + "No players pushed.");
         }
         else
         {
-            playerMsg("Pushed " + pushedPlayers.size() + " players: " + StringUtils.join(pushedPlayers, ", "));
+            sender.sendMessage(ChatColor.GRAY + "Pushed " + pushedPlayers.size() + " players: " + StringUtils.join(pushedPlayers, ", "));
         }
 
         return true;

@@ -23,7 +23,7 @@ public class Command_tossmob extends TFM_Command
     {
         if (!TFM_ConfigEntry.TOSSMOB_ENABLED.getBoolean())
         {
-            playerMsg("Tossmob is currently disabled.");
+            sender.sendMessage(ChatColor.RED + "Tossmob is currently disabled.");
             return true;
         }
 
@@ -35,13 +35,13 @@ public class Command_tossmob extends TFM_Command
             if ("off".equals(args[0]))
             {
                 playerData.disableMobThrower();
-                playerMsg("MobThrower is disabled.", ChatColor.GREEN);
+                sender.sendMessage(ChatColor.GREEN + "MobThrower is disabled.");
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("list"))
             {
-                playerMsg("Supported mobs: " + StringUtils.join(TFM_Util.mobtypes.keySet(), ", "), ChatColor.GREEN);
+                sender.sendMessage(ChatColor.GREEN + "Supported mobs: " + StringUtils.join(TFM_Util.mobtypes.keySet(), ", "));
                 return true;
             }
 
@@ -51,8 +51,8 @@ public class Command_tossmob extends TFM_Command
             }
             catch (Exception ex)
             {
-                playerMsg(args[0] + " is not a supported mob type. Using a pig instead.", ChatColor.RED);
-                playerMsg("By the way, you can type /tossmob list to see all possible mobs.", ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + args[0] + " is not a supported mob type. Using a pig instead.");
+                sender.sendMessage(ChatColor.RED + "By the way, you can type /tossmob list to see all possible mobs.");
                 creature = EntityType.PIG;
             }
         }
@@ -79,9 +79,9 @@ public class Command_tossmob extends TFM_Command
         }
 
         playerData.enableMobThrower(creature, speed);
-        playerMsg("MobThrower is enabled. Creature: " + creature + " - Speed: " + speed + ".", ChatColor.GREEN);
-        playerMsg("Left click while holding a " + Material.BONE.toString() + " to throw mobs!", ChatColor.GREEN);
-        playerMsg("Type '/tossmob off' to disable.  -By Madgeek1450", ChatColor.GREEN);
+        sender.sendMessage(ChatColor.GREEN + "MobThrower is enabled. Creature: " + creature + " - Speed: " + speed + ".");
+        sender.sendMessage(ChatColor.GREEN + "Left click while holding a " + Material.BONE.toString() + " to throw mobs!");
+        sender.sendMessage(ChatColor.GREEN + "Type '/tossmob off' to disable.  -By Madgeek1450");
 
         sender_p.setItemInHand(new ItemStack(Material.BONE, 1));
 

@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class Command_rollback extends TFM_Command
             if ("purgeall".equals(args[0]))
             {
                 TFM_Util.adminAction(sender.getName(), "Purging all rollback history", false);
-                playerMsg("Purged all rollback history for " + TFM_RollbackManager.purgeEntries() + " players.");
+                sender.sendMessage(ChatColor.GRAY + "Purged all rollback history for " + TFM_RollbackManager.purgeEntries() + " players.");
             }
             else
             {
@@ -31,18 +32,18 @@ public class Command_rollback extends TFM_Command
 
                 if (playerName == null)
                 {
-                    playerMsg("That player has no entries stored.");
+                    sender.sendMessage(ChatColor.GRAY + "That player has no entries stored.");
                     return true;
                 }
 
                 if (TFM_RollbackManager.canUndoRollback(playerName))
                 {
-                    playerMsg("That player has just been rolled back.");
+                    sender.sendMessage(ChatColor.GRAY + "That player has just been rolled back.");
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
-                playerMsg("Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
-                playerMsg("If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
+                sender.sendMessage(ChatColor.GRAY + "Rolled back " + TFM_RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
+                sender.sendMessage(ChatColor.GRAY + "If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
             }
             return true;
         }
@@ -55,11 +56,11 @@ public class Command_rollback extends TFM_Command
 
                 if (playerName == null)
                 {
-                    playerMsg("That player has no entries stored.");
+                    sender.sendMessage(ChatColor.GRAY + "That player has no entries stored.");
                     return true;
                 }
 
-                playerMsg("Purged " + TFM_RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
+                sender.sendMessage(ChatColor.GRAY + "Purged " + TFM_RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
                 return true;
             }
 
@@ -69,12 +70,12 @@ public class Command_rollback extends TFM_Command
 
                 if (playerName == null)
                 {
-                    playerMsg("That player hasn't been rolled back recently.");
+                    sender.sendMessage(ChatColor.GRAY + "That player hasn't been rolled back recently.");
                     return true;
                 }
 
                 TFM_Util.adminAction(sender.getName(), "Reverting rollback for player: " + playerName, false);
-                playerMsg("Reverted " + TFM_RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
+                sender.sendMessage(ChatColor.GRAY + "Reverted " + TFM_RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
                 return true;
             }
         }

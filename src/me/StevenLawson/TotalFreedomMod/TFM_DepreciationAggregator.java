@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod;
 
 import java.util.HashSet;
+import me.confuser.barapi.BarAPI;
 import net.minecraft.server.v1_9_R2.MinecraftServer;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -22,6 +23,14 @@ public class TFM_DepreciationAggregator
     
     public static ItemStack getItemInHand(Player sender) {
         return sender.getItemInHand();
+    }
+    
+    public static void removeBar(Player sender) {
+        BarAPI.removeBar(sender);
+    }
+    
+    public static void setMessage(String message, int crazy) {
+        BarAPI.setMessage(message, crazy);
     }
     
     public static MinecraftServer getServer() {

@@ -23,7 +23,7 @@ public class Command_lastcmd extends TFM_Command
 
         if (player == null)
         {
-            playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
             return true;
         }
 
@@ -36,7 +36,7 @@ public class Command_lastcmd extends TFM_Command
             {
                 lastCommand = "(none)";
             }
-            playerMsg(player.getName() + " - Last Command: " + lastCommand, ChatColor.GRAY);
+            sender.sendMessage(ChatColor.GRAY + player.getName() + " - Last Command: " + lastCommand);
         }
 
         return true;

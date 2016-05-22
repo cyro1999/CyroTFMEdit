@@ -21,7 +21,7 @@ public class Command_op extends TFM_Command {
         }
 
         if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("everyone")) {
-            playerMsg("Correct usage: /opall");
+            sender.sendMessage(ChatColor.RED + "Correct usage: /opall");
             return true;
         }
 
@@ -37,8 +37,8 @@ public class Command_op extends TFM_Command {
             if (TFM_AdminList.isSuperAdmin(sender) || senderIsConsole) {
                 player = TFM_DepreciationAggregator.getOfflinePlayer(Bukkit.getServer(), args[0]);
             } else {
-                playerMsg("That player is not online.");
-                playerMsg("You don't have permissions to OP offline players.", ChatColor.YELLOW);
+                sender.sendMessage(ChatColor.RED + "That player is not online.");
+                sender.sendMessage(ChatColor.YELLOW + "You don't have permissions to OP offline players.");
                 return true;
             }
         }

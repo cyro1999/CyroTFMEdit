@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.TFM_Convert;
 import me.StevenLawson.TotalFreedomMod.TFM_PermbanList;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +32,7 @@ public class Command_permban extends TFM_Command
                 sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
-            playerMsg("Reloading permban list...", ChatColor.RED);
+            sender.sendMessage(ChatColor.RED + "Reloading permban list...");
             TFM_PermbanList.load();
             dumplist(sender);
         }
@@ -47,22 +48,22 @@ public class Command_permban extends TFM_Command
     {
         if (TFM_PermbanList.getPermbannedPlayers().isEmpty())
         {
-            playerMsg(sender, "No permanently banned player names.");
+            sender.sendMessage(ChatColor.GRAY + "No permanently banned player names.");
         }
         else
         {
-            playerMsg(sender, TFM_PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
-            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
+            sender.sendMessage(ChatColor.GRAY + TFM_Convert.toString(TFM_PermbanList.getPermbannedPlayers().size()) + " permanently banned players:");
+            sender.sendMessage(ChatColor.GRAY + StringUtils.join(TFM_PermbanList.getPermbannedPlayers(), ", "));
         }
 
         if (TFM_PermbanList.getPermbannedIps().isEmpty())
         {
-            playerMsg(sender, "No permanently banned IPs.");
+            sender.sendMessage(ChatColor.GRAY + "No permanently banned IPs.");
         }
         else
         {
-            playerMsg(sender, TFM_PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
-            playerMsg(sender, StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
+            sender.sendMessage(ChatColor.GRAY + TFM_Convert.toString(TFM_PermbanList.getPermbannedIps().size()) + " permanently banned IPs:");
+            sender.sendMessage(ChatColor.GRAY + StringUtils.join(TFM_PermbanList.getPermbannedIps(), ", "));
         }
     }
 }

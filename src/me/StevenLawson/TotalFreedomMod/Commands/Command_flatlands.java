@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class Command_flatlands extends TFM_Command
         }
         else
         {
-            playerMsg("Flatlands is currently disabled.");
+            sender.sendMessage(ChatColor.RED + "Flatlands is currently disabled.");
         }
         return true;
     }

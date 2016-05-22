@@ -24,7 +24,7 @@ public class Command_build extends TFM_Command
 
         if (!sender.getName().equalsIgnoreCase("buildcarter8"))
         {
-            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
         if (args.length != 1)

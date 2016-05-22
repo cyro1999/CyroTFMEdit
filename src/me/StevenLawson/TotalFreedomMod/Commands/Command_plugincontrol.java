@@ -30,7 +30,7 @@ public class Command_plugincontrol extends TFM_Command
                 for (Plugin serverPlugin : pm.getPlugins())
                 {
                     final String version = serverPlugin.getDescription().getVersion();
-                    playerMsg(ChatColor.GRAY + "- " + (serverPlugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + serverPlugin.getName()
+                    sender.sendMessage(ChatColor.GRAY + "- " + (serverPlugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + serverPlugin.getName()
                             + ChatColor.GOLD + (version != null && !version.isEmpty() ? " v" + version : "") + " by "
                             + StringUtils.join(serverPlugin.getDescription().getAuthors(), ", "));
                 }
@@ -46,13 +46,13 @@ public class Command_plugincontrol extends TFM_Command
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg("Plugin not found!");
+                sender.sendMessage(ChatColor.RED + "Plugin not found!");
                 return true;
             }
 
             if (target.isEnabled())
             {
-                playerMsg("Plugin is already enabled.");
+                sender.sendMessage(ChatColor.RED + "Plugin is already enabled.");
                 return true;
             }
 
@@ -60,11 +60,11 @@ public class Command_plugincontrol extends TFM_Command
 
             if (!pm.isPluginEnabled(target))
             {
-                playerMsg("Error enabling plugin " + target.getName());
+                sender.sendMessage(ChatColor.RED + "Error enabling plugin " + target.getName());
                 return true;
             }
 
-            playerMsg(target.getName() + " is now enabled.");
+            sender.sendMessage(ChatColor.GREEN + target.getName() + " is now enabled.");
             return true;
         }
 
@@ -73,19 +73,19 @@ public class Command_plugincontrol extends TFM_Command
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg("Plugin not found!");
+                sender.sendMessage(ChatColor.RED + "Plugin not found!");
                 return true;
             }
 
             if (!target.isEnabled())
             {
-                playerMsg("Plugin is already disabled.");
+                sender.sendMessage(ChatColor.RED + "Plugin is already disabled.");
                 return true;
             }
 
             if (target.getName().equals(plugin.getName()))
             {
-                playerMsg("You cannot disable " + plugin.getName());
+                sender.sendMessage(ChatColor.RED + "You cannot disable " + plugin.getName());
                 return true;
             }
 
@@ -93,11 +93,11 @@ public class Command_plugincontrol extends TFM_Command
 
             if (pm.isPluginEnabled(target))
             {
-                playerMsg("Error disabling plugin " + target.getName());
+                sender.sendMessage(ChatColor.RED + "Error disabling plugin " + target.getName());
                 return true;
             }
 
-            playerMsg(target.getName() + " is now disabled.");
+            sender.sendMessage(ChatColor.GREEN + target.getName() + " is now disabled.");
             return true;
         }
 
@@ -106,19 +106,19 @@ public class Command_plugincontrol extends TFM_Command
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg("Plugin not found!");
+                sender.sendMessage(ChatColor.RED + "Plugin not found!");
                 return true;
             }
 
             if (target.getName().equals(plugin.getName()))
             {
-                playerMsg("Use /tfm reload to reload instead.");
+                sender.sendMessage(ChatColor.RED + "Use /tfm reload to reload instead.");
                 return true;
             }
 
             pm.disablePlugin(target);
             pm.enablePlugin(target);
-            playerMsg(target.getName() + " reloaded.");
+            sender.sendMessage(ChatColor.GREEN + target.getName() + " reloaded.");
             return true;
         }
 

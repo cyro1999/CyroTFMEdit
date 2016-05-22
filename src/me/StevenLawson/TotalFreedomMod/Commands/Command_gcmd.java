@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -32,19 +33,19 @@ public class Command_gcmd extends TFM_Command
         }
         try
         {
-            playerMsg("Sending command as " + player.getName() + ": " + outCommand);
-            if (this.server.dispatchCommand(player, outCommand))
+            sender.sendMessage(ChatColor.GRAY + "Sending command as " + player.getName() + ": " + outCommand);
+            if (Bukkit.getServer().dispatchCommand(player, outCommand))
             {
-                playerMsg("Command sent.");
+                sender.sendMessage(ChatColor.GRAY + "Command sent.");
             }
             else
             {
-                playerMsg("Unknown error sending command.");
+                sender.sendMessage(ChatColor.RED + "Unknown error sending command.");
             }
         }
         catch (Throwable ex)
         {
-            playerMsg("Error sending command: " + ex.getMessage());
+            sender.sendMessage(ChatColor.RED + "Error sending command: " + ex.getMessage());
         }
         return true;
     }

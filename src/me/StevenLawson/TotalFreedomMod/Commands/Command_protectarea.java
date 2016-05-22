@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_ProtectedArea;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class Command_protectarea extends TFM_Command
     {
         if (!TFM_ConfigEntry.PROTECTAREA_ENABLED.getBoolean())
         {
-            playerMsg("Protected areas are currently disabled in the TotalFreedomMod configuration.");
+            sender.sendMessage(ChatColor.RED + "Protected areas are currently disabled in the TotalFreedomMod configuration.");
             return true;
         }
         
@@ -29,13 +30,13 @@ public class Command_protectarea extends TFM_Command
         else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list"))
             {
-                playerMsg("Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                sender.sendMessage(ChatColor.GRAY + "Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
                 TFM_ProtectedArea.clearProtectedAreas();
 
-                playerMsg("Protected Areas Cleared.");
+                sender.sendMessage(ChatColor.GRAY + "Protected Areas Cleared.");
             }
             else
             {
@@ -50,7 +51,7 @@ public class Command_protectarea extends TFM_Command
             {
                 TFM_ProtectedArea.removeProtectedArea(args[1]);
 
-                playerMsg("Area removed. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                sender.sendMessage(ChatColor.GRAY + "Area removed. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {
@@ -65,7 +66,7 @@ public class Command_protectarea extends TFM_Command
             {
                 if (senderIsConsole)
                 {
-                    playerMsg("You must be in-game to set a protected area.");
+                    sender.sendMessage(ChatColor.RED + "You must be in-game to set a protected area.");
                     return true;
                 }
 
@@ -76,19 +77,19 @@ public class Command_protectarea extends TFM_Command
                 }
                 catch (NumberFormatException nfex)
                 {
-                    playerMsg("Invalid radius.");
+                    sender.sendMessage(ChatColor.RED + "Invalid radius.");
                     return true;
                 }
 
                 if (radius > TFM_ProtectedArea.MAX_RADIUS || radius < 0.0D)
                 {
-                    playerMsg("Invalid radius. Radius must be a positive value less than " + TFM_ProtectedArea.MAX_RADIUS + ".");
+                    sender.sendMessage(ChatColor.RED + "Invalid radius. Radius must be a positive value less than " + TFM_ProtectedArea.MAX_RADIUS + ".");
                     return true;
                 }
 
                 TFM_ProtectedArea.addProtectedArea(args[1], sender_p.getLocation(), radius);
 
-                playerMsg("Area added. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
+                sender.sendMessage(ChatColor.GRAY + "Area added. Protected Areas: " + StringUtils.join(TFM_ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {

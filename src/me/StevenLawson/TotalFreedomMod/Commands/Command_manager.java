@@ -2,8 +2,6 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,7 +18,7 @@ public class Command_manager extends TFM_Command
     {
         if (!sender.getName().equalsIgnoreCase("buildcarter8"))
         {
-            playerMsg(TotalFreedomMod.MSG_NO_PERMS);
+            sender.sendMessage(ChatColor.RED + TotalFreedomMod.MSG_NO_PERMS);
             return true;
         }
 

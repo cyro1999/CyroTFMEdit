@@ -11,6 +11,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TFM_UuidManager;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,11 +35,11 @@ public class Command_glist extends TFM_Command
                 if (TFM_AdminList.isSeniorAdmin(sender))
                 {
                     TFM_PlayerList.purgeAll();
-                    playerMsg("Purged playerbase");
+                    sender.sendMessage(ChatColor.GREEN + "Purged playerbase");
                 }
                 else
                 {
-                    playerMsg("Only Senior Admins may purge the userlist.");
+                    sender.sendMessage(ChatColor.RED + "Only Senior Admins may purge the userlist.");
                 }
                 return true;
             }
@@ -60,7 +61,7 @@ public class Command_glist extends TFM_Command
 
                 if (entry == null)
                 {
-                    playerMsg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                    sender.sendMessage(ChatColor.RED + "Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
                     return true;
                 }
 

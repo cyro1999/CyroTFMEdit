@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,7 +13,7 @@ public class Command_localspawn extends TFM_Command
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
         sender_p.teleport(sender_p.getWorld().getSpawnLocation());
-        playerMsg("Teleported to spawnpoint for world \"" + sender_p.getWorld().getName() + "\".");
+        sender.sendMessage(ChatColor.GREEN + "Teleported to spawnpoint for world \"" + sender_p.getWorld().getName() + "\".");
         return true;
     }
 }

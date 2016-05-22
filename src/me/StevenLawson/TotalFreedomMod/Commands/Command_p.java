@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Sync;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class Command_p extends TFM_Command
         {
             if (senderIsConsole)
             {
-                playerMsg("Only in-game players can toggle Senior AdminChat.");
+                sender.sendMessage(ChatColor.RED + "Only in-game players can toggle Senior AdminChat.");
                 return true;
             }
 
@@ -31,7 +32,7 @@ public class Command_p extends TFM_Command
                 userinfo.setAdminChat(!userinfo.inAdminChat());
             }
             userinfo.setSeniorAdminChat(!userinfo.inSeniorAdminChat());
-            playerMsg("Toggled Senior Admin Chat " + (userinfo.inSeniorAdminChat() ? "on" : "off") + ".");
+            sender.sendMessage(ChatColor.GRAY + "Toggled Senior Admin Chat " + (userinfo.inSeniorAdminChat() ? "on" : "off") + ".");
         }
         else
         {

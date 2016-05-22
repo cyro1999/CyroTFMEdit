@@ -4,6 +4,8 @@ import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -23,21 +25,21 @@ public class Command_stfu extends TFM_Command
 
         if (args[0].equalsIgnoreCase("list"))
         {
-            playerMsg("Muted players:");
+            sender.sendMessage(ChatColor.GRAY + "Muted players:");
             TFM_PlayerData info;
             int count = 0;
-            for (Player mp : server.getOnlinePlayers())
+            for (Player mp : Bukkit.getOnlinePlayers())
             {
                 info = TFM_PlayerData.getPlayerData(mp);
                 if (info.isMuted())
                 {
-                    playerMsg("- " + mp.getName());
+                    sender.sendMessage(ChatColor.GRAY + "- " + mp.getName());
                     count++;
                 }
             }
             if (count == 0)
             {
-                playerMsg("- none");
+                sender.sendMessage(ChatColor.GRAY + "- none");
             }
         }
         else if (args[0].equalsIgnoreCase("purge"))
@@ -58,7 +60,7 @@ public class Command_stfu extends TFM_Command
             {
                 TotalFreedomMod.mutePurgeTask.cancel();
             }
-            playerMsg("Unmuted " + count + " players.");
+            sender.sendMessage(ChatColor.GREEN + "Unmuted " + count + " players.");
         }
         else if (args[0].equalsIgnoreCase("all"))
         {
@@ -94,7 +96,7 @@ public class Command_stfu extends TFM_Command
                 }
             }.runTaskLater(plugin, 20L * 60L * 5L);
 
-            playerMsg("Muted " + counter + " players.");
+            sender.sendMessage(ChatColor.GREEN + "Muted " + counter + " players.");
         }
         else
         {
@@ -111,17 +113,17 @@ public class Command_stfu extends TFM_Command
             {
                 TFM_Util.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
                 playerdata.setMuted(false);
-                playerMsg("Unmuted " + player.getName());
+                sender.sendMessage(ChatColor.GREEN + "Unmuted " + player.getName());
             }
             else if (!TFM_AdminList.isSuperAdmin(player))
             {
                 TFM_Util.adminAction(sender.getName(), "Muting " + player.getName(), true);
                 playerdata.setMuted(true);
-                playerMsg("Muted " + player.getName());
+                sender.sendMessage(ChatColor.GREEN + "Muted " + player.getName());
             }
             else
             {
-                playerMsg(player.getName() + " is a superadmin, and can't be muted.");
+                sender.sendMessage(ChatColor.RED + player.getName() + " is a superadmin, and can't be muted.");
             }
         }
 

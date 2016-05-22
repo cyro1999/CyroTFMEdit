@@ -46,7 +46,7 @@ public class Command_whohas extends TFM_Command
 
             if (material == null)
             {
-                playerMsg("Invalid block: " + args[0], ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + "Invalid block: " + args[0]);
                 return true;
             }
         }
@@ -67,11 +67,11 @@ public class Command_whohas extends TFM_Command
 
         if (players.isEmpty())
         {
-            playerMsg("There are no players with that item");
+            sender.sendMessage(ChatColor.RED + "There are no players with that item");
         }
         else
         {
-            playerMsg("Players with item " + material.name() + ": " + StringUtils.join(players, ", "));
+            sender.sendMessage(ChatColor.GRAY + "Players with item " + material.name() + ": " + StringUtils.join(players, ", "));
         }
 
         return true;

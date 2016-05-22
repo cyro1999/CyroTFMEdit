@@ -37,7 +37,7 @@ public class Command_list extends TFM_Command
             {
                 names.add(player.getName());
             }
-            playerMsg("There are " + names.size() + "/" + Bukkit.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
+            sender.sendMessage(ChatColor.WHITE + "There are " + names.size() + "/" + Bukkit.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "));
             return true;
         }
 

@@ -22,7 +22,7 @@ public class Command_deop extends TFM_Command
 
         OfflinePlayer player = null;
 
-        for (Player onlinePlayer : server.getOnlinePlayers())
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
             if (args[0].equalsIgnoreCase(onlinePlayer.getName()))
             {

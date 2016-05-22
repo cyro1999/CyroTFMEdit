@@ -6,6 +6,7 @@ import me.StevenLawson.TotalFreedomMod.TFM_DepreciationAggregator;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -45,7 +46,7 @@ public class Command_ro extends TFM_Command
 
             if (fromMaterial == null)
             {
-                playerMsg("Invalid block: " + materialName, ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + "Invalid block: " + materialName);
                 return true;
             }
 
@@ -61,7 +62,7 @@ public class Command_ro extends TFM_Command
             }
             catch (NumberFormatException ex)
             {
-                playerMsg("Invalid radius: " + args[1], ChatColor.RED);
+                sender.sendMessage(ChatColor.RED + "Invalid radius: " + args[1]);
                 return true;
             }
         }
@@ -72,7 +73,7 @@ public class Command_ro extends TFM_Command
             targetPlayer = getPlayer(args[2]);
             if (targetPlayer == null)
             {
-                playerMsg(TotalFreedomMod.PLAYER_NOT_FOUND);
+                sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
                 return true;
             }
         }
@@ -90,7 +91,7 @@ public class Command_ro extends TFM_Command
 
             for (Material material : materials)
             {
-                for (Player player : server.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
                     affected += TFM_Util.replaceBlocks(player.getLocation(), material, Material.AIR, radius);
                 }
