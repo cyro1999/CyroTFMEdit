@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import me.RoboSystems.DonationSystem.FOM_DonatorList;
 import me.RoboSystems.DonationSystem.FOM_DonatorWorld;
+import me.RoboSystems.DonationSystem.FOM_Listener;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
@@ -120,6 +121,7 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
+        pm.registerEvents(new FOM_Listener(), plugin);
 
         try
         {

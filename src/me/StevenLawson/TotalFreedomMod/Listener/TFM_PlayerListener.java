@@ -968,7 +968,7 @@ public class TFM_PlayerListener implements Listener
             TFM_AdminList.removeSuperadmin(player);
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
-        player.sendMessage(ChatColor.BLUE + "This server is using FreedomOPMod a highly modified version of TotalFreedomMod created by:");
-        player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, RobinGall2910, cowgomooo12, CrafterSmith12, SupItsDillon, and hypertechHD.");
+        player.sendMessage(ChatColor.BLUE + "This server is using FreedomOPMod, a highly modified version of the TotalFreedomMod, created by:");
+        player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, Dragonfire147, cowgomooo12, CrafterSmith12, SupItsDillon, and hypertechHD.");
     }
 }
