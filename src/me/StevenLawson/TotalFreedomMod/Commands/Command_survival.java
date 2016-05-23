@@ -1,7 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -13,64 +12,37 @@ import org.bukkit.entity.Player;
 @CommandParameters(description = "Quickly change your own gamemode to survival, or define someone's username to change theirs.", usage = "/<command> <[partialname] | -a>", aliases = "gms")
 public class Command_survival extends TFM_Command
 {
-    @Override
+   @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            if (args.length == 0)
-            {
-                sender.sendMessage(ChatColor.GRAY + "When used from the console, you must define a target user to change gamemode on.");
-                return true;
-            }
-        }
-
-        Player player;
-
         if (args.length == 0)
         {
-            player = sender_p;
+            sender_p.setGameMode(GameMode.SURVIVAL);
+            sender.sendMessage(ChatColor.GOLD + "Set gamemode to " + ChatColor.RED + "SURVIVAL");
+            sender.sendMessage("Your gamemode has been updated.");
+            return true;
         }
-        else
+        if (args.length == 1)
         {
-            if (args[0].equalsIgnoreCase("-a"))
+            Player player = getPlayer(args[0]);
+
+            if (!TFM_AdminList.isSuperAdmin(sender))
             {
-                if (!TFM_AdminList.isSuperAdmin(sender) || senderIsConsole)
-                {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                    return true;
-                }
-
-                for (Player targetPlayer : server.getOnlinePlayers())
-                {
-                    targetPlayer.setGameMode(GameMode.SURVIVAL);
-                }
-
-                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to survival", false);
+                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
-
-            if (senderIsConsole || TFM_AdminList.isSuperAdmin(sender))
+            if (player == null)
             {
-                player = getPlayer(args[0]);
-
-                if (player == null)
-                {
-                    sender.sendMessage(ChatColor.RED + TotalFreedomMod.PLAYER_NOT_FOUND);
-                    return true;
-                }
+                sender.sendMessage(ChatColor.RED + "Player not found!");
+                return false;
             }
-            else
-            {
-                sender.sendMessage(ChatColor.RED + "Only superadmins can change other user's gamemode.");
-                return true;
-            }
+            
+            player.setGameMode(GameMode.SURVIVAL);
+            player.sendMessage(ChatColor.GOLD + "Set gamemode to " + ChatColor.RED + "SURVIVAL");
+            player.sendMessage(ChatColor.RED + "Your gamemode was changed by an admin");
+            sender.sendMessage(ChatColor.GREEN + player.getName() + "'s gamemode successfully updated.");
+            
         }
-
-        sender.sendMessage("Setting " + player.getName() + " to game mode 'Survival'.");
-        player.sendMessage(sender.getName() + " set your game mode to 'Survival'.");
-        player.setGameMode(GameMode.SURVIVAL);
-
         return true;
     }
 }

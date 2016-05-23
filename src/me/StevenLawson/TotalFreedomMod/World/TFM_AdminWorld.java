@@ -1,18 +1,24 @@
 package me.StevenLawson.TotalFreedomMod.World;
 
-import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_Log;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
@@ -31,7 +37,7 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
     private final Map<CommandSender, Boolean> accessCache = new HashMap<CommandSender, Boolean>();
     //
     private Long cacheLastCleared = null;
-    private Map<Player, Player> guestList = new HashMap<Player, Player>();
+    private Map<Player, Player> guestList = new HashMap<Player, Player>(); // Guest, Supervisor
     private WeatherMode weatherMode = WeatherMode.OFF;
     private TimeOfDay timeOfDay = TimeOfDay.INHERIT;
 
@@ -101,35 +107,38 @@ public final class TFM_AdminWorld extends TFM_CustomWorld
 
     public Player removeGuest(Player guest)
     {
-        Player player = guestList.remove(guest);
+        final Player player = guestList.remove(guest);
         wipeAccessCache();
         return player;
     }
 
     public Player removeGuest(String partialName)
     {
-        partialName = partialName.toLowerCase().trim();
-        Iterator<Player> it = guestList.values().iterator();
+        partialName = partialName.toLowerCase();
+        final Iterator<Player> it = guestList.keySet().iterator();
+
         while (it.hasNext())
         {
-            Player player = it.next();
-            if (player.getName().toLowerCase().trim().contains(partialName))
+            final Player player = it.next();
+            if (player.getName().toLowerCase().contains(partialName))
             {
-                return removeGuest(player);
+                removeGuest(player);
+                return player;
             }
         }
+
         return null;
     }
 
     public String guestListToString()
     {
-        List<String> output = new ArrayList<String>();
-        Iterator<Map.Entry<Player, Player>> it = guestList.entrySet().iterator();
+        final List<String> output = new ArrayList<String>();
+        final Iterator<Map.Entry<Player, Player>> it = guestList.entrySet().iterator();
         while (it.hasNext())
         {
-            Map.Entry<Player, Player> entry = it.next();
-            Player player = entry.getKey();
-            Player supervisor = entry.getValue();
+            final Entry<Player, Player> entry = it.next();
+            final Player player = entry.getKey();
+            final Player supervisor = entry.getValue();
             output.add(player.getName() + " (Supervisor: " + supervisor.getName() + ")");
         }
         return StringUtils.join(output, ", ");

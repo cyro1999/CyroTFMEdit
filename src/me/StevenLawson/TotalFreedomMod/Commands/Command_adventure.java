@@ -1,9 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
 import me.StevenLawson.TotalFreedomMod.TFM_AdminList;
-import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -17,59 +15,34 @@ public class Command_adventure extends TFM_Command
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole)
     {
-        if (senderIsConsole)
-        {
-            if (args.length == 0)
-            {
-                sender.sendMessage("When used from the console, you must define a target user to change gamemode on.");
-                return true;
-            }
-        }
-
-        Player player;
         if (args.length == 0)
         {
-            player = sender_p;
+            sender_p.setGameMode(GameMode.ADVENTURE);
+            sender.sendMessage(ChatColor.GOLD + "Set gamemode to " + ChatColor.AQUA + "ADVENTURE");
+            sender.sendMessage("Your gamemode has been updated.");
+            return true;
         }
-        else
+        if (args.length == 1)
         {
-            if (args[0].equalsIgnoreCase("-a"))
+            Player player = getPlayer(args[0]);
+
+            if (!TFM_AdminList.isSuperAdmin(sender))
             {
-                if (!TFM_AdminList.isSuperAdmin(sender))
-                {
-                    sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
-                    return true;
-                }
-
-                for (Player targetPlayer : Bukkit.getOnlinePlayers())
-                {
-                    targetPlayer.setGameMode(GameMode.ADVENTURE);
-                }
-
-                TFM_Util.adminAction(sender.getName(), "Changing everyone's gamemode to adventure", false);
+                sender.sendMessage(TotalFreedomMod.MSG_NO_PERMS);
                 return true;
             }
-
-            if (!(senderIsConsole || TFM_AdminList.isSuperAdmin(sender)))
-            {
-                sender.sendMessage(ChatColor.RED + "Only superadmins can change other user's gamemode.");
-                return true;
-            }
-
-            player = getPlayer(args[0]);
-
             if (player == null)
             {
-                sender.sendMessage(TotalFreedomMod.PLAYER_NOT_FOUND);
-                return true;
+                sender.sendMessage(ChatColor.RED + "Player not found!");
+                return false;
             }
-
+            
+            player.setGameMode(GameMode.ADVENTURE);
+            player.sendMessage(ChatColor.GOLD + "Set gamemode to " + ChatColor.AQUA + "ADVENTURE");
+            player.sendMessage(ChatColor.RED + "Your gamemode was changed by an admin");
+            sender.sendMessage(ChatColor.GREEN + player.getName() + "'s gamemode successfully updated.");
+            
         }
-
-        sender.sendMessage(ChatColor.GRAY + "Setting " + player.getName() + " to game mode 'Adventure'.");
-        player.sendMessage(ChatColor.RED + sender.getName() + " set your game mode to 'Adventure'.");
-        player.setGameMode(GameMode.CREATIVE);
-
         return true;
     }
 }

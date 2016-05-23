@@ -8,8 +8,6 @@ public @interface CommandPermissions
 {
     AdminLevel level();
 
-    DonatorLevel donorLevel() default DonatorLevel.NONE;
-
     SourceType source();
 
     boolean blockHostConsole() default false;

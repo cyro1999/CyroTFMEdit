@@ -706,7 +706,7 @@ public class TFM_PlayerListener implements Listener
         command = command.toLowerCase().trim();
 
         // Blocked commands
-        if (TFM_CommandBlocker.isCommandBlocked(command, event.getPlayer()))
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(command, event.getPlayer()))
         {
             // CommandBlocker handles messages and broadcasts
             event.setCancelled(true);

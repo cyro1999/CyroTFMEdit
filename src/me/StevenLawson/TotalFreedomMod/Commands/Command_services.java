@@ -16,12 +16,12 @@ public class Command_services extends TFM_Command
     {
         sender.sendMessage(ChatColor.BLUE + "Mojang Services" + ChatColor.WHITE + ":");
 
-        for (ServiceStatus service : TFM_ServiceChecker.getInstance().getAllStatuses())
+        for (ServiceStatus service : TFM_ServiceChecker.getAllStatuses())
         {
             sender.sendMessage(service.getFormattedStatus());
         }
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getVersion());
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getInstance().getLastCheck());
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Version" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getVersion());
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Last Check" + ChatColor.WHITE + ": " + TFM_ServiceChecker.getLastCheck());
 
         return true;
     }

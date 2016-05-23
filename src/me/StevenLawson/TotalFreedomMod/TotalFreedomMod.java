@@ -1,19 +1,25 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.google.common.base.Function;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import me.RoboSystems.DonationSystem.FOM_DonatorList;
 import me.RoboSystems.DonationSystem.FOM_DonatorWorld;
 import me.RoboSystems.DonationSystem.FOM_Listener;
+import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditListener;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
 import me.StevenLawson.TotalFreedomMod.Config.TFM_ConfigEntry;
 import me.StevenLawson.TotalFreedomMod.HTTPD.TFM_HTTPD_Manager;
-import me.StevenLawson.TotalFreedomMod.Listener.*;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_BlockListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_EntityListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_PlayerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_ServerListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_TelnetListener;
+import me.StevenLawson.TotalFreedomMod.Listener.TFM_WeatherListener;
 import me.StevenLawson.TotalFreedomMod.World.TFM_AdminWorld;
 import me.StevenLawson.TotalFreedomMod.World.TFM_Flatlands;
 import me.StevenLawson.TotalFreedomMod.World.TFM_PvpWorld;
@@ -25,6 +31,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -84,11 +91,11 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onEnable()
     {
-        TFM_Log.info("Made by Madgeek1450 and Prozza");
-        TFM_Log.info("Edited By Buildcarter8");
+        TFM_Log.info("Created by Madgeek1450 and Prozza");
+        TFM_Log.info("Edited by buildcarter8");
         TFM_Log.info("Version " + build.formattedVersion());
         TFM_Log.info("Compiled " + build.date + " by " + build.builder);
-        
+
         final TFM_Util.MethodTimer timer = new TFM_Util.MethodTimer();
         timer.start();
 
@@ -98,22 +105,26 @@ public class TotalFreedomMod extends JavaPlugin
                     + "version " + TFM_Util.getNmsVersion() + "!");
             TFM_Log.warning("This might result in unexpected behaviour!");
         }
-        
+
         TFM_Util.deleteCoreDumps();
         TFM_Util.deleteFolder(new File("./_deleteme"));
-        
+
+        // Create backups
         TFM_Util.createBackups(CONFIG_FILENAME, true);
-        TFM_Util.createBackups(PERMBAN_FILENAME);
         TFM_Util.createBackups(SUPERADMIN_FILENAME);
+        TFM_Util.createBackups(PERMBAN_FILENAME);
 
-
+        // Load services
         TFM_UuidManager.load();
         TFM_AdminList.load();
         TFM_PermbanList.load();
-        FOM_DonatorList.loadDonatorList();
         TFM_PlayerList.load();
         TFM_BanManager.load();
         TFM_ProtectedArea.load();
+        FOM_Listener.loadDonatorConfig();
+
+        // Start SuperAdmin service
+        server.getServicesManager().register(Function.class, TFM_AdminList.SUPERADMIN_SERVICE, plugin, ServicePriority.Normal);
 
         final PluginManager pm = Bukkit.getServer().getPluginManager();
         pm.registerEvents(new TFM_EntityListener(), plugin);
@@ -121,7 +132,8 @@ public class TotalFreedomMod extends JavaPlugin
         pm.registerEvents(new TFM_PlayerListener(), plugin);
         pm.registerEvents(new TFM_WeatherListener(), plugin);
         pm.registerEvents(new TFM_ServerListener(), plugin);
-        pm.registerEvents(new FOM_Listener(), plugin);
+        pm.registerEvents(new TFM_TelnetListener(), plugin);
+        pm.registerEvents(new TFM_WorldEditListener(), plugin);
 
         try
         {
@@ -129,6 +141,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
+            TFM_Log.warning("Could not load world: Flatlands");
         }
 
         try
@@ -137,14 +150,7 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
-        }
-        
-        try
-        {
-            FOM_DonatorWorld.getInstance().getWorld();
-        }
-        catch (Exception ex)
-        {
+            TFM_Log.warning("Could not load world: AdminWorld");
         }
         
         try
@@ -153,6 +159,16 @@ public class TotalFreedomMod extends JavaPlugin
         }
         catch (Exception ex)
         {
+            TFM_Log.warning("Could not load world: PvpWorld");
+        }
+        
+        try
+        {
+            FOM_DonatorWorld.getInstance().getWorld();
+        }
+        catch (Exception ex)
+        {
+            TFM_Log.warning("Could not load world: DonatorWorld");
         }
 
         // Initialize game rules
@@ -165,6 +181,7 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.NATURAL_REGENERATION, true, false);
         TFM_GameRuleHandler.commitGameRules();
 
+        // Disable weather
         if (TFM_ConfigEntry.DISABLE_WEATHER.getBoolean())
         {
             for (World world : Bukkit.getServer().getWorlds())
@@ -179,15 +196,15 @@ public class TotalFreedomMod extends JavaPlugin
         // Heartbeat
         new TFM_Heartbeat(plugin).runTaskTimer(plugin, HEARTBEAT_RATE * 20L, HEARTBEAT_RATE * 20L);
 
-        TFM_ServiceChecker.getInstance().start();
+        // Start services
+        TFM_ServiceChecker.start();
         TFM_HTTPD_Manager.start();
-        TFM_CommandBlocker.load();
-        
+
         timer.update();
 
-        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled");
+        TFM_Log.info("Version " + pluginVersion + " for " + TFM_ServerInterface.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
-        // metrics @ http://mcstats.org/plugin/TotalFreedomMod
+        // Metrics @ http://mcstats.org/plugin/TotalFreedomMod
         try
         {
             final Metrics metrics = new Metrics(plugin);
@@ -197,15 +214,14 @@ public class TotalFreedomMod extends JavaPlugin
         {
             TFM_Log.warning("Failed to submit metrics data: " + ex.getMessage());
         }
-        
+
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                TFM_CommandLoader.scan();
-
-                // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
+                TFM_CommandLoader.getInstance().scan();
+                TFM_CommandBlocker.getInstance().load();
                 TFM_ProtectedArea.autoAddSpawnpoints();
             }
         }.runTaskLater(plugin, 20L);
@@ -214,11 +230,11 @@ public class TotalFreedomMod extends JavaPlugin
     @Override
     public void onDisable()
     {
-        Bukkit.getScheduler().cancelTasks(plugin);
-
         TFM_HTTPD_Manager.stop();
-        TFM_UuidManager.close();
         TFM_BanManager.save();
+        TFM_UuidManager.close();
+
+        Bukkit.getServer().getScheduler().cancelTasks(plugin);
 
         TFM_Log.info("Plugin disabled");
     }

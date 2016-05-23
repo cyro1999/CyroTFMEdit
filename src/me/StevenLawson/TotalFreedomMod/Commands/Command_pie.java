@@ -4,13 +4,13 @@ import java.util.Random;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import org.bukkit.Achievement;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "For the people that are still alive.", usage = "/<command>")
@@ -32,7 +32,7 @@ public class Command_pie extends TFM_Command
 
         ItemStack heldItem = new ItemStack(Material.PUMPKIN_PIE);
 
-        for (Player player : server.getOnlinePlayers())
+        for (Player player : Bukkit.getServer().getOnlinePlayers())
         {
             player.getInventory().setItem(player.getInventory().firstEmpty(), heldItem);
             player.awardAchievement(Achievement.MINE_WOOD);

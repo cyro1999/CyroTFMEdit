@@ -54,7 +54,7 @@ public class Command_fom extends TFM_Command
                     TFM_PermbanList.load();
                     TFM_PlayerList.load();
                     TFM_BanManager.load();
-                    TFM_CommandBlocker.load();
+                    TFM_CommandBlocker.getInstance().load();
 
                     final String message = String.format("%s v%s.%s reloaded.", TotalFreedomMod.pluginName, TotalFreedomMod.pluginVersion);
                     sender.sendMessage(message);

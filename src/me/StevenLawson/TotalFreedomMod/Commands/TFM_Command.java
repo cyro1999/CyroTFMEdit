@@ -18,6 +18,7 @@ public abstract class TFM_Command
     protected Server server;
     private CommandSender commandSender;
     private Class<?> commandClass;
+    public static TFM_Command commandokay;
 
     public TFM_Command()
     {
@@ -33,30 +34,33 @@ public abstract class TFM_Command
         this.commandClass = commandClass;
     }
 
-        // Don't use this, as it is very stupid and will only be deprecated
-//    public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
-//    {
-//        if (sender == null)
-//        {
-//            return;
-//        }
-//        sender.sendMessage(color + message);
-//    }
+    @Deprecated
+    public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
+    {
+        if (sender == null)
+        {
+            return;
+        }
+        sender.sendMessage(color + message);
+    }
 
-//    public void playerMsg(final String message, final ChatColor color)
-//    {
-//        playerMsg(commandSender, message, color);
-//    }
-//
-//    public void playerMsg(final CommandSender sender, final String message)
-//    {
-//        playerMsg(sender, message, ChatColor.GRAY);
-//    }
-//
-//    public void playerMsg(final String message)
-//    {
-//        playerMsg(commandSender, message);
-//    }
+    @Deprecated
+    public void playerMsg(final String message, final ChatColor color)
+    {
+        playerMsg(commandSender, message, color);
+    }
+
+    @Deprecated
+    public void playerMsg(final CommandSender sender, final String message)
+    {
+        playerMsg(sender, message, ChatColor.GRAY);
+    }
+
+    @Deprecated
+    public void playerMsg(final String message)
+    {
+        playerMsg(commandSender, message);
+    }
 
     public boolean senderHasPermission()
     {

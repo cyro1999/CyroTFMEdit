@@ -1,6 +1,8 @@
 package me.StevenLawson.TotalFreedomMod.Commands;
 
+import me.StevenLawson.TotalFreedomMod.FOPM_RankConverter;
 import me.StevenLawson.TotalFreedomMod.TFM_CommandBlocker;
+import static me.StevenLawson.TotalFreedomMod.TFM_Util.DEVELOPERS;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +21,7 @@ public class Command_wildcard extends TFM_Command
         {
             return false;
         }
-
+        
         if (args[0].equals("wildcard"))
         {
             sender.sendMessage(ChatColor.RED + "What the hell are you trying to do, you stupid idiot...");
@@ -40,10 +42,21 @@ public class Command_wildcard extends TFM_Command
             sender.sendMessage(ChatColor.RED + "WOA, WTF are you trying to do???");
             return true;
         }
+        if (args[0].equals("survival") || args[0].equals("creative"))
+        {
+            if(FOPM_RankConverter.isOwner(sender) || DEVELOPERS.contains(sender.getName()))
+            {
+                // let it run through if the person is of a high rank
+            }
+            else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to set everyone's gamemode.");
+                return true;
+            }
+        }
 
         String baseCommand = StringUtils.join(args, " ");
 
-        if (TFM_CommandBlocker.isCommandBlocked(baseCommand, sender))
+        if (TFM_CommandBlocker.getInstance().isCommandBlocked(baseCommand, sender))
         {
             // CommandBlocker handles messages and broadcasts
             return true;

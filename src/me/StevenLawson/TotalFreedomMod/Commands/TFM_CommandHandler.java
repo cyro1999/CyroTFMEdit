@@ -40,6 +40,7 @@ public class TFM_CommandHandler
                     StringUtils.join(args, " ")), true);
         }
 
+
         final TFM_Command dispatcher;
         try
         {
@@ -50,7 +51,7 @@ public class TFM_CommandHandler
                     cmd.getName().toLowerCase())).newInstance();
             dispatcher.setup(TotalFreedomMod.plugin, sender, dispatcher.getClass());
         }
-        catch (Exception ex)
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex)
         {
             TFM_Log.severe("Could not load command: " + cmd.getName());
             TFM_Log.severe(ex);
