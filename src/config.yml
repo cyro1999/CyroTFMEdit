@@ -186,6 +186,9 @@ flatlands:
 # Admin-Only Mode
 admin_only_mode: false
 
+# Apps Enabled
+applications_open: false
+
 # Protected Areas - Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.
 protectarea:
   enabled: true

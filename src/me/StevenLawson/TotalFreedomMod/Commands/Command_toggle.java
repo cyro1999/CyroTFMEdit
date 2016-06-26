@@ -5,12 +5,9 @@ import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler;
 import me.StevenLawson.TotalFreedomMod.TFM_GameRuleHandler.TFM_GameRule;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "Toggles TotalFreedomMod settings", usage = "/<command> [option] [value] [value]")
@@ -21,63 +18,62 @@ public class Command_toggle extends TFM_Command
     {
         if (args.length == 0)
         {
-            sender.sendMessage(ChatColor.GRAY + "Available toggles: ");
-            sender.sendMessage(ChatColor.GRAY + "- waterplace");
-            sender.sendMessage(ChatColor.GRAY + "- fireplace");
-            sender.sendMessage(ChatColor.GRAY + "- lavaplace");
-            sender.sendMessage(ChatColor.GRAY + "- fluidspread");
-            sender.sendMessage(ChatColor.GRAY + "- lavadmg");
-            sender.sendMessage(ChatColor.GRAY + "- firespread");
-            sender.sendMessage(ChatColor.GRAY + "- prelog");
-            sender.sendMessage(ChatColor.GRAY + "- lockdown");
-            sender.sendMessage(ChatColor.GRAY + "- petprotect");
-            sender.sendMessage(ChatColor.GRAY + "- droptoggle");
-            sender.sendMessage(ChatColor.GRAY + "- nonuke");
-            sender.sendMessage(ChatColor.GRAY + "- explosives");
-            sender.sendMessage(ChatColor.GRAY + "- disguisecraft");
+            playerMsg("Available toggles: ");
+            playerMsg("- waterplace");
+            playerMsg("- fireplace");
+            playerMsg("- lavaplace");
+            playerMsg("- fluidspread");
+            playerMsg("- lavadmg");
+            playerMsg("- firespread");
+            playerMsg("- prelog");
+            playerMsg("- lockdown");
+            playerMsg("- petprotect");
+            playerMsg("- droptoggle");
+            playerMsg("- nonuke");
+            playerMsg("- explosives");
             return false;
         }
 
         if (args[0].equals("waterplace"))
         {
-            toggle(sender, "Water placement is", TFM_ConfigEntry.ALLOW_WATER_PLACE);
+            toggle("Water placement is", TFM_ConfigEntry.ALLOW_WATER_PLACE);
             return true;
         }
 
         if (args[0].equals("fireplace"))
         {
-            toggle(sender, "Fire placement is", TFM_ConfigEntry.ALLOW_FIRE_PLACE);
+            toggle("Fire placement is", TFM_ConfigEntry.ALLOW_FIRE_PLACE);
             return true;
         }
 
         if (args[0].equals("lavaplace"))
         {
-            toggle(sender, "Lava placement is", TFM_ConfigEntry.ALLOW_LAVA_PLACE);
+            toggle("Lava placement is", TFM_ConfigEntry.ALLOW_LAVA_PLACE);
             return true;
         }
 
         if (args[0].equals("fluidspread"))
         {
-            toggle(sender, "Fire placement is", TFM_ConfigEntry.ALLOW_FLUID_SPREAD);
+            toggle("Fluid spread is", TFM_ConfigEntry.ALLOW_FLUID_SPREAD);
             return true;
         }
 
         if (args[0].equals("lavadmg"))
         {
-            toggle(sender, "Lava damage is", TFM_ConfigEntry.ALLOW_LAVA_DAMAGE);
+            toggle("Lava damage is", TFM_ConfigEntry.ALLOW_LAVA_DAMAGE);
             return true;
         }
 
         if (args[0].equals("firespread"))
         {
+            toggle("Fire spread is", TFM_ConfigEntry.ALLOW_FIRE_SPREAD);
             TFM_GameRuleHandler.setGameRule(TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean());
-            toggle(sender, "Fire spread is", TFM_ConfigEntry.ALLOW_FIRE_SPREAD);
             return true;
         }
 
         if (args[0].equals("prelog"))
         {
-            toggle(sender, "Command prelogging is", TFM_ConfigEntry.ENABLE_PREPROCESS_LOG);
+            toggle("Command prelogging is", TFM_ConfigEntry.ENABLE_PREPROCESS_LOG);
             return true;
         }
 
@@ -90,13 +86,13 @@ public class Command_toggle extends TFM_Command
 
         if (args[0].equals("petprotect"))
         {
-            toggle(sender, "Tamed pet protection is", TFM_ConfigEntry.ENABLE_PET_PROTECT);
+            toggle("Tamed pet protection is", TFM_ConfigEntry.ENABLE_PET_PROTECT);
             return true;
         }
 
         if (args[0].equals("droptoggle"))
         {
-            toggle(sender, "Automatic entity wiping is", TFM_ConfigEntry.AUTO_ENTITY_WIPE);
+            toggle("Automatic entity wiping is", TFM_ConfigEntry.AUTO_ENTITY_WIPE);
             return true;
         }
 
@@ -124,12 +120,12 @@ public class Command_toggle extends TFM_Command
                 }
             }
 
-            toggle(sender, "Nuke monitor is", TFM_ConfigEntry.NUKE_MONITOR_ENABLED);
+            toggle("Nuke monitor is", TFM_ConfigEntry.NUKE_MONITOR_ENABLED);
 
             if (TFM_ConfigEntry.NUKE_MONITOR_ENABLED.getBoolean())
             {
-                sender.sendMessage(ChatColor.GRAY + "Anti-freecam range is set to " + TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble() + " blocks.");
-                sender.sendMessage(ChatColor.GRAY + "Block throttle rate is set to " + TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger() + " blocks destroyed per 5 seconds.");
+                playerMsg("Anti-freecam range is set to " + TFM_ConfigEntry.NUKE_MONITOR_RANGE.getDouble() + " blocks.");
+                playerMsg("Block throttle rate is set to " + TFM_ConfigEntry.NUKE_MONITOR_COUNT_BREAK.getInteger() + " blocks destroyed per 5 seconds.");
             }
 
             return true;
@@ -144,39 +140,16 @@ public class Command_toggle extends TFM_Command
                 }
                 catch (NumberFormatException ex)
                 {
-                    TFM_Util.playerMsg(sender, ex.getMessage());
+                    playerMsg(ex.getMessage());
                     return true;
                 }
             }
 
-            toggle(sender, "Explosions are", TFM_ConfigEntry.ALLOW_EXPLOSIONS);
+            toggle("Explosions are", TFM_ConfigEntry.ALLOW_EXPLOSIONS);
 
             if (TFM_ConfigEntry.ALLOW_EXPLOSIONS.getBoolean())
             {
-                sender.sendMessage(ChatColor.GRAY + "Radius set to " + TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble());
-            }
-            return true;
-        }
-
-        if (args[0].equals("disguisecraft"))
-        {
-            final Plugin disguiseCraft = Bukkit.getServer().getPluginManager().getPlugin("DisguiseCraft");
-            if (disguiseCraft == null)
-            {
-                sender.sendMessage(ChatColor.RED + "DisguiseCraft is not installed on this server.");
-                return true;
-            }
-
-            boolean enabled = disguiseCraft.isEnabled();
-            TFM_Util.adminAction(sender.getName(), (enabled ? "disa" : "ena") + "bling DisguiseCraft", true);
-
-            if (enabled)
-            {
-                Bukkit.getServer().getPluginManager().disablePlugin(disguiseCraft);
-            }
-            else
-            {
-                Bukkit.getServer().getPluginManager().enablePlugin(disguiseCraft);
+                playerMsg("Radius set to " + TFM_ConfigEntry.EXPLOSIVE_RADIUS.getDouble());
             }
             return true;
         }
@@ -184,9 +157,8 @@ public class Command_toggle extends TFM_Command
         return false;
     }
 
-    private void toggle(CommandSender sender, String name, TFM_ConfigEntry entry)
+    private void toggle(String name, TFM_ConfigEntry entry)
     {
-        entry.setBoolean(!entry.getBoolean());
-        sender.sendMessage(ChatColor.RED + name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));
+        playerMsg(name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));
     }
 }

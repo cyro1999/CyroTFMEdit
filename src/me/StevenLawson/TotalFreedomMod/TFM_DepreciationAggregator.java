@@ -2,7 +2,7 @@ package me.StevenLawson.TotalFreedomMod;
 
 import java.util.HashSet;
 import me.confuser.barapi.BarAPI;
-import net.minecraft.server.v1_9_R2.MinecraftServer;
+import net.minecraft.server.v1_10_R1.MinecraftServer;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
