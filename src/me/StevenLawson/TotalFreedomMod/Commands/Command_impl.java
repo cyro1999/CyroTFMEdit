@@ -4,12 +4,10 @@ import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditBridge;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_RollbackManager;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,9 +31,7 @@ public class Command_impl extends TFM_Command
         {
             if (args[0].equalsIgnoreCase("exterminate"))
             {
-                Server server = Bukkit.getServer();
-                final Player p;
-                p = getPlayer(args[1]);
+                final Player p = getPlayer(args[1]);
                 TFM_Util.adminAction(sender.getName(), "Exterminating " + p.getName() + "...", true);
                 final Location pos1 = p.getLocation();
                 new BukkitRunnable()
@@ -72,8 +68,7 @@ public class Command_impl extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("jelly"))
             {
-                final Player p;
-                p = getPlayer(args[1]);
+                final Player p = getPlayer(args[1]);
                 final Location loc = p.getLocation();
                 TFM_Util.bcastMsg("Hey " + p.getName() + ", what's the difference between jelly and jam?", ChatColor.RED);
                 for (int x = -1; x <= 1; x++)
@@ -124,8 +119,7 @@ public class Command_impl extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("csg"))
             {
-                Player p;
-                p = getPlayer(args[1]);
+                Player p = getPlayer(args[1]);
                 TFM_Util.bcastMsg(p.getName() + " has been a naughty, naughty boy.");
                 Location l = p.getLocation();
                 for (int x = -1; x <= 1; x++)
@@ -146,8 +140,7 @@ public class Command_impl extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("wtf"))
             {
-                Player p;
-                p = getPlayer(args[1]);
+                Player p = getPlayer(args[1]);
                 TFM_Util.bcastMsg(p.getName() + " is being a damn idjit.", ChatColor.RED);
                 p.sendMessage(ChatColor.RED + "What the hell are you doing you damn idjit?");
                 Location l = p.getLocation();
@@ -163,8 +156,7 @@ public class Command_impl extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("fgt"))
             {
-                Player p;
-                p = getPlayer(args[1]);
+                Player p = getPlayer(args[1]);
                 TFM_Util.bcastMsg(p.getName() + " doesn't know when to stop.", ChatColor.RED);
                 p.getInventory().clear();
                 p.closeInventory();
@@ -181,8 +173,7 @@ public class Command_impl extends TFM_Command
             }
             else if (args[0].equalsIgnoreCase("drown"))
             {
-                Player p;
-                p = getPlayer(args[1]);
+                Player p = getPlayer(args[1]);
                 TFM_PlayerData playerdata = TFM_PlayerData.getPlayerData(p);
                 TFM_Util.adminAction(sender_p.getName(), "Drowning " + p.getName(), true);
                 playerdata.setCommandsBlocked(true);

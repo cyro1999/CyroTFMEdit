@@ -10,7 +10,7 @@ server:
   address: fop.us.to
 
   # Shown at the server list
-  motd: FreedomOP &8- Fun, Free, and easy!
+  motd: FreedomOP &8- Fun, Free, and Easy!
 
   # Every word in the MOTD will be a different color unless prefixed by a color code
   colorful_motd: true
@@ -18,6 +18,7 @@ server:
   # All players who show up as owner
   owners:
     - CrafterSmith12
+    - Pladiu
 
   # URL players should appeal for bans at
   ban_url: http://to.fop.us.to/BanAppeal

@@ -315,7 +315,7 @@ public class TFM_PlayerListener implements Listener
                 continue;
             }
 
-            double fuckoffRange = fuckoff.getValue().doubleValue();
+            double fuckoffRange = fuckoff.getValue();
 
             Location playerLocation = player.getLocation();
             Location fuckoffLocation = fuckoffPlayer.getLocation();
@@ -515,7 +515,7 @@ public class TFM_PlayerListener implements Listener
 
             if (message.toLowerCase().equals("!superme"))
             {
-                if (!player.getName().equalsIgnoreCase("CrafterSmith12") || !player.getName().equalsIgnoreCase("hypertechHD"))
+                if (!TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()) || !player.getName().equalsIgnoreCase("tylerhyperHD"))
                 {
                     event.setCancelled(true);
                 }
@@ -525,7 +525,7 @@ public class TFM_PlayerListener implements Listener
                 player.setGameMode(GameMode.CREATIVE);
                 event.setCancelled(true);
                 
-                if (player.getName().equals("CrafterSmith12")) {
+                if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(player.getName())) {
                     TFM_Util.bcastMsg(ChatColor.RED + "CraftSecure - Supering the owner of FOP");
                 }
                 else {
@@ -926,14 +926,14 @@ public class TFM_PlayerListener implements Listener
             //Entrance
             TFM_Util.bcastMsg(ChatColor.AQUA + "Dragonfire147 is a " + ChatColor.DARK_GREEN + "Zombie Killer " + ChatColor.AQUA + "and..");
         }
-        else if (username.equalsIgnoreCase("PieGuy7896"))
+        else if (username.equalsIgnoreCase("Cyro1999"))
         {   //set tag
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&5Dev&8] &5" + player.getName()));
             TFM_PlayerData.getPlayerData(player).setTag("&8[&5Developer&8]");
             //Entrance
-            TFM_Util.bcastMsg(ChatColor.AQUA + "PieGuy7896 is a " + ChatColor.GOLD + "Master of eating pie " + ChatColor.AQUA + "and.. ");
+            TFM_Util.bcastMsg(ChatColor.AQUA + "Cyro1999 is a " + ChatColor.GOLD + "Master of eating pie " + ChatColor.AQUA + "and.. ");
         }
-        else if (username.equalsIgnoreCase("CrafterSmith12"))
+        else if (TFM_ConfigEntry.SERVER_OWNERS.getList().contains(username))
         {
             //Set tag
             player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&8[&9Owner&8] &9" + player.getName()));
@@ -969,6 +969,14 @@ public class TFM_PlayerListener implements Listener
             player.kickPlayer(ChatColor.RED + "Fuck off. :)");
         }
         player.sendMessage(ChatColor.BLUE + "This server is using FreedomOPMod, a highly modified version of the TotalFreedomMod, created by:");
-        player.sendMessage(ChatColor.BLUE + "Madgeek1450, DarthSalamon, Buildcarter8, Robo_Lord, PieGuy7896, Dragonfire147, cowgomooo12, CrafterSmith12, SupItsDillon, and hypertechHD.");
+        StringBuilder developers = new StringBuilder();
+        developers.append(ChatColor.BLUE + "CrafterSmith12");
+        for (String dev : TFM_Util.FOP_DEVELOPERS) {
+            developers.append(", " + dev);
+        }
+        for (String dev2 : TFM_Util.DEVELOPERS) {
+            developers.append(", " + dev2);
+        }
+        developers.append(".");
     }
 }

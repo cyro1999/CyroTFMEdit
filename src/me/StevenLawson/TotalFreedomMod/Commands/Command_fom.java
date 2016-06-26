@@ -35,7 +35,15 @@ public class Command_fom extends TFM_Command
                     + ChatColor.BLUE + "%s",
                     build.date,
                     build.builder));
-            sender.sendMessage(ChatColor.GOLD + "Created by Madgeek1450 and Prozza (later worked on by Buildcarter8, Robo_Lord, SupItsDillon, and hypertechHD)");
+            sender.sendMessage(ChatColor.GOLD + "Created by Madgeek1450 and Prozza");
+            // Make this line easily changeable
+            StringBuilder developers = new StringBuilder();
+            developers.append(ChatColor.GOLD + "Later worked on by: CrafterSmith12");
+            for (String dev : TFM_Util.FOP_DEVELOPERS)
+            {
+                developers.append(", " + dev);
+            }
+            developers.append(".");
             sender.sendMessage(ChatColor.GREEN + "Visit " + ChatColor.AQUA + "http://freedomop.boards.net/" + ChatColor.GREEN + " for more information.");
         }
         else if (args.length == 1)
