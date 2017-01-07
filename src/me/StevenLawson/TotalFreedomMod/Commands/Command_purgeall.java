@@ -3,6 +3,7 @@ package me.StevenLawson.TotalFreedomMod.Commands;
 import me.StevenLawson.TotalFreedomMod.TFM_PlayerData;
 import me.StevenLawson.TotalFreedomMod.TFM_Util;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,12 @@ public class Command_purgeall extends TFM_Command
         // Purge entities
         TFM_Util.TFM_EntityWiper.wipeEntities(true, true);
 
+        // Undisguise all players
+        // Changed to LibsDisguises by hypertechHD
+        for(Player player : Bukkit.getOnlinePlayers())
+        {
+                DisguiseAPI.undisguiseToAll(player);
+        }
         
         for (Player player : Bukkit.getOnlinePlayers())
         {
