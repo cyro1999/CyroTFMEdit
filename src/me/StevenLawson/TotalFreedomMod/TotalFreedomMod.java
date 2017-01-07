@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import me.RoboSystems.DonationSystem.FOM_DonatorWorld;
-import me.RoboSystems.DonationSystem.FOM_Listener;
 import me.StevenLawson.TotalFreedomMod.Bridge.TFM_WorldEditListener;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandHandler;
 import me.StevenLawson.TotalFreedomMod.Commands.TFM_CommandLoader;
@@ -121,7 +119,6 @@ public class TotalFreedomMod extends JavaPlugin
         TFM_PlayerList.load();
         TFM_BanManager.load();
         TFM_ProtectedArea.load();
-        FOM_Listener.loadDonatorConfig();
 
         // Start SuperAdmin service
         server.getServicesManager().register(Function.class, TFM_AdminList.SUPERADMIN_SERVICE, plugin, ServicePriority.Normal);
@@ -162,15 +159,6 @@ public class TotalFreedomMod extends JavaPlugin
             TFM_Log.warning("Could not load world: PvpWorld");
         }
         
-        try
-        {
-            FOM_DonatorWorld.getInstance().getWorld();
-        }
-        catch (Exception ex)
-        {
-            TFM_Log.warning("Could not load world: DonatorWorld");
-        }
-
         // Initialize game rules
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_DAYLIGHT_CYCLE, !TFM_ConfigEntry.DISABLE_NIGHT.getBoolean(), false);
         TFM_GameRuleHandler.setGameRule(TFM_GameRuleHandler.TFM_GameRule.DO_FIRE_TICK, TFM_ConfigEntry.ALLOW_FIRE_SPREAD.getBoolean(), false);
